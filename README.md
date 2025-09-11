@@ -28,3 +28,5 @@ To deliver a **Minimum Viable Product (MVP)** in 4 weeks with the essential feat
 ## Favorites Quotes from developers:
 
 “In coming days, it will not be possible to survive spiritually without the guiding, directing, comforting, and constant influence of the Holy Ghost.” —Russell M. Nelson
+
+"In all of living, have much fun and laughter. Life is to be enjoyed, not just endured." -President Gordon B. Hinckley

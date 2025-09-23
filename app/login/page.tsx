@@ -3,8 +3,8 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Header from "@/components/page-components/Header";
-import Footer from "@/components/page-components/Footer";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -115,7 +115,7 @@ const LoginPage = () => {
           </Button>
 
           <p className="mt-6 text-center text-text-light">
-            Don’t have an account? <a href="/register" className="text-primary hover:underline">Register</a>
+            Don’t have an account? <Link href="/register" className="text-primary hover:underline">Register</Link>
           </p>
 
           {message && (
@@ -133,7 +133,6 @@ const LoginPage = () => {
           )}
         </div>
       </main>
-      <Footer />
     </div>
   );
 };

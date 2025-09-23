@@ -3,15 +3,17 @@
 import React, { useState } from "react";
 import { redirect, useRouter } from "next/navigation";
 import Header from "@/components/page-components/Header";
-import Footer from "@/components/page-components/Footer";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const RegisterPage = () => {
   const router = useRouter();
   const [loadingRegister, setLoadingRegister] = useState(false);
   const [loadingGoogle, setLoadingGoogle] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
-  const [messageColor, setMessageColor] = useState<"green" | "red" | "text-text-light">("red");
+  const [messageColor, setMessageColor] = useState<
+    "green" | "red" | "text-text-light"
+  >("red");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -71,7 +73,9 @@ const RegisterPage = () => {
       <Header />
       <main className="flex flex-grow items-center justify-center">
         <div className="bg-card p-8 rounded-lg shadow-lg w-full max-w-md mt-20 mb-10">
-          <h2 className="text-2xl font-bold mb-6 text-center text-foreground">Create an Account</h2>
+          <h2 className="text-2xl font-bold mb-6 text-center text-foreground">
+            Create an Account
+          </h2>
 
           <form className="space-y-4" onSubmit={handleSubmit}>
             <input
@@ -114,16 +118,31 @@ const RegisterPage = () => {
             disabled={loadingGoogle}
           >
             <svg className="w-5 h-5" viewBox="0 0 533.5 544.3">
-              <path d="M533.5 278.4c0-17.9-1.6-35.1-4.7-51.9H272.1v98.1h147c-6.4 34.7-25.1 64.1-53.5 83.9v69.8h86.2c50.5-46.6 79.7-115 79.7-199.9z" fill="#4285f4"/>
-              <path d="M272.1 544.3c72.9 0 134.1-24.2 178.8-65.8l-86.2-69.8c-23.9 16-54.6 25.3-92.6 25.3-71 0-131-47.8-152.3-112.2H31.1v70.8c44.6 88.2 135.3 151.7 241 151.7z" fill="#34a853"/>
-              <path d="M119.9 321.6c-10.1-30.5-10.1-63.3 0-93.8V157h-88.8C9.6 203.6 0 236.8 0 272s9.6 68.4 31.1 99.1l88.8-49.5z" fill="#fbbc04"/>
-              <path d="M272.1 107.5c39.7-.6 77.1 14.1 105.6 40.5l79.5-79.5C406.1 25.6 345 0 272.1 0 166.4 0 75.7 63.5 31.1 151.7l88.8 49.5c21.3-64.4 81.3-112.2 152.2-93.7z" fill="#ea4335"/>
+              <path
+                d="M533.5 278.4c0-17.9-1.6-35.1-4.7-51.9H272.1v98.1h147c-6.4 34.7-25.1 64.1-53.5 83.9v69.8h86.2c50.5-46.6 79.7-115 79.7-199.9z"
+                fill="#4285f4"
+              />
+              <path
+                d="M272.1 544.3c72.9 0 134.1-24.2 178.8-65.8l-86.2-69.8c-23.9 16-54.6 25.3-92.6 25.3-71 0-131-47.8-152.3-112.2H31.1v70.8c44.6 88.2 135.3 151.7 241 151.7z"
+                fill="#34a853"
+              />
+              <path
+                d="M119.9 321.6c-10.1-30.5-10.1-63.3 0-93.8V157h-88.8C9.6 203.6 0 236.8 0 272s9.6 68.4 31.1 99.1l88.8-49.5z"
+                fill="#fbbc04"
+              />
+              <path
+                d="M272.1 107.5c39.7-.6 77.1 14.1 105.6 40.5l79.5-79.5C406.1 25.6 345 0 272.1 0 166.4 0 75.7 63.5 31.1 151.7l88.8 49.5c21.3-64.4 81.3-112.2 152.2-93.7z"
+                fill="#ea4335"
+              />
             </svg>
             Continue with Google
           </Button>
 
           <p className="mt-6 text-center text-text-light">
-            Already have an account? <a href="/login" className="text-primary hover:underline">Login</a>
+            Already have an account?{" "}
+            <Link href="/login" className="text-primary hover:underline">
+              Login
+            </Link>
           </p>
 
           {message && (
@@ -141,7 +160,6 @@ const RegisterPage = () => {
           )}
         </div>
       </main>
-      <Footer />
     </div>
   );
 };

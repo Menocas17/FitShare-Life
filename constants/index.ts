@@ -1,5 +1,14 @@
-import { Dumbbell, Users, Share2 } from "lucide-react";
+import {
+  Dumbbell,
+  Users,
+  Share2,
+  Home,
+  BarChart3,
+  Settings,
+  Shield,
+} from "lucide-react";
 import { getCurrentYear } from "@/lib/utils";
+import { WorkoutData } from "@/types/types";
 
 // Navigation Links
 export const navigationLinks = [
@@ -167,4 +176,222 @@ export const appInfo = {
     "Your complete fitness platform for workouts, community, and progress tracking.",
   footerName: "FitShare-Life",
   currentYear: getCurrentYear(),
+};
+
+// Sidebar Links - These routes are automatically protected by middleware
+// Any new links added here will be automatically protected for authenticated users only
+export const sidebarLinks = [
+  { href: "/dashboard", label: "Overview", icon: Home },
+  { href: "/stats", label: "Stats", icon: BarChart3 },
+  { href: "/setting", label: "Setting", icon: Settings },
+  { href: "/workout-management", label: "Workout Management", icon: Shield },
+];
+
+//All these below are placeholders for workout, exercise and details
+export const workouts = [
+  {
+    id: 1,
+    name: "Morning Cardio",
+    type: "Cardio",
+    duration: 30,
+    exercises: 5,
+    lastPerformed: "2 days ago",
+  },
+  {
+    id: 2,
+    name: "Strength Training",
+    type: "Strength",
+    duration: 45,
+    exercises: 8,
+    lastPerformed: "Yesterday",
+  },
+  {
+    id: 3,
+    name: "Yoga Flow",
+    type: "Flexibility",
+    duration: 60,
+    exercises: 12,
+    lastPerformed: "1 week ago",
+  },
+];
+
+//placehold data for workouttypes, remove later when endoint is ready
+
+export const workoutOptions = [
+  {
+    id: "leg-day",
+    title: "Leg Day",
+    description: "Build stronger legs with squats, lunges, and more",
+    image:
+      "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&crop=center",
+    color: "bg-blue-500",
+  },
+  {
+    id: "back-day",
+    title: "Back Day",
+    description: "Strengthen your back with pulls, rows, and deadlifts",
+    image:
+      "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=400&h=300&fit=crop&crop=center",
+    color: "bg-green-500",
+  },
+  {
+    id: "chest-day",
+    title: "Chest Day",
+    description: "Build chest strength with presses and flies",
+    image:
+      "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&h=300&fit=crop&crop=center",
+    color: "bg-red-500",
+  },
+];
+
+//This data is a placehold for now until the data is ready
+
+export const workoutData: Record<string, WorkoutData> = {
+  "leg-day": {
+    title: "Leg Day Workout",
+    description: "Complete lower body strength training session",
+    duration: "45-60 minutes",
+    difficulty: "Intermediate",
+    targetMuscles: ["Quadriceps", "Hamstrings", "Glutes", "Calves"],
+    exercises: [
+      {
+        id: "1",
+        name: "Barbell Squats",
+        sets: 4,
+        reps: "8-12",
+        rest: "2-3 min",
+        difficulty: "Intermediate",
+      },
+      {
+        id: "2",
+        name: "Romanian Deadlifts",
+        sets: 3,
+        reps: "10-12",
+        rest: "90 sec",
+        difficulty: "Intermediate",
+      },
+      {
+        id: "3",
+        name: "Walking Lunges",
+        sets: 3,
+        reps: "12 each leg",
+        rest: "60 sec",
+        difficulty: "Beginner",
+      },
+      {
+        id: "4",
+        name: "Leg Press",
+        sets: 4,
+        reps: "12-15",
+        rest: "90 sec",
+        difficulty: "Beginner",
+      },
+      {
+        id: "5",
+        name: "Calf Raises",
+        sets: 4,
+        reps: "15-20",
+        rest: "45 sec",
+        difficulty: "Beginner",
+      },
+    ],
+  },
+  "back-day": {
+    title: "Back Day Workout",
+    description: "Complete upper back and posterior chain training",
+    duration: "50-65 minutes",
+    difficulty: "Intermediate",
+    targetMuscles: ["Latissimus Dorsi", "Rhomboids", "Trapezius", "Rear Delts"],
+    exercises: [
+      {
+        id: "1",
+        name: "Pull-ups/Chin-ups",
+        sets: 4,
+        reps: "6-10",
+        rest: "2-3 min",
+        difficulty: "Advanced",
+      },
+      {
+        id: "2",
+        name: "Barbell Rows",
+        sets: 4,
+        reps: "8-10",
+        rest: "2 min",
+        difficulty: "Intermediate",
+      },
+      {
+        id: "3",
+        name: "Lat Pulldowns",
+        sets: 3,
+        reps: "10-12",
+        rest: "90 sec",
+        difficulty: "Beginner",
+      },
+      {
+        id: "4",
+        name: "Seated Cable Rows",
+        sets: 3,
+        reps: "12-15",
+        rest: "60 sec",
+        difficulty: "Beginner",
+      },
+      {
+        id: "5",
+        name: "Face Pulls",
+        sets: 3,
+        reps: "15-20",
+        rest: "45 sec",
+        difficulty: "Beginner",
+      },
+    ],
+  },
+  "chest-day": {
+    title: "Chest Day Workout",
+    description: "Complete chest and pushing muscles training",
+    duration: "40-55 minutes",
+    difficulty: "Intermediate",
+    targetMuscles: ["Pectorals", "Anterior Deltoids", "Triceps"],
+    exercises: [
+      {
+        id: "1",
+        name: "Barbell Bench Press",
+        sets: 4,
+        reps: "6-8",
+        rest: "3 min",
+        difficulty: "Intermediate",
+      },
+      {
+        id: "2",
+        name: "Incline Dumbbell Press",
+        sets: 3,
+        reps: "8-10",
+        rest: "2 min",
+        difficulty: "Intermediate",
+      },
+      {
+        id: "3",
+        name: "Chest Flyes",
+        sets: 3,
+        reps: "10-12",
+        rest: "90 sec",
+        difficulty: "Beginner",
+      },
+      {
+        id: "4",
+        name: "Push-ups",
+        sets: 3,
+        reps: "12-15",
+        rest: "60 sec",
+        difficulty: "Beginner",
+      },
+      {
+        id: "5",
+        name: "Chest Dips",
+        sets: 3,
+        reps: "8-12",
+        rest: "90 sec",
+        difficulty: "Advanced",
+      },
+    ],
+  },
 };

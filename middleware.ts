@@ -1,7 +1,27 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
+import { sidebarLinks } from "@/constants";
 
 const COOKIE_NAME = "sessionToken";
+
+// Extract protected routes from sidebarLinks
+const getProtectedRoutes = () => {
+  return sidebarLinks.map((link) => link.href);
+};
+
+// Additional protected routes (like account layout routes)
+const additionalProtectedRoutes = ["/account"];
+
+// Check if a pathname matches any protected route
+const isProtectedRoute = (pathname: string) => {
+  const sidebarRoutes = getProtectedRoutes();
+  const allProtectedRoutes = [...sidebarRoutes, ...additionalProtectedRoutes];
+
+  return allProtectedRoutes.some((route) => {
+    // Handle exact matches and nested routes
+    return pathname === route || pathname.startsWith(`${route}/`);
+  });
+};
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -37,10 +57,12 @@ export async function middleware(req: NextRequest) {
     }
   }
 
-  if (!isValidSession && pathname.startsWith("/dashboard")) {
+  // Redirect to login if trying to access protected routes without valid session
+  if (!isValidSession && isProtectedRoute(pathname)) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 
+  // Redirect to dashboard if already logged in and trying to access login/register
   if (isValidSession && (pathname === "/login" || pathname === "/register")) {
     return NextResponse.redirect(new URL("/dashboard", req.url));
   }
@@ -48,6 +70,17 @@ export async function middleware(req: NextRequest) {
   return NextResponse.next();
 }
 
+// Generate dynamic matcher patterns for all protected routes
+const generateMatcher = () => {
+  const sidebarRoutes = getProtectedRoutes();
+  const allProtectedRoutes = [...sidebarRoutes, ...additionalProtectedRoutes];
+  const protectedPatterns = allProtectedRoutes.map(
+    (route) => `${route}/:path*`
+  );
+
+  return ["/login", "/register", ...protectedPatterns];
+};
+
 export const config = {
-  matcher: ["/login", "/register", "/dashboard/:path*"],
+  matcher: generateMatcher(),
 };

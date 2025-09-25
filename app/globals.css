@@ -10,6 +10,7 @@
   --primary: oklch(0.55 0.18 142);
   --background: oklch(0.98 0 0);
   --foreground: oklch(0.15 0 0);
+  --lightgreen: rgb(159, 223, 200); /* Light Green */
   --color-primary-hover: #059669; /* Darker Green */
   --color-navy: #1e293b; /* Dark Navy Blue */
   --color-navy-light: #334155; /* Lighter Navy for hover */
@@ -68,6 +69,7 @@ body {
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
+  --color-lightgreen: var(--lightgreen);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);

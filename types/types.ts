@@ -1,3 +1,6 @@
+import type { Tables } from '@/types/supabase';
+import { SetType } from '@/types/supabase';
+
 export type User = {
   id: string;
   name: string;
@@ -5,7 +8,6 @@ export type User = {
   avatar_url: string | null;
   created_at: string;
 };
-
 
 export interface SidebarProps {
   open?: boolean;
@@ -18,19 +20,17 @@ export interface NavbarProps {
   handleLogout: () => void;
 }
 
-
 export type WorkoutSelectionModalProps = {
   isOpen: boolean;
   onClose: () => void;
   onSelectWorkout: (workoutType: string) => void;
-}
+};
 
 export type WorkoutDetailModalProps = {
   isOpen: boolean;
   onClose: () => void;
   workoutType: string;
-}
-
+};
 
 //These Exercise and WorkoutData interfaces Might change when the API is set up
 
@@ -40,7 +40,7 @@ export interface Exercise {
   sets: number;
   reps: string;
   rest: string;
-  difficulty: "Beginner" | "Intermediate" | "Advanced";
+  difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
 }
 
 export interface WorkoutData {
@@ -50,4 +50,22 @@ export interface WorkoutData {
   difficulty: string;
   targetMuscles: string[];
   exercises: Exercise[];
+}
+
+/// special types for the training log page
+
+type WorkoutExercise = Tables<'workout_excercises'>;
+
+export type WorkoutExerciseWithDetails = WorkoutExercise & {
+  excercises: {
+    name: string;
+    image_url: string | null;
+  } | null;
+  workouts: {
+    name: string;
+  } | null;
+};
+
+export interface SetsProps {
+  sets: SetType[] | null;
 }

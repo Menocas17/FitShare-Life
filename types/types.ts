@@ -68,4 +68,5 @@ export type WorkoutExerciseWithDetails = WorkoutExercise & {
 
 export interface SetsProps {
   sets: SetType[] | null;
+  id: string;
 }

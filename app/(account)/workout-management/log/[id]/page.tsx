@@ -1,5 +1,5 @@
 import TrainingLog from '@/components/workout/log-workout/training-log';
-import { getExercisesByWorkout } from '@/lib/workouts';
+import { getExercisesByWorkout } from '@/lib/server_actions/workouts';
 import { WorkoutExerciseWithDetails } from '@/types/types';
 
 interface PageProps {

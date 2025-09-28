@@ -27,21 +27,42 @@ export default function TrainingLog({
   return (
     <>
       {exercises.map((exercise) => (
-        <div key={exercise.id}>
-          <Image
-            src={exercise.excercises?.image_url ?? '/img/placeholder.jpg'}
-            alt={exercise.excercises?.name ?? 'Placeholder'}
-            width={100}
-            height={100}
-          />
-          <h3>{exercise.excercises?.name ?? 'Unnamed Exercise'}</h3>
-          <h4>Rest Time: {exercise.rest_time ?? 0} sec</h4>
+        <div key={exercise.id} className='overflow-x-auto flex flex-col mb-6'>
+          <div className='flex gap-4 items-center mb-6'>
+            <Image
+              src={exercise.excercises?.image_url ?? '/img/placeholder.jpg'}
+              alt={exercise.excercises?.name ?? 'Placeholder'}
+              width={70}
+              height={80}
+              className='rounded-full border-2'
+            />
+            <div className='flex flex-col'>
+              <h3 className='text-xl sm:text-xl font-semibold '>
+                {exercise.excercises?.name ?? 'Unnamed Exercise'}
+              </h3>
+              <h4>
+                <span className='font-bold'>Rest Time:</span>{' '}
+                {exercise.rest_time ?? 0} sec
+              </h4>
+            </div>
+          </div>
 
           <LogTable sets={exercise.sets} id={exercise.exercise_id} />
         </div>
       ))}
 
-      <Button onClick={handleUpdateWorkout}>Save Workout</Button>
+      <div className='flex gap-4 justify-center mt-10 md:justify-start md:ml-5'>
+        <Button variant='destructive' className='bg-[#96150c]'>
+          Discard Workout
+        </Button>
+        <Button
+          onClick={handleUpdateWorkout}
+          variant='outline'
+          className='bg-[#2fb981] hover:bg-[#0a9667] text-white'
+        >
+          Save Workout
+        </Button>
+      </div>
     </>
   );
 }

@@ -11,7 +11,8 @@ interface PageProps {
 }
 
 export default async function LogPage({ params }: PageProps) {
-  const { id } = params;
+  const resolvedParams = await params;
+  const { id } = resolvedParams;
   const exercises: WorkoutExerciseWithDetails[] = await getExercisesByWorkout(
     id
   );

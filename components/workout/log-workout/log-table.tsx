@@ -3,7 +3,7 @@ import LogButton from '@/components/workout/log-workout/log-button';
 import { Button } from '@/components/ui/button';
 import { SetsProps } from '@/types/types';
 import { useState, useEffect } from 'react';
-import { SetType } from '@/types/supabase';
+
 import Image from 'next/image';
 
 interface RowLog {

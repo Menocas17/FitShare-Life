@@ -319,6 +319,48 @@ export type Database = {
           }
         ];
       };
+      workout_history: {
+        Row: {
+          created_at: string;
+          id: string;
+          profile_id: string;
+          total_sets: number;
+          total_weight: number;
+          workout_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          id?: string;
+          profile_id?: string;
+          total_sets?: number;
+          total_weight?: number;
+          workout_id: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: string;
+          profile_id?: string;
+          total_sets?: number;
+          total_weight?: number;
+          workout_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'workout_history_profile_id_fkey';
+            columns: ['profile_id'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'workout_history_workout_id_fkey';
+            columns: ['workout_id'];
+            isOneToOne: false;
+            referencedRelation: 'workouts';
+            referencedColumns: ['id'];
+          }
+        ];
+      };
       workouts: {
         Row: {
           created_at: string;

@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import SummaryModal from '@/components/workout/log-workout/summary_modal';
 import { useState } from 'react';
 import DiscardModal from './discard_modal';
+import { UpdateWorkoutHistory } from '@/lib/server_actions/workouts';
 
 interface Summary {
   totalWeight: number;
@@ -27,19 +28,26 @@ export default function TrainingLog({
   //function to update the workout in the database when the user clicks in the end workout with the server action
 
   function handleUpdateWorkout() {
-    const trainingData = getAllData();
+    const trainingData = getAllData(); // getting all the data from the localsotrage
 
     const summaryData = trainingData.summary ?? {
+      //setting the summary data
       totalSets: 0,
       totalWeight: 0,
     };
-    const clearedData = trainingData.formatedData;
+    const clearedData = trainingData.formatedData; // getting the formated data for saving in the data base
 
     clearedData.forEach((exercise) => {
+      // for each loop for saving each excercise log in the database
       UpdateWorkout(exercise.id, exercise.sets);
     });
 
-    setSummaryData(summaryData);
+    setSummaryData(summaryData); // settign the summary data for using it in the workout history or setting the state
+
+    //saving the sumary in the database
+    const workoutId = exercises[0].workout_id;
+    UpdateWorkoutHistory(summaryData, workoutId);
+
     setFinished(true);
     localStorage.clear();
   }

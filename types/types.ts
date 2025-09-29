@@ -70,3 +70,10 @@ export interface SetsProps {
   sets: SetType[] | null;
   id: string;
 }
+
+// interface for the data that will be saved in the workout hystory
+
+export interface WorkoutHystory {
+  totalWeight: number;
+  totalSets: number;
+}

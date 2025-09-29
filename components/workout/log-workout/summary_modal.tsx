@@ -28,7 +28,7 @@ export default function SummaryModal({
             <h3 className='text-2xl font-semibold'>Congratulations!</h3>
             <p>
               You&apos;ve completed{' '}
-              <span className='font-bold'>{workoutName}</span> Workout
+              <span className='font-bold'>{workoutName}</span>
             </p>
           </div>
         </div>

@@ -6,22 +6,48 @@ import { WorkoutExerciseWithDetails } from '@/types/types';
 import { getAllData } from '@/lib/utils';
 import { UpdateWorkout } from '@/lib/server_actions/workouts';
 import { Button } from '@/components/ui/button';
+import SummaryModal from '@/components/workout/log-workout/summary_modal';
+import { useState } from 'react';
+import DiscardModal from './discard_modal';
+
+interface Summary {
+  totalWeight: number;
+  totalSets: number;
+}
 
 export default function TrainingLog({
   exercises,
 }: {
   exercises: WorkoutExerciseWithDetails[];
 }) {
-  const trainingData = getAllData();
-  const summaryData = trainingData.summary;
-  const clearedData = trainingData.formatedData;
+  const [finished, setFinished] = useState(false);
+  const [summaryData, setSummaryData] = useState<Summary>();
+  const [openDiscard, setOpenDiscard] = useState(false);
 
-  //function to update the workout in the database when the user clicks in the end workout
+  //function to update the workout in the database when the user clicks in the end workout with the server action
 
   function handleUpdateWorkout() {
+    const trainingData = getAllData();
+
+    const summaryData = trainingData.summary ?? {
+      totalSets: 0,
+      totalWeight: 0,
+    };
+    const clearedData = trainingData.formatedData;
+
     clearedData.forEach((exercise) => {
       UpdateWorkout(exercise.id, exercise.sets);
     });
+
+    setSummaryData(summaryData);
+    setFinished(true);
+    localStorage.clear();
+  }
+
+  //function to handle de discard of the workout
+
+  function handleOpenDiscard() {
+    setOpenDiscard(!openDiscard);
   }
 
   return (
@@ -52,7 +78,11 @@ export default function TrainingLog({
       ))}
 
       <div className='flex gap-4 justify-center mt-10 md:justify-start md:ml-5'>
-        <Button variant='destructive' className='bg-[#96150c]'>
+        <Button
+          variant='destructive'
+          className='bg-[#96150c]'
+          onClick={handleOpenDiscard}
+        >
           Discard Workout
         </Button>
         <Button
@@ -63,6 +93,15 @@ export default function TrainingLog({
           Save Workout
         </Button>
       </div>
+
+      {finished && summaryData && (
+        <SummaryModal
+          summaryData={summaryData}
+          workoutName={exercises[0].workouts?.name ?? ''}
+        />
+      )}
+
+      {openDiscard && <DiscardModal handleClose={handleOpenDiscard} />}
     </>
   );
 }

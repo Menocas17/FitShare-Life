@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
-import { sidebarLinks } from "@/constants";
+import { NextRequest, NextResponse } from 'next/server';
+import { supabase } from '@/lib/supabase';
+import { sidebarLinks } from '@/constants';
 
-const COOKIE_NAME = "sessionToken";
+const COOKIE_NAME = 'sessionToken';
 
 // Extract protected routes from sidebarLinks
 const getProtectedRoutes = () => {
@@ -10,7 +10,7 @@ const getProtectedRoutes = () => {
 };
 
 // Additional protected routes (like account layout routes)
-const additionalProtectedRoutes = ["/account"];
+const additionalProtectedRoutes = ['/account'];
 
 // Check if a pathname matches any protected route
 const isProtectedRoute = (pathname: string) => {
@@ -27,10 +27,10 @@ export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   if (
-    pathname.startsWith("/_next") ||
-    pathname.startsWith("/api") ||
-    pathname.startsWith("/favicon.ico") ||
-    pathname.startsWith("/auth/v1/callback")
+    pathname.startsWith('/_next') ||
+    pathname.startsWith('/api') ||
+    pathname.startsWith('/favicon.ico') ||
+    pathname.startsWith('/auth/v1/callback')
   ) {
     return NextResponse.next();
   }
@@ -40,9 +40,9 @@ export async function middleware(req: NextRequest) {
 
   if (token) {
     const { data: user } = await supabase
-      .from("users")
-      .select("id, session_expiry")
-      .eq("session_token", token)
+      .from('users')
+      .select('id, session_expiry')
+      .eq('session_token', token)
       .single();
 
     if (user) {
@@ -50,37 +50,32 @@ export async function middleware(req: NextRequest) {
         isValidSession = true;
       } else {
         await supabase
-          .from("users")
+          .from('users')
           .update({ session_token: null, session_expiry: null })
-          .eq("id", user.id);
+          .eq('id', user.id);
       }
     }
   }
 
   // Redirect to login if trying to access protected routes without valid session
   if (!isValidSession && isProtectedRoute(pathname)) {
-    return NextResponse.redirect(new URL("/login", req.url));
+    return NextResponse.redirect(new URL('/login', req.url));
   }
 
   // Redirect to dashboard if already logged in and trying to access login/register
-  if (isValidSession && (pathname === "/login" || pathname === "/register")) {
-    return NextResponse.redirect(new URL("/dashboard", req.url));
+  if (isValidSession && (pathname === '/login' || pathname === '/register')) {
+    return NextResponse.redirect(new URL('/dashboard', req.url));
   }
 
   return NextResponse.next();
 }
 
-// Generate dynamic matcher patterns for all protected routes
-const generateMatcher = () => {
-  const sidebarRoutes = getProtectedRoutes();
-  const allProtectedRoutes = [...sidebarRoutes, ...additionalProtectedRoutes];
-  const protectedPatterns = allProtectedRoutes.map(
+// Export matcher directly for Next 15
+const sidebarRoutes = getProtectedRoutes();
+export const matcher = [
+  '/login',
+  '/register',
+  ...[...sidebarRoutes, ...additionalProtectedRoutes].map(
     (route) => `${route}/:path*`
-  );
-
-  return ["/login", "/register", ...protectedPatterns];
-};
-
-export const config = {
-  matcher: generateMatcher(),
-};
+  ),
+];

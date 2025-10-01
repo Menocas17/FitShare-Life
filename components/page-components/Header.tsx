@@ -1,14 +1,14 @@
 "use client";
+import { useRouter } from "next/navigation";
 import React, {useState} from "react";
 import { Button } from "@/components/ui/button";
 import { Dumbbell, Menu, X } from "lucide-react";
 import { navigationLinks, appInfo } from "@/constants";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 const Header = () => {
-  const [open, setOpen] = useState(false);
   const router = useRouter();
+  const [open, setOpen] = useState(false);  
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">

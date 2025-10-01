@@ -111,6 +111,7 @@ export type Database = {
           height: number | null;
           id: string;
           user_id: string | null;
+          user_name: string | null;
           weight: number | null;
         };
         Insert: {
@@ -120,6 +121,7 @@ export type Database = {
           height?: number | null;
           id?: string;
           user_id?: string | null;
+          user_name?: string | null;
           weight?: number | null;
         };
         Update: {
@@ -129,6 +131,7 @@ export type Database = {
           height?: number | null;
           id?: string;
           user_id?: string | null;
+          user_name?: string | null;
           weight?: number | null;
         };
         Relationships: [

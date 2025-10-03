@@ -1,5 +1,5 @@
-import type { Tables } from '@/types/supabase';
-import { SetType } from '@/types/supabase';
+import type { Tables } from "@/types/supabase";
+import { SetType, Json } from "@/types/supabase";
 
 export type User = {
   id: string;
@@ -40,7 +40,7 @@ export interface Exercise {
   sets: number;
   reps: string;
   rest: string;
-  difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
+  difficulty: "Beginner" | "Intermediate" | "Advanced";
 }
 
 export interface WorkoutData {
@@ -54,7 +54,7 @@ export interface WorkoutData {
 
 /// special types for the training log page
 
-type WorkoutExercise = Tables<'workout_excercises'>;
+type WorkoutExercise = Tables<"workout_excercises">;
 
 export type WorkoutExerciseWithDetails = WorkoutExercise & {
   excercises: {
@@ -76,4 +76,69 @@ export interface SetsProps {
 export interface WorkoutHystory {
   totalWeight: number;
   totalSets: number;
+}
+
+// Dashboard specific types
+
+export interface DashboardStats {
+  workoutsCompleted: number;
+  averageHoursTrained: number;
+  totalWorkouts: number;
+  totalWeight: number;
+  totalSets: number;
+  averageWeight: number;
+}
+
+export interface UserProfile {
+  id: string;
+  user_id: string | null;
+  user_name: string | null;
+  weight: number | null;
+  height: number | null;
+  fitness_goal: string | null;
+  body_measurements: Json | null;
+  created_at: string;
+}
+
+export interface BodyMeasurements {
+  chest?: number;
+  waist?: number;
+  hips?: number;
+  bicep?: number;
+  thigh?: number;
+}
+
+export interface RecentWorkout {
+  id: string;
+  created_at: string;
+  total_sets: number;
+  total_weight: number;
+  workouts: {
+    name: string;
+  } | null;
+}
+
+export interface DashboardData {
+  profile: UserProfile | null;
+  stats: DashboardStats;
+  recentWorkout: RecentWorkout | null;
+}
+
+// Social Media Types
+export interface SocialPost {
+  id: string;
+  content: string;
+  media_url: string | null;
+  created_at: string;
+  profile_id: string;
+  profiles?: {
+    id: string;
+    user_id: string | null;
+    user_name: string | null;
+  };
+}
+
+export interface CreatePostData {
+  content: string;
+  media_url?: string;
 }

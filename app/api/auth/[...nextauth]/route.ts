@@ -32,7 +32,22 @@ const handler = NextAuth({
           })
           .select('id, email, name, avatar, google_id')
           .single();
+
         user = newUser;
+
+        await supabase.from('profiles').insert({
+          user_id: newUser?.id,
+          bio: '',
+          height: null,
+          weight: null,
+          weight_goal: null,
+          body_measurements: {
+            chest: null,
+            waist: null,
+            hips: null,
+            thighs: null,
+          },
+        });
       } else {
         if (!user.google_id) {
           await supabase

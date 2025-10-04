@@ -7,6 +7,12 @@ export type Json =
   | Json[];
 
 export type SetType = { reps: number; weight: number };
+type body_measurements = {
+  chest: number | null;
+  waist: number | null;
+  hips: number | null;
+  thighs: number | null;
+};
 
 export type Database = {
   // Allows to automatically instantiate createClient with right options
@@ -105,34 +111,37 @@ export type Database = {
       };
       profiles: {
         Row: {
-          body_measurements: Json | null;
+          body_measurements: body_measurements | null;
           created_at: string;
-          fitness_goal: string | null;
+          bio: string | null;
           height: number | null;
           id: string;
-          user_id: string | null;
+          user_id: string;
           user_name: string | null;
           weight: number | null;
+          weight_goal: number | null;
         };
         Insert: {
-          body_measurements?: Json | null;
+          body_measurements?: body_measurements | null;
           created_at?: string;
-          fitness_goal?: string | null;
+          bio?: string | null;
           height?: number | null;
           id?: string;
-          user_id?: string | null;
+          user_id?: string;
           user_name?: string | null;
           weight?: number | null;
+          weight_goal?: number | null;
         };
         Update: {
-          body_measurements?: Json | null;
+          body_measurements?: body_measurements | null;
           created_at?: string;
-          fitness_goal?: string | null;
+          bio?: string | null;
           height?: number | null;
           id?: string;
-          user_id?: string | null;
+          user_id?: string;
           user_name?: string | null;
           weight?: number | null;
+          weight_goal?: number | null;
         };
         Relationships: [
           {
@@ -291,21 +300,21 @@ export type Database = {
           exercise_id: string;
           id: string;
           rest_time: number | null;
-          sets: SetType[] | null; // <-- actualizado
+          sets: SetType[] | null;
           workout_id: string;
         };
         Insert: {
           exercise_id: string;
           id?: string;
           rest_time?: number | null;
-          sets?: SetType[] | null; // <-- actualizado
+          sets?: SetType[] | null;
           workout_id: string;
         };
         Update: {
           exercise_id?: string;
           id?: string;
           rest_time?: number | null;
-          sets?: SetType[] | null; // <-- actualizado
+          sets?: SetType[] | null;
           workout_id?: string;
         };
         Relationships: [

@@ -250,6 +250,7 @@ export type Database = {
           avatar_url: string | null;
           created_at: string | null;
           email: string;
+          google_id: string | null;
           id: string;
           name: string | null;
           password_hash: string | null;
@@ -262,6 +263,7 @@ export type Database = {
           avatar_url?: string | null;
           created_at?: string | null;
           email: string;
+          google_id?: string | null;
           id?: string;
           name?: string | null;
           password_hash?: string | null;
@@ -274,6 +276,7 @@ export type Database = {
           avatar_url?: string | null;
           created_at?: string | null;
           email?: string;
+          google_id?: string | null;
           id?: string;
           name?: string | null;
           password_hash?: string | null;

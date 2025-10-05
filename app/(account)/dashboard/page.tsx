@@ -29,6 +29,8 @@ import SocialFeed from '@/components/social/SocialFeed';
 import UserSearch from '@/components/social/UserSearch';
 import UserProfileComponent from '@/components/social/UserProfile';
 
+import { useSearchParams } from 'next/navigation';
+
 const DashboardPage = () => {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<'stats' | 'social' | 'my-posts'>(
@@ -61,6 +63,11 @@ const DashboardPage = () => {
   );
   const [postsCount, setPostsCount] = useState(0);
   const [loading, setLoading] = useState(true);
+  const searchParams = useSearchParams();
+  useEffect(() => {
+    const tab = searchParams.get('tab');
+    if (tab === 'social') setActiveTab('social');
+  }, [searchParams]);
 
   // Function to refetch post count
   const refreshPostCount = async () => {

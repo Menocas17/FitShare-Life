@@ -63,13 +63,15 @@ export default function TrainingLog({
       {exercises.map((exercise) => (
         <div key={exercise.id} className='overflow-x-auto flex flex-col mb-6'>
           <div className='flex gap-4 items-center mb-6'>
-            <Image
-              src={exercise.excercises?.image_url ?? '/img/placeholder.jpg'}
-              alt={exercise.excercises?.name ?? 'Placeholder'}
-              width={70}
-              height={80}
-              className='rounded-full border-2'
-            />
+            <div className='w-20 h-20 rounded-full overflow-hidden border-2 flex items-center justify-center'>
+              <Image
+                src={exercise.excercises?.image_url ?? '/img/placeholder.jpg'}
+                alt={exercise.excercises?.name ?? 'Placeholder'}
+                width={70}
+                height={70}
+                className='object-cover'
+              />
+            </div>
             <div className='flex flex-col'>
               <h3 className='text-xl sm:text-xl font-semibold '>
                 {exercise.excercises?.name ?? 'Unnamed Exercise'}

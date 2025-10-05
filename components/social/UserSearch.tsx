@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { Search, User, Users, X } from 'lucide-react';
+import { Search, Users, X } from 'lucide-react';
 import { searchUsersByUsername } from '@/lib/server_actions/user_search';
+import Image from 'next/image';
 
 interface UserSearchResult {
   id: string;
@@ -13,6 +14,9 @@ interface UserSearchResult {
   height: number | null;
   bio: string | null;
   created_at: string;
+  users?: {
+    avatar: string | null;
+  };
 }
 
 interface UserSearchProps {
@@ -146,9 +150,19 @@ const UserSearch: React.FC<UserSearchProps> = ({ onUserSelect, onClose }) => {
                   onClick={() => onUserSelect(user.id)}
                   className='flex items-start sm:items-center gap-3 p-3 border border-border rounded-lg hover:bg-muted cursor-pointer transition-colors group'
                 >
-                  <div className='w-10 h-10 sm:w-12 sm:h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors mt-1 sm:mt-0'>
-                    <User className='w-5 h-5 sm:w-6 sm:h-6 text-primary' />
-                  </div>
+                  {user.users!.avatar ? (
+                    <Image
+                      src={user.users!.avatar}
+                      alt={user.user_name!}
+                      width={100}
+                      height={100}
+                      className='w-20 h-20 rounded-full'
+                    />
+                  ) : (
+                    <div className='w-20 h-20 rounded-full bg-gray-400 flex items-center justify-center text-white text-4xl'>
+                      {user.user_name![0]}
+                    </div>
+                  )}
                   <div className='flex-1 min-w-0 space-y-1'>
                     <h4 className='font-medium truncate text-sm sm:text-base'>
                       {user.user_name || 'Anonymous User'}

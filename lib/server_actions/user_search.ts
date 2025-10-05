@@ -19,7 +19,10 @@ export async function searchUsersByUsername(username: string) {
         weight_goal,
         height,
         bio,
-        created_at
+        created_at,
+        users (
+          avatar
+        )
       `
       )
       .ilike('user_name', `%${username}%`)
@@ -52,7 +55,10 @@ export async function getUserProfileById(profileId: string) {
         height,
         bio,
         body_measurements,
-        created_at
+        created_at,
+        users (
+          avatar
+        )
       `
       )
       .eq('id', profileId)

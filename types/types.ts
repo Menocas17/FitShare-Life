@@ -5,7 +5,7 @@ export type User = {
   id: string;
   name: string;
   email: string;
-  avatar_url: string | null;
+  avatar: string | null;
   created_at: string;
 };
 
@@ -99,6 +99,9 @@ export interface UserProfile {
   bio: string | null;
   body_measurements: Json | null;
   created_at: string;
+  users?: {
+    avatar: string | null;
+  };
 }
 
 export interface BodyMeasurements {

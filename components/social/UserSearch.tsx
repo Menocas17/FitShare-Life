@@ -173,7 +173,7 @@ const UserSearch: React.FC<UserSearchProps> = ({ onUserSelect, onClose }) => {
                         <span className='truncate'>Bio: {user.bio}</span>
                       )}
                       {/* Mobile: Show weight/height below on smaller screens */}
-                      <div className='flex gap-2 sm:  hidden'>
+                      <div className='flex gap-2 sm:hidden'>
                         {user.weight && (
                           <span className='bg-muted px-2 py-1 rounded text-xs whitespace-nowrap'>
                             {user.weight} lbs

@@ -1,11 +1,11 @@
-import type { Tables } from "@/types/supabase";
-import { SetType, Json } from "@/types/supabase";
+import type { Tables } from '@/types/supabase';
+import { SetType, Json } from '@/types/supabase';
 
 export type User = {
   id: string;
   name: string;
   email: string;
-  avatar_url: string | null;
+  avatar: string | null;
   created_at: string;
 };
 
@@ -40,7 +40,7 @@ export interface Exercise {
   sets: number;
   reps: string;
   rest: string;
-  difficulty: "Beginner" | "Intermediate" | "Advanced";
+  difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
 }
 
 export interface WorkoutData {
@@ -54,7 +54,7 @@ export interface WorkoutData {
 
 /// special types for the training log page
 
-type WorkoutExercise = Tables<"workout_excercises">;
+type WorkoutExercise = Tables<'workout_excercises'>;
 
 export type WorkoutExerciseWithDetails = WorkoutExercise & {
   excercises: {
@@ -94,10 +94,14 @@ export interface UserProfile {
   user_id: string | null;
   user_name: string | null;
   weight: number | null;
+  weight_goal: number | null;
   height: number | null;
-  fitness_goal: string | null;
+  bio: string | null;
   body_measurements: Json | null;
   created_at: string;
+  users?: {
+    avatar: string | null;
+  };
 }
 
 export interface BodyMeasurements {

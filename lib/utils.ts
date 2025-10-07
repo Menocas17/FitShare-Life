@@ -14,9 +14,14 @@ export function getCurrentYear(): string {
 }
 //function to get all the exercises logs from the local storage
 export function getAllData() {
+  const uuidRegex =
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
   const allData = [];
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
+    if (!key || !uuidRegex.test(key)) continue; // Only process keys that are UUIDs
+
     const value = localStorage.getItem(key!);
 
     try {

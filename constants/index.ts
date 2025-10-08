@@ -185,6 +185,7 @@ export const sidebarLinks = [
   { href: '/myprofile', label: 'My Profile', icon: User },
   { href: '/workout-management', label: 'Workouts', icon: Shield },
   { href: '/setting', label: 'Settings', icon: Settings },
+  { href: '/exercises', label: 'Exercises', icon: Dumbbell }
 ];
 
 //All these below are placeholders for workout, exercise and details

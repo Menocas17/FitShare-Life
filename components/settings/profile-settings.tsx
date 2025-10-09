@@ -154,7 +154,7 @@ export default function ProfileSettings() {
                       placeholder='Your chest size in cm'
                       className='w-full p-2 border border-border rounded-md bg-background'
                       defaultValue={
-                        profileSettings?.body_measurements!.chest || ''
+                        profileSettings?.body_measurements?.chest || ''
                       }
                       name='chest'
                     />
@@ -168,7 +168,7 @@ export default function ProfileSettings() {
                       placeholder='Your waist size in cm'
                       className='w-full p-2 border border-border rounded-md bg-background'
                       defaultValue={
-                        profileSettings?.body_measurements!.waist || ''
+                        profileSettings?.body_measurements?.waist || ''
                       }
                       name='waist'
                     />
@@ -182,7 +182,7 @@ export default function ProfileSettings() {
                       placeholder='Your hips size in cm'
                       className='w-full p-2 border border-border rounded-md bg-background'
                       defaultValue={
-                        profileSettings?.body_measurements!.hips || ''
+                        profileSettings?.body_measurements?.hips || ''
                       }
                       name='hips'
                     />
@@ -196,7 +196,7 @@ export default function ProfileSettings() {
                       placeholder='Your thighs size in cm'
                       className='w-full p-2 border border-border rounded-md bg-background'
                       defaultValue={
-                        profileSettings?.body_measurements!.thighs || ''
+                        profileSettings?.body_measurements?.thighs || ''
                       }
                       name='thighs'
                     />

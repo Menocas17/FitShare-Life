@@ -3,12 +3,19 @@ import { SetType, Json } from "@/types/supabase";
 
 export type User = {
   id: string;
-  name: string;
+  name: string | null;
   email: string;
   avatar_url: string | null;
+  password_hash?: string | null;
+  session_token?: string | null;
+  session_expiry?: string | null;
+  reset_token?: string | null;
+  reset_expiry?: string | null;
   created_at: string;
+  updated_at?: string | null;
 };
 
+// ✅ UI props
 export interface SidebarProps {
   open?: boolean;
   setOpen: (open: boolean) => void;
@@ -20,6 +27,7 @@ export interface NavbarProps {
   handleLogout: () => void;
 }
 
+// ✅ Workouts & Training
 export type WorkoutSelectionModalProps = {
   isOpen: boolean;
   onClose: () => void;
@@ -31,8 +39,6 @@ export type WorkoutDetailModalProps = {
   onClose: () => void;
   workoutType: string;
 };
-
-//These Exercise and WorkoutData interfaces Might change when the API is set up
 
 export interface Exercise {
   id: string;
@@ -52,8 +58,7 @@ export interface WorkoutData {
   exercises: Exercise[];
 }
 
-/// special types for the training log page
-
+// ✅ Workout Exercises
 type WorkoutExercise = Tables<"workout_excercises">;
 
 export type WorkoutExerciseWithDetails = WorkoutExercise & {
@@ -71,15 +76,13 @@ export interface SetsProps {
   id: string;
 }
 
-// interface for the data that will be saved in the workout hystory
-
+// ✅ Workout History
 export interface WorkoutHystory {
   totalWeight: number;
   totalSets: number;
 }
 
-// Dashboard specific types
-
+// ✅ Dashboard
 export interface DashboardStats {
   workoutsCompleted: number;
   averageHoursTrained: number;
@@ -124,7 +127,7 @@ export interface DashboardData {
   recentWorkout: RecentWorkout | null;
 }
 
-// Social Media Types
+// ✅ Social Features
 export interface SocialPost {
   id: string;
   content: string;

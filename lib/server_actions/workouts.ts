@@ -35,6 +35,25 @@ export async function getExercisesByWorkout(workoutId: string) {
   }
 }
 
+//this will get all the excercises with basic info
+export async function getWorkoutExercises(workoutId: string) {
+  try {
+    const { data, error } = await supabase
+      .from('workout_excercises')
+      .select('id, exercise_id, rest_time')
+      .eq('workout_id', workoutId);
+
+    if (error) {
+      console.error('Error fetching exercises:', error);
+      return [];
+    }
+
+    return data ?? [];
+  } catch (err) {
+    console.error('Unexpected error:', err);
+    return [];
+  }
+}
 //This will get all the details of the excercises
 export async function getExerciseDetails(exerciseId: string) {
   try {
@@ -109,6 +128,67 @@ export async function UpdateWorkoutHistory(
       },
     ]);
     if (error) throw error;
+    return data;
+  } catch (err) {
+    console.error('Unexpected error:', err);
+    return [];
+  }
+}
+
+//this will get all the workouts that belong to a user
+export async function getUserWorkouts(profile_id: string) {
+  try {
+    const { data, error } = await supabase
+      .from('workouts')
+      .select(
+        `
+        id,
+        name
+      `
+      )
+      .eq('profile_id', profile_id);
+
+    if (error) {
+      console.error('Error fetching user workouts:', error);
+      return [];
+    }
+
+    return data;
+  } catch (err) {
+    console.error('Unexpected error:', err);
+    return [];
+  }
+}
+
+//this will get the history of the workouts during this week
+export async function getWeeklyWorkoutHistory(profile_id: string) {
+  try {
+    // Calculamos el inicio de la semana (lunes)
+    const now = new Date();
+    const dayOfWeek = now.getDay();
+    const diffToMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+    const startOfWeek = new Date(now);
+    startOfWeek.setHours(0, 0, 0, 0);
+    startOfWeek.setDate(now.getDate() - diffToMonday);
+
+    // Traemos los workouts completados esta semana
+    const { data, error } = await supabase
+      .from('workout_history')
+      .select('id, workout_id, created_at')
+      .eq('profile_id', profile_id)
+      .gte('created_at', startOfWeek.toISOString())
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching weekly workout history:', error);
+      return [];
+    }
+
+    if (data.length < 1) {
+      console.warn('No workouts found for this week');
+      return [];
+    }
+
     return data;
   } catch (err) {
     console.error('Unexpected error:', err);

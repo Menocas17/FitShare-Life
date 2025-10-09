@@ -143,7 +143,9 @@ const FriendsLeaderboard: React.FC<FriendsLeaderboardProps> = ({
                     />
                   ) : (
                     <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary/20 to-primary/40 flex items-center justify-center text-primary font-semibold border-2 border-background">
-                      {entry.user_name[0]?.toUpperCase()}
+                      {(typeof entry.user_name === "string" && entry.user_name.length > 0)
+                        ? entry.user_name[0].toUpperCase()
+                        : "Username?"}
                     </div>
                   )}
                 </div>

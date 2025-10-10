@@ -1,0 +1,26 @@
+// Global type declarations for the FitShare Life app
+
+declare module "*.css" {
+  const content: { [className: string]: string };
+  export default content;
+}
+
+declare module "*.scss" {
+  const content: { [className: string]: string };
+  export default content;
+}
+
+declare module "*.module.css" {
+  const classes: { [key: string]: string };
+  export default classes;
+}
+
+declare module "*.module.scss" {
+  const classes: { [key: string]: string };
+  export default classes;
+}
+
+// For side-effect imports (like global CSS)
+declare module "*/globals.css";
+declare module "./globals.css";
+declare module "tw-animate-css";

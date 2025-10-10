@@ -2,6 +2,7 @@
 import { supabase } from '../supabase';
 import { SetType } from '@/types/supabase';
 import { WorkoutHystory } from '@/types/types';
+import { profile } from 'console';
 
 //This gets all the excercises with additional info that belongs to certain workout
 export async function getExercisesByWorkout(workoutId: string) {
@@ -193,5 +194,71 @@ export async function getWeeklyWorkoutHistory(profile_id: string) {
   } catch (err) {
     console.error('Unexpected error:', err);
     return [];
+  }
+}
+
+//This will add the newly created workout
+export async function createWorkout(formData: FormData) {
+  const workout = {
+    name: formData.get('name') as string,
+    profile_id: formData.get('profile_id') as string,
+  };
+
+  try {
+    const { data, error } = await supabase
+      .from('workouts')
+      .insert([workout])
+      .select();
+
+    if (error) throw error;
+
+    return data ? data[0].id : null;
+  } catch (err) {
+    console.error('Unexpected error:', err);
+    return null;
+  }
+}
+//This will add all the excercises to the newly created workout
+export async function addExercisesToWorkout(
+  workout_id: string,
+  formData: FormData
+) {
+  const exercises = JSON.parse(formData.get('exercises') as string);
+  try {
+    const { data, error } = await supabase.from('workout_excercises').insert(
+      exercises.map(
+        (exercise: {
+          id: string;
+          muscle_group?: string | null;
+          name?: string;
+          image_url?: string | null;
+        }) => ({
+          workout_id,
+          exercise_id: exercise.id,
+        })
+      )
+    );
+    if (error) throw error;
+    return data;
+  } catch (err) {
+    console.error('Unexpected error:', err);
+    return [];
+  }
+}
+
+//this will delete the workout
+export async function deleteWorkout(workout_id: string) {
+  try {
+    const { error } = await supabase
+      .from('workouts')
+      .delete()
+      .eq('id', workout_id);
+
+    if (error) throw error;
+
+    return true;
+  } catch (err) {
+    console.error('Unexpected error:', err);
+    return false;
   }
 }

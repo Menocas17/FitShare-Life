@@ -17,6 +17,32 @@ export default function ExerciseFinder() {
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [search, setSearch] = useState('');
 
+  const pathname = usePathname();
+  useEffect(() => {
+    if (pathname.includes('log') || pathname.includes('edit')) {
+      const workout_id = pathname.split('/').pop();
+      sessionStorage.setItem('workout_id', workout_id ?? '');
+      sessionStorage.setItem('edit/log', 'true');
+    }
+
+    if (pathname.includes('edit')) {
+      sessionStorage.setItem('edit', 'true');
+      sessionStorage.setItem('log', 'false');
+    }
+
+    if (pathname.includes('log')) {
+      sessionStorage.setItem('log', 'true');
+      sessionStorage.setItem('edit', 'false');
+    }
+
+    const showButton =
+      pathname.includes('create') ||
+      pathname.includes('edit') ||
+      pathname.includes('log');
+
+    sessionStorage.setItem('showButton', showButton ? 'true' : 'false');
+  }, [pathname]);
+
   useEffect(() => {
     const fetchExercises = async () => {
       const { data, error } = await supabase.from('excercises').select('*');
@@ -32,9 +58,6 @@ export default function ExerciseFinder() {
   const filtered = exercises.filter((ex) =>
     ex.name.toLowerCase().includes(search.toLowerCase())
   );
-
-  const pathname = usePathname();
-  const showButton = pathname === '/workout-management/create';
 
   return (
     <div className='p-6'>
@@ -52,13 +75,6 @@ export default function ExerciseFinder() {
             <Link
               href={`/exercises/${ex.id}`}
               className='block p-4 bg-gray-100 rounded-lg hover:bg-gray-200'
-              onClick={() => {
-                if (showButton) {
-                  sessionStorage.setItem('showButton', 'true');
-                } else {
-                  sessionStorage.setItem('showButton', 'false');
-                }
-              }}
             >
               <h2 className='font-semibold'>{ex.name}</h2>
               <p className='text-sm text-gray-600'>{ex.muscle_group}</p>

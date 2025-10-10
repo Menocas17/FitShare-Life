@@ -1,12 +1,21 @@
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 interface DiscardProps {
   handleClose: () => void;
 }
 
 export default function DiscardModal({ handleClose }: DiscardProps) {
+  const [isEditPage, setIsEditPage] = useState(false);
+
+  const pathname = usePathname();
+  useEffect(() => {
+    setIsEditPage(pathname.includes('edit'));
+  }, [pathname]);
+
   //function to discard the training
   function handleDiscard() {
     localStorage.clear();
@@ -19,7 +28,9 @@ export default function DiscardModal({ handleClose }: DiscardProps) {
           <Image src={'/Sad.svg'} alt='Sad emoticon' height={70} width={70} />
         </div>
         <h3 className='text-2xl font-semibold text-center mt-4'>
-          You are about to delete this workout progress
+          {isEditPage
+            ? "You are going to discard the changes you've made"
+            : 'You are about to discard this workout progress'}
         </h3>
 
         <p className='text-center mt-4 text-lg'>
@@ -27,12 +38,14 @@ export default function DiscardModal({ handleClose }: DiscardProps) {
         </p>
 
         <div className='flex justify-center mt-8 gap-5'>
-          <Link href={'/dashboard'}>
+          <Link href={isEditPage ? '/workout-management' : '/dashboard'}>
             <Button variant='destructive' onClick={handleDiscard}>
-              Discard Workout
+              {isEditPage ? 'Discard Changes' : 'Discard Workout'}
             </Button>
           </Link>
-          <Button onClick={handleClose}>Continue Workout</Button>
+          <Button onClick={handleClose}>
+            {isEditPage ? 'Keep Editing' : 'Continue Workout'}
+          </Button>
         </div>
       </div>
     </div>

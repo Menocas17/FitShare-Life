@@ -21,8 +21,7 @@ export async function getExercisesByWorkout(workoutId: string) {
         )
       `
       )
-      .eq('workout_id', workoutId)
-      .order('sets', { ascending: true });
+      .eq('workout_id', workoutId);
 
     if (error) {
       console.error('Error fetching exercises:', error);
@@ -260,5 +259,38 @@ export async function deleteWorkout(workout_id: string) {
   } catch (err) {
     console.error('Unexpected error:', err);
     return false;
+  }
+}
+
+//this will delete and exceercise from a workout
+export async function DeleteExercise(exerciseId: string) {
+  try {
+    const { error } = await supabase
+      .from('workout_excercises')
+      .delete()
+      .eq('id', exerciseId);
+
+    if (error) throw error;
+
+    return true;
+  } catch (err) {
+    console.error('Unexpected error:', err);
+    return false;
+  }
+}
+
+//this will add a new excercise to the workout from the log or edit page
+export async function AddExercise(exerciseId: string, workout_id: string) {
+  try {
+    const { data, error } = await supabase
+      .from('workout_excercises')
+      .insert([{ exercise_id: exerciseId, workout_id: workout_id }]);
+
+    if (error) throw error;
+
+    return data;
+  } catch (err) {
+    console.error('Unexpected error:', err);
+    return null;
   }
 }

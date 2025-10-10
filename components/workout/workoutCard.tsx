@@ -71,12 +71,11 @@ export default function WorkoutCard({
 
         <div className='flex items-center justify-between sm:justify-end gap-2 border-t sm:border-t-0 pt-3 sm:pt-0'>
           <div className='flex items-center gap-2'>
-            <button
-              className='p-2 text-gray-500 hover:text-blue-500 hover:bg-blue-50 rounded-md'
-              onClick={() => {}}
-            >
-              <Edit className='w-4 h-4' />
-            </button>
+            <Link href={`/workout-management/edit/${workoutId}`}>
+              <button className='p-2 text-gray-500 hover:text-blue-500 hover:bg-blue-50 rounded-md'>
+                <Edit className='w-4 h-4' />
+              </button>
+            </Link>
             <button
               className='p-2 text-gray-500 hover:text-red-500 hover:bg-red-50 rounded-md'
               onClick={() => setOpenDiscard(true)}

@@ -204,13 +204,7 @@ export default function CreateWorkoutPage() {
           >
             Discard Workout
           </Button>
-          <Button
-            onClick={handleSaveWorkout}
-            variant='outline'
-            className='bg-[#2fb981] hover:bg-[#0a9667] text-white'
-          >
-            Save Workout
-          </Button>
+          <Button onClick={handleSaveWorkout}>Save Workout</Button>
         </div>
       </form>
 

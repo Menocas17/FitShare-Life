@@ -38,7 +38,7 @@ export default function DiscardModal({ handleClose }: DiscardProps) {
         </p>
 
         <div className='flex justify-center mt-8 gap-5'>
-          <Link href={isEditPage ? '/workout-management' : '/dashboard'}>
+          <Link href={'/workout-management'}>
             <Button variant='destructive' onClick={handleDiscard}>
               {isEditPage ? 'Discard Changes' : 'Discard Workout'}
             </Button>

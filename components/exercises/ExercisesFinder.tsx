@@ -35,6 +35,11 @@ export default function ExerciseFinder() {
       sessionStorage.setItem('edit', 'false');
     }
 
+    if (pathname.includes('create')) {
+      sessionStorage.setItem('log', 'false');
+      sessionStorage.setItem('edit', 'false');
+    }
+
     const showButton =
       pathname.includes('create') ||
       pathname.includes('edit') ||

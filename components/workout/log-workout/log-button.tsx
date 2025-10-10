@@ -9,10 +9,8 @@ interface logButtonProps {
 function LogButton({ clicked, handleToggleSet }: logButtonProps) {
   return (
     <Button
-      variant='outline'
-      className={`text-xl font-extrabold p-2 hover:bg-accent bg-gray-200 ${
-        clicked ? 'bg-green-500 text-white hover:bg-green-600' : ''
-      }`}
+      variant='logButton'
+      className={clicked ? 'bg-primary text-white hover:bg-green-600' : ''}
       onClick={handleToggleSet}
     >
       ✓

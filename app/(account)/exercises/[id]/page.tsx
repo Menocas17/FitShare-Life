@@ -98,11 +98,11 @@ export default function ExcerciseDetail({
   }
 
   const handleClick = () => {
-    if (editLog) {
-      handleAddingExerciseToDatabase(exercise!.id, workoutId!);
+    if (!edit && !log) {
+      handleAddingExercise();
       router.push(redirectPath);
     } else {
-      handleAddingExercise();
+      handleAddingExerciseToDatabase(exercise!.id, workoutId!);
       router.push(redirectPath);
     }
   };

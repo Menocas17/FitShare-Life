@@ -124,10 +124,10 @@ export default function TrainingLog({
             {isEditPage && (
               <Button
                 variant='destructive'
-                className='bg-[#96150c] ml-5'
+                className='ml-5'
                 onClick={() => handleDeleteExercise(exercise.id)}
               >
-                Delete Exercise
+                Delete
               </Button>
             )}
           </div>
@@ -147,32 +147,16 @@ export default function TrainingLog({
       </div>
 
       <div className='flex gap-4 justify-center mt-10 md:justify-start md:ml-5'>
-        <Button
-          variant='destructive'
-          className='bg-[#96150c]'
-          onClick={handleOpenDiscard}
-        >
+        <Button variant='destructive' onClick={handleOpenDiscard}>
           {isEditPage ? 'Discard Changes' : 'Discard Workout'}
         </Button>
 
         {isEditPage ? (
           <Link href={'/workout-management'}>
-            <Button
-              onClick={handleEditWorkout}
-              variant='outline'
-              className='bg-[#2fb981] hover:bg-[#0a9667] text-white'
-            >
-              Save Changes
-            </Button>
+            <Button onClick={handleEditWorkout}>Save Changes</Button>
           </Link>
         ) : (
-          <Button
-            onClick={handleUpdateWorkout}
-            variant='outline'
-            className='bg-[#2fb981] hover:bg-[#0a9667] text-white '
-          >
-            Save Workout
-          </Button>
+          <Button onClick={handleUpdateWorkout}>Save Workout</Button>
         )}
       </div>
 

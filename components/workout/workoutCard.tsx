@@ -2,9 +2,10 @@ import { Button } from '../ui/button';
 import { Clock, Target, Trash2, Edit } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { getWorkoutExercises } from '@/lib/server_actions/workouts';
+import DiscardWorkout from './deleteWorkout-Modal';
 import Link from 'next/link';
 
-interface Workout {
+export interface Workout {
   exercise_id: string;
   id: string;
   rest_time: number | null;
@@ -22,6 +23,8 @@ export default function WorkoutCard({
   //States for the data
   const [workout, setWorkout] = useState<Workout[]>([]);
 
+  const [openDiscard, setOpenDiscard] = useState(false);
+
   useEffect(() => {
     const fetchWorkout = async () => {
       const workoutData = await getWorkoutExercises(workoutId);
@@ -35,6 +38,10 @@ export default function WorkoutCard({
     workout.reduce((acc, exercise) => {
       return acc + (exercise.rest_time || 0);
     }, 0) / 60;
+
+  function handleOpenDiscard() {
+    setOpenDiscard(!openDiscard);
+  }
 
   return (
     <div className='p-4 sm:p-6 bg-card border border-border rounded-lg'>
@@ -64,20 +71,34 @@ export default function WorkoutCard({
 
         <div className='flex items-center justify-between sm:justify-end gap-2 border-t sm:border-t-0 pt-3 sm:pt-0'>
           <div className='flex items-center gap-2'>
-            <button className='p-2 text-gray-500 hover:text-blue-500 hover:bg-blue-50 rounded-md'>
+            <button
+              className='p-2 text-gray-500 hover:text-blue-500 hover:bg-blue-50 rounded-md'
+              onClick={() => {}}
+            >
               <Edit className='w-4 h-4' />
             </button>
-            <button className='p-2 text-gray-500 hover:text-red-500 hover:bg-red-50 rounded-md'>
+            <button
+              className='p-2 text-gray-500 hover:text-red-500 hover:bg-red-50 rounded-md'
+              onClick={() => setOpenDiscard(true)}
+            >
               <Trash2 className='w-4 h-4' />
             </button>
           </div>
           <Link href={`/workout-management/log/${workoutId}`}>
-            <Button className='px-3 sm:px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 text-sm'>
+            <Button className='px-3 sm:px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 text-sm cursor-pointer'>
               Start Workout
             </Button>
           </Link>
         </div>
       </div>
+
+      {openDiscard && (
+        <DiscardWorkout
+          handleClose={handleOpenDiscard}
+          setWorkouts={setWorkout}
+          workout_id={workoutId}
+        />
+      )}
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { Plus, Dumbbell, Target } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import WorkoutSelectionModal from './WorkoutSelectionModal';
 import WorkoutDetailModal from './WorkoutDetailModal';
+import LoadingSpinner from '../ui-kit/LoadingSpinner';
 import {
   getUserWorkouts,
   getWeeklyWorkoutHistory,
@@ -44,6 +45,8 @@ export default function WorkoutManagement({
     weeklyWorkoutHistory[]
   >([]);
 
+  const [loading, setLoading] = useState(true);
+
   //fetching data with the server actions
 
   useEffect(() => {
@@ -56,6 +59,7 @@ export default function WorkoutManagement({
         UserProfile.id
       );
       setWeeklyWorkoutHistory(weeklyWorkoutHistory);
+      setLoading(false);
     };
 
     fetchWorkouts();
@@ -76,14 +80,27 @@ export default function WorkoutManagement({
     setSelectedWorkoutType('');
   };
 
-  //formatting the last performed workout date
-  const lastPerformedWorkout = weeklyWorkoutHistory[0]?.created_at;
-  const date = new Date(lastPerformedWorkout);
-  const formattedDate = date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
+  function getFormattedLastPerformedDate(
+    weeklyWorkoutHistory: weeklyWorkoutHistory[],
+    workout_id: string
+  ): string {
+    const history = weeklyWorkoutHistory.find(
+      (h) => h.workout_id === workout_id && h.created_at
+    );
+    if (history && !isNaN(Date.parse(history.created_at))) {
+      const date = new Date(history.created_at);
+      return date.toLocaleDateString('es-ES', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      });
+    }
+    return 'Have not performed this workout yet';
+  }
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div>
@@ -133,7 +150,10 @@ export default function WorkoutManagement({
           <WorkoutCard
             key={workout.id}
             workoutId={workout.id}
-            lastPerformedWorkout={formattedDate}
+            lastPerformedWorkout={getFormattedLastPerformedDate(
+              weeklyWorkoutHistory,
+              workout.id
+            )}
             name={workout.name}
           />
         ))}

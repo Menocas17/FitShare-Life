@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Plus, Dumbbell, Target } from 'lucide-react';
+import { Plus, Dumbbell, Target, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import WorkoutSelectionModal from './WorkoutSelectionModal';
 import WorkoutDetailModal from './WorkoutDetailModal';
@@ -59,6 +59,7 @@ export default function WorkoutManagement({
         UserProfile.id
       );
       setWeeklyWorkoutHistory(weeklyWorkoutHistory);
+
       setLoading(false);
     };
 
@@ -130,6 +131,16 @@ export default function WorkoutManagement({
             {workouts.length}
           </p>
         </div>
+
+        {/* <div className='p-4 sm:p-6 bg-card border border-border rounded-lg'>
+          <div className='flex items-center gap-2 mb-2'>
+            <Clock className='w-5 h-5 text-blue-500' />
+            <h3 className='text-base sm:text-lg font-semibold'>Avg Duration</h3>
+          </div>
+          <p className='text-2xl sm:text-3xl font-bold text-primary'>
+            {avgDuration}min
+          </p>
+        </div> */}
 
         <div className='p-4 sm:p-6 bg-card border border-border rounded-lg sm:col-span-2 lg:col-span-1'>
           <div className='flex items-center gap-2 mb-2'>

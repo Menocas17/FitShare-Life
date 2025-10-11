@@ -44,18 +44,6 @@ export default function ProfileSettings() {
     fetchUserData();
   }, [router]);
 
-  // const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   const formData = new FormData(e.currentTarget);
-  //   const result = await updateProfile(formData);
-
-  //   if (result?.success) {
-  //     router.refresh();
-  //   } else {
-  //     alert(`Error: ${result?.message}`);
-  //   }
-  // };
-
   return (
     <>
       {/* Profile Settings */}
@@ -79,6 +67,19 @@ export default function ProfileSettings() {
               }}
             >
               <input name='user_id' type='hidden' defaultValue={user?.id} />
+
+              <div className='mt-4 mb-5'>
+                <label className='block text-sm font-medium mb-2'>
+                  Update Profile Image
+                </label>
+                <input
+                  type='file'
+                  accept='image/*'
+                  name='avatar'
+                  className='w-full lg:w-3/5 p-2 border border-border rounded-md bg-background'
+                />
+              </div>
+
               <label className='block text-sm font-medium mb-2'>
                 Display Name
               </label>

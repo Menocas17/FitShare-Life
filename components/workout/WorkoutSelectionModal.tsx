@@ -8,6 +8,7 @@ import { WorkoutSelectionModalProps } from '@/types/types';
 import { Button } from '../ui/button';
 import { useState, useEffect } from 'react';
 import { getDefaultWorkouts } from '@/lib/server_actions/workouts';
+import WorkoutGridSkeleton from './SelectionModalSkeleton';
 
 interface WorkoutOption {
   id: string;
@@ -22,11 +23,19 @@ const WorkoutSelectionModal = ({
   onSelectWorkout,
 }: WorkoutSelectionModalProps) => {
   const [workoutOptions, setWorkoutOptions] = useState<WorkoutOption[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchWorkoutOptions = async () => {
-      const options = await getDefaultWorkouts();
-      setWorkoutOptions(options);
+      setIsLoading(true);
+      try {
+        const options = await getDefaultWorkouts();
+        setWorkoutOptions(options);
+      } catch (error) {
+        console.error('Error loading workouts:', error);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     fetchWorkoutOptions();
@@ -69,37 +78,43 @@ const WorkoutSelectionModal = ({
             Select a workout type to get started with your training session
           </p>
 
-          <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
-            {workoutOptions.map((workout) => (
-              <div
-                key={workout.id}
-                onClick={() => handleSelectWorkout(workout.id)}
-                className='bg-card border border-border rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition-all duration-300 hover:scale-105'
-              >
-                <div className='relative h-48'>
-                  <Image
-                    src={workout.image!}
-                    alt={workout.name!}
-                    fill
-                    className='object-cover'
-                  />
-                </div>
+          {isLoading ? (
+            <WorkoutGridSkeleton />
+          ) : (
+            <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
+              {workoutOptions.map((workout) => (
+                <div
+                  key={workout.id}
+                  onClick={() => handleSelectWorkout(workout.id)}
+                  className='bg-card border border-border rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition-all duration-300 hover:scale-105'
+                >
+                  <div className='relative h-48'>
+                    <Image
+                      src={workout.image!}
+                      alt={workout.name!}
+                      fill
+                      className='object-cover'
+                    />
+                  </div>
 
-                <div className='p-4'>
-                  <h3 className='text-lg font-semibold mb-2'>{workout.name}</h3>
-                  <p className='text-sm text-muted-foreground'>
-                    {workout.description}
-                  </p>
-                </div>
+                  <div className='p-4'>
+                    <h3 className='text-lg font-semibold mb-2'>
+                      {workout.name}
+                    </h3>
+                    <p className='text-sm text-muted-foreground'>
+                      {workout.description}
+                    </p>
+                  </div>
 
-                <div className='px-4 pb-4'>
-                  <button className='w-full py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors'>
-                    Select {workout.name}
-                  </button>
+                  <div className='px-4 pb-4'>
+                    <button className='w-full py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors'>
+                      Select {workout.name}
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Plus, Dumbbell, Target, Clock } from 'lucide-react';
+import { Plus, Dumbbell, Target } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import WorkoutSelectionModal from './WorkoutSelectionModal';
 import WorkoutDetailModal from './WorkoutDetailModal';
@@ -200,7 +200,7 @@ export default function WorkoutManagement({
       <WorkoutDetailModal
         isOpen={isDetailModalOpen}
         onClose={closeAllModals}
-        workoutType={selectedWorkoutType}
+        workoutId={selectedWorkoutType}
       />
     </div>
   );

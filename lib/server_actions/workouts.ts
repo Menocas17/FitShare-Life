@@ -2,7 +2,6 @@
 import { supabase } from '../supabase';
 import { SetType } from '@/types/supabase';
 import { WorkoutHystory } from '@/types/types';
-import { profile } from 'console';
 
 //This gets all the excercises with additional info that belongs to certain workout
 export async function getExercisesByWorkout(workoutId: string) {
@@ -285,6 +284,106 @@ export async function AddExercise(exerciseId: string, workout_id: string) {
     const { data, error } = await supabase
       .from('workout_excercises')
       .insert([{ exercise_id: exerciseId, workout_id: workout_id }]);
+
+    if (error) throw error;
+
+    return data;
+  } catch (err) {
+    console.error('Unexpected error:', err);
+    return null;
+  }
+}
+
+//get all the default workouts (basic info)
+
+export async function getDefaultWorkouts() {
+  try {
+    const { data, error } = await supabase
+      .from('default_workouts')
+      .select('id, name, description, image')
+      .order('created_at');
+
+    if (error) throw error;
+
+    return data;
+  } catch (err) {
+    console.error('Unexpected error:', err);
+    return [];
+  }
+}
+
+//this will get the exercises from an specific default workout
+export async function getDefaultWorkoutExercises(workoutId: string) {
+  try {
+    const { data, error } = await supabase
+      .from('default_workouts')
+      .select('exercises, difficulty, duration, targetMuscles')
+      .eq('id', workoutId);
+
+    if (error) throw error;
+
+    return data ? data[0] : null;
+  } catch (err) {
+    console.error('Unexpected error:', err);
+    return null;
+  }
+}
+
+//this will get a specific workout by id
+export async function getWorkoutById(workoutId: string) {
+  try {
+    const { data, error } = await supabase
+      .from('default_workouts')
+      .select('id, name, description, image')
+      .eq('id', workoutId);
+
+    if (error) throw error;
+
+    return data ? data[0] : null;
+  } catch (err) {
+    console.error('Unexpected error:', err);
+    return null;
+  }
+}
+
+//this will create the default workout for a user
+export async function CreateWorkoutFromDefault(
+  name: string,
+  profileId: string
+) {
+  const workout = {
+    name: name,
+    profile_id: profileId,
+  };
+  try {
+    const { data, error } = await supabase
+      .from('workouts')
+      .insert([workout])
+      .select();
+
+    if (error) throw error;
+
+    return data ? data[0].id : null;
+  } catch (err) {
+    console.error('Unexpected error:', err);
+    return null;
+  }
+}
+
+//this will add the exercices to the default workout
+export async function AddExercisesToDefaultWorkout(
+  workoutId: string,
+  exercises: Array<{ exercise_id: string; sets: SetType[]; rest_time: number }>
+) {
+  try {
+    const { data, error } = await supabase.from('workout_excercises').insert(
+      exercises.map((exercise) => ({
+        workout_id: workoutId,
+        exercise_id: exercise.exercise_id,
+        sets: exercise.sets,
+        rest_time: exercise.rest_time,
+      }))
+    );
 
     if (error) throw error;
 

@@ -90,6 +90,8 @@ export const featureCards = [
   },
 ];
 
+export const ExercisePlaceholder = '/img/ExercisePlaceholder.svg';
+
 // Workout Types Data
 export const workoutTypes = [
   {

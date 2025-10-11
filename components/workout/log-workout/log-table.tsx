@@ -3,6 +3,7 @@ import LogButton from '@/components/workout/log-workout/log-button';
 import { Button } from '@/components/ui/button';
 import { SetsProps } from '@/types/types';
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 
 import Image from 'next/image';
 
@@ -18,6 +19,13 @@ export default function LogTable({ sets, id }: SetsProps) {
     if (saved) return JSON.parse(saved);
     return sets!.map((set) => ({ ...set, completed: false }));
   });
+
+  const [isLogPage, setIsLogPage] = useState(false);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    setIsLogPage(pathname.includes('log'));
+  }, [pathname]);
 
   //this will temporary save the excersice log in the local storage
   useEffect(() => {
@@ -74,7 +82,8 @@ export default function LogTable({ sets, id }: SetsProps) {
         <div>Previous</div>
         <div>Weight</div>
         <div>Reps</div>
-        <div>Done</div>
+        {isLogPage && <div>Done</div>}
+
         <div>Delete</div>
       </div>
 
@@ -112,12 +121,14 @@ export default function LogTable({ sets, id }: SetsProps) {
               }
             />
           </div>
-          <div className='flex justify-center'>
-            <LogButton
-              clicked={set.completed}
-              handleToggleSet={() => handleToggleSet(index)}
-            />
-          </div>
+          {isLogPage && (
+            <div className='flex justify-center'>
+              <LogButton
+                clicked={set.completed}
+                handleToggleSet={() => handleToggleSet(index)}
+              />
+            </div>
+          )}
 
           <div className='flex justify-center'>
             <Button

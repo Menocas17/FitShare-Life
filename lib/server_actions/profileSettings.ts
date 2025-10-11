@@ -30,6 +30,8 @@ export async function updateProfile(formData: FormData) {
   const user_name = data.user_name as string;
   const bio = data.bio as string;
 
+  const avatar = data.avatar as File | null;
+
   const height = data.height ? Number(data.height) : null;
   const weight = data.weight ? Number(data.weight) : null;
   const weight_goal = data.weight_goal ? Number(data.weight_goal) : null;
@@ -71,6 +73,36 @@ export async function updateProfile(formData: FormData) {
     if (userError) {
       console.error('Error updating user:', userError);
       return { success: false, message: userError.message };
+    }
+
+    //upload the image to supabase storage
+    if (avatar) {
+      const filename = `${user_id}/${avatar?.name}`;
+      const { error: uploadError } = await supabase.storage
+        .from('FitShare-Life_avatars')
+        .upload(filename, avatar, { upsert: true });
+
+      if (uploadError) {
+        console.error('Error uploading avatar:', uploadError);
+        return { success: false, message: uploadError?.message };
+      }
+
+      const { data: urlData } = supabase.storage
+        .from('FitShare-Life_avatars')
+        .getPublicUrl(filename);
+
+      if (urlData) {
+        const avatarUrl = urlData.publicUrl;
+        const { error: avatarError } = await supabase
+          .from('users')
+          .update({ avatar: avatarUrl })
+          .eq('id', user_id);
+
+        if (avatarError) {
+          console.error('Error updating avatar URL:', avatarError);
+          return { success: false, message: avatarError?.message };
+        }
+      }
     }
 
     return { success: true, message: 'Profile updated successfully!' };

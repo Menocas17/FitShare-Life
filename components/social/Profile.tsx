@@ -23,6 +23,7 @@ export default async function Profile({ session }: { session: string }) {
     followers: followers.length,
     following: following.length,
   };
+  
 
   // console.log(profile);
   const isDefaultUser = /_[a-f0-9]{8}$/i.test(profile!.user_name as string);
@@ -36,6 +37,7 @@ export default async function Profile({ session }: { session: string }) {
       day: 'numeric',
     });
   };
+
 
   return (
     <div className='flex flex-col gap-4'>

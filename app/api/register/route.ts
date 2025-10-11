@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
+import { v4 as uuidv4 } from 'uuid';
 
 const COOKIE_NAME = 'sessionToken';
 
@@ -35,11 +36,16 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  const shortId = uuidv4().slice(0, 8);
+  const defaultUserName = name.toLowerCase().replace(/\s+/g, '_');
+  const userName = `${defaultUserName}_${shortId}`;
+
   await supabase.from('profiles').insert({
     user_id: user.id,
     bio: '',
     height: null,
     weight: null,
+    user_name: userName,
     weight_goal: null,
     body_measurements: {
       chest: null,

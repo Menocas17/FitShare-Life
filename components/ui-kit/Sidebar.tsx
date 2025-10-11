@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation';
 import { Dumbbell } from 'lucide-react';
 
 const Sidebar = () => {
-  const pathname = usePathname(); // 🚀 obtenemos la ruta actual
+  const pathname = usePathname();
 
   return (
     <>
@@ -25,7 +25,7 @@ const Sidebar = () => {
         </div>
         <nav className='flex-1 p-4 space-y-2'>
           {sidebarLinks.map((link) => {
-            const isActive = pathname === link.href;
+            const isActive = pathname.includes(link.href);
             return (
               <Link
                 key={link.href}

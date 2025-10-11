@@ -6,8 +6,6 @@ export default async function MyProfilePage() {
   const cookieStore = await cookies();
   const sessionToken = cookieStore.get('sessionToken');
 
-  console.log(sessionToken);
-
   if (!sessionToken) {
     redirect('/login');
   }

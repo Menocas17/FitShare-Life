@@ -2,6 +2,7 @@ import TrainingLog from '@/components/workout/log-workout/training-log';
 import { getExercisesByWorkout } from '@/lib/server_actions/workouts';
 import { WorkoutExerciseWithDetails } from '@/types/types';
 import { Dumbbell } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 interface PageProps {
   params: {

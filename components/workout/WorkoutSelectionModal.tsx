@@ -4,21 +4,40 @@ import React from 'react';
 import Link from 'next/link';
 import { X } from 'lucide-react';
 import Image from 'next/image';
-import { workoutOptions } from '@/constants';
 import { WorkoutSelectionModalProps } from '@/types/types';
 import { Button } from '../ui/button';
+import { useState, useEffect } from 'react';
+import { getDefaultWorkouts } from '@/lib/server_actions/workouts';
+
+interface WorkoutOption {
+  id: string;
+  name: string | null;
+  description: string | null;
+  image: string | null;
+}
 
 const WorkoutSelectionModal = ({
   isOpen,
   onClose,
   onSelectWorkout,
 }: WorkoutSelectionModalProps) => {
-  if (!isOpen) return null;
+  const [workoutOptions, setWorkoutOptions] = useState<WorkoutOption[]>([]);
 
-  const handleSelectWorkout = (workoutType: string) => {
-    onSelectWorkout(workoutType);
+  useEffect(() => {
+    const fetchWorkoutOptions = async () => {
+      const options = await getDefaultWorkouts();
+      setWorkoutOptions(options);
+    };
+
+    fetchWorkoutOptions();
+  }, []);
+
+  const handleSelectWorkout = (WorkoutId: string) => {
+    onSelectWorkout(WorkoutId);
     onClose();
   };
+
+  if (!isOpen) return null;
 
   return (
     <div className='fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4'>
@@ -59,20 +78,15 @@ const WorkoutSelectionModal = ({
               >
                 <div className='relative h-48'>
                   <Image
-                    src={workout.image}
-                    alt={workout.title}
+                    src={workout.image!}
+                    alt={workout.name!}
                     fill
                     className='object-cover'
-                  />
-                  <div
-                    className={`absolute inset-0 ${workout.color} opacity-20`}
                   />
                 </div>
 
                 <div className='p-4'>
-                  <h3 className='text-lg font-semibold mb-2'>
-                    {workout.title}
-                  </h3>
+                  <h3 className='text-lg font-semibold mb-2'>{workout.name}</h3>
                   <p className='text-sm text-muted-foreground'>
                     {workout.description}
                   </p>
@@ -80,7 +94,7 @@ const WorkoutSelectionModal = ({
 
                 <div className='px-4 pb-4'>
                   <button className='w-full py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors'>
-                    Select {workout.title}
+                    Select {workout.name}
                   </button>
                 </div>
               </div>

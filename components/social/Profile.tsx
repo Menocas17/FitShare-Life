@@ -4,7 +4,7 @@ import { getOwnProfile, getUserInfo } from '@/lib/server_actions/social';
 import Link from 'next/link';
 import { Button } from '../ui/button';
 import FriendsLeaderboard from '../leaderboard/FriendsLeaderboard';
-import ProgressPhotos from "./progressPhotos";
+import ProgressPhotos from './progressPhotos';
 
 interface BodyMeasurements {
   waist?: number | null;
@@ -24,7 +24,6 @@ export default async function Profile({ session }: { session: string }) {
     followers: followers.length,
     following: following.length,
   };
-  
 
   // console.log(profile);
   const isDefaultUser = /_[a-f0-9]{8}$/i.test(profile!.user_name as string);
@@ -38,7 +37,6 @@ export default async function Profile({ session }: { session: string }) {
       day: 'numeric',
     });
   };
-
 
   return (
     <div className='flex flex-col gap-4'>
@@ -176,8 +174,8 @@ export default async function Profile({ session }: { session: string }) {
       </div>
 
       {/**Progress photo section */}
-      <div className="bg-card border border-border rounded-lg p-4 sm:p-6">
-        <ProgressPhotos profileId={profile!.id}/>
+      <div className='bg-card border border-border rounded-lg'>
+        <ProgressPhotos profileId={profile!.id} />
       </div>
 
       <div className='bg-card border border-border rounded-lg'>

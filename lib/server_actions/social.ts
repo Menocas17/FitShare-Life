@@ -161,10 +161,38 @@ export async function getUserInfo(token: string) {
   }
 }
 
+//this will get just the limited profile info from the database
+
+export async function getProfileInfo(user_id: string) {
+  try {
+    const { data, error } = await supabase
+      .from('profiles')
+      .select(
+        `
+        id,
+        user_id,
+        user_name
+      `
+      )
+      .eq('user_id', user_id)
+      .single();
+
+    if (error) {
+      console.error('Error fetching profile info:', error);
+      return null;
+    }
+
+    return data;
+  } catch (err) {
+    console.error('Unexpected error:', err);
+    return null;
+  }
+}
+
 //get full infor of your own profile
 export async function getOwnProfile(id: string) {
   try {
-    // 1️⃣ Traer perfil + usuario + posts
+    // This brings the profile + user + posts
     const { data: profile, error: profileError } = await supabase
       .from('profiles')
       .select(
@@ -194,7 +222,6 @@ export async function getOwnProfile(id: string) {
       return null;
     }
 
-    // 2️⃣ Obtener seguidores (quiénes lo siguen)
     const { data: followers, error: followersError } = await supabase
       .from('social_connections')
       .select(
@@ -212,7 +239,6 @@ export async function getOwnProfile(id: string) {
       console.error('Error fetching followers:', followersError);
     }
 
-    // 3️⃣ Obtener seguidos (a quién sigue)
     const { data: following, error: followingError } = await supabase
       .from('social_connections')
       .select(
@@ -230,7 +256,6 @@ export async function getOwnProfile(id: string) {
       console.error('Error fetching following:', followingError);
     }
 
-    // 4️⃣ Unir todo en un solo objeto estructurado
     return {
       ...profile,
       followers: followers?.map((f) => f.follower) ?? [],

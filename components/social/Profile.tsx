@@ -4,6 +4,7 @@ import { getOwnProfile, getUserInfo } from '@/lib/server_actions/social';
 import Link from 'next/link';
 import { Button } from '../ui/button';
 import FriendsLeaderboard from '../leaderboard/FriendsLeaderboard';
+import ProgressPhotos from "./progressPhotos";
 
 interface BodyMeasurements {
   waist?: number | null;
@@ -172,6 +173,11 @@ export default async function Profile({ session }: { session: string }) {
             </div>
           )}
         </div>
+      </div>
+
+      {/**Progress photo section */}
+      <div className="bg-card border border-border rounded-lg p-4 sm:p-6">
+        <ProgressPhotos profileId={profile!.id}/>
       </div>
 
       <div className='bg-card border border-border rounded-lg'>

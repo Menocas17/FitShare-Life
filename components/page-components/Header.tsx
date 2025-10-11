@@ -1,6 +1,6 @@
 "use client";
-import { useRouter } from "next/navigation";
 import React, {useState} from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Dumbbell, Menu, X } from "lucide-react";
 import { navigationLinks, appInfo } from "@/constants";

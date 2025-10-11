@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import Link from 'next/link';
+import { createSocialPost } from '@/lib/server_actions/social';
 
 interface SummaryProps {
   summaryData: {
@@ -50,9 +51,8 @@ export default function SummaryModal({
         </div>
 
         <div className='flex justify-center mt-8 gap-5'>
-          <Button className='bg-navy'>Share it</Button>
-          <Link href={'/dashboard'}>
-            <Button>Go home</Button>
+          <Link href={'/workout-management'}>
+            <Button>Go to Workouts</Button>
           </Link>
         </div>
       </div>

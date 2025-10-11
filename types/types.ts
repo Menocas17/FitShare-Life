@@ -29,28 +29,10 @@ export type WorkoutSelectionModalProps = {
 export type WorkoutDetailModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  workoutType: string;
+  workoutId: string;
 };
 
 //These Exercise and WorkoutData interfaces Might change when the API is set up
-
-export interface Exercise {
-  id: string;
-  name: string;
-  sets: number;
-  reps: string;
-  rest: string;
-  difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
-}
-
-export interface WorkoutData {
-  title: string;
-  description: string;
-  duration: string;
-  difficulty: string;
-  targetMuscles: string[];
-  exercises: Exercise[];
-}
 
 /// special types for the training log page
 

@@ -7,6 +7,17 @@ export type Json =
   | Json[];
 
 export type SetType = { reps: number; weight: number };
+type Exercises = {
+  name: string;
+  sets: [
+    {
+      reps: number;
+      weight: number;
+    }
+  ];
+  rest_time: number;
+  exercise_id: string;
+};
 type body_measurements = {
   chest: number | null;
   waist: number | null;
@@ -47,6 +58,42 @@ export type Database = {
   };
   public: {
     Tables: {
+      default_workouts: {
+        Row: {
+          created_at: string;
+          exercises: Exercises[];
+          id: string;
+          name: string | null;
+          description: string | null;
+          image: string | null;
+          difficulty: string | null;
+          duration: string | null;
+          targetMuscles: string[] | null;
+        };
+        Insert: {
+          created_at?: string;
+          exercises?: Exercises[] | null;
+          id?: string;
+          name?: string | null;
+          description?: string | null;
+          image?: string | null;
+          difficulty?: string | null;
+          duration?: string | null;
+          targetMuscles?: string[] | null;
+        };
+        Update: {
+          created_at?: string;
+          exercises?: Exercises[] | null;
+          id?: string;
+          name?: string | null;
+          description?: string | null;
+          image?: string | null;
+          difficulty?: string | null;
+          duration?: string | null;
+          targetMuscles?: string[] | null;
+        };
+        Relationships: [];
+      };
       excercises: {
         Row: {
           description: string;

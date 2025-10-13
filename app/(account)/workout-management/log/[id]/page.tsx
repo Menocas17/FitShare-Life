@@ -4,11 +4,8 @@ import { WorkoutExerciseWithDetails } from '@/types/types';
 import { Dumbbell } from 'lucide-react';
 
 interface PageProps {
-  params: {
-    id: string;
-  };
+  params: Promise<{ id: string }>;
 }
-
 export default async function LogPage({ params }: PageProps) {
   const resolvedParams = await params;
   const { id } = resolvedParams;

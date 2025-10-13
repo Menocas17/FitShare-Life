@@ -16,15 +16,9 @@ export async function POST(req: NextRequest) {
   }
 
   const { data: user, error } = await supabase
-<<<<<<< HEAD
     .from("users")
     .select("id, name, email, password_hash, created_at") // Removed 'avatar' if not present in schema
     .eq("email", email)
-=======
-    .from('users')
-    .select('id, name, email, password_hash, avatar, created_at')
-    .eq('email', email)
->>>>>>> a237486153cdf4c235eedbe5c2d18b4508dd1558
     .single();
 
   if (error || !user || !user.password_hash) {

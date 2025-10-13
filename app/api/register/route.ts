@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
       session_token: null,
       session_expiry: null,
     })
-    .select('id, name, email, avatar, created_at')
+    .select("id, name, email, created_at")
     .single();
 
   if (error || !user) {

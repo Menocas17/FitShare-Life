@@ -7,8 +7,17 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
 
+interface RegisterResponse {
+  user?: {
+    id: string;
+    name: string;
+    email: string;
+  };
+  message?: string;
+  error?: string;
+}
+
 const RegisterPage = () => {
-  const router = useRouter();
   const [loadingRegister, setLoadingRegister] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [messageColor, setMessageColor] = useState<

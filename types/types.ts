@@ -1,16 +1,20 @@
-import type { Tables } from "@/types/supabase";
-import { SetType, Json } from "@/types/supabase";
+import type { Tables } from '@/types/supabase';
+import { SetType, Json } from '@/types/supabase';
 
 export type User = {
   id: string;
   name: string | null;
   email: string;
+<<<<<<< HEAD
   avatar_url: string | null;
   password_hash?: string | null;
   session_token?: string | null;
   session_expiry?: string | null;
   reset_token?: string | null;
   reset_expiry?: string | null;
+=======
+  avatar: string | null;
+>>>>>>> a237486153cdf4c235eedbe5c2d18b4508dd1558
   created_at: string;
   updated_at?: string | null;
 };
@@ -37,9 +41,10 @@ export type WorkoutSelectionModalProps = {
 export type WorkoutDetailModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  workoutType: string;
+  workoutId: string;
 };
 
+<<<<<<< HEAD
 export interface Exercise {
   id: string;
   name: string;
@@ -60,6 +65,13 @@ export interface WorkoutData {
 
 // ✅ Workout Exercises
 type WorkoutExercise = Tables<"workout_excercises">;
+=======
+//These Exercise and WorkoutData interfaces Might change when the API is set up
+
+/// special types for the training log page
+
+type WorkoutExercise = Tables<'workout_excercises'>;
+>>>>>>> a237486153cdf4c235eedbe5c2d18b4508dd1558
 
 export type WorkoutExerciseWithDetails = WorkoutExercise & {
   excercises: {
@@ -97,10 +109,14 @@ export interface UserProfile {
   user_id: string | null;
   user_name: string | null;
   weight: number | null;
+  weight_goal: number | null;
   height: number | null;
-  fitness_goal: string | null;
+  bio: string | null;
   body_measurements: Json | null;
   created_at: string;
+  users?: {
+    avatar: string | null;
+  };
 }
 
 export interface BodyMeasurements {

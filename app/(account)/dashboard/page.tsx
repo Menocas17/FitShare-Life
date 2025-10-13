@@ -13,6 +13,7 @@ import {
   Users,
   MessageSquare,
   Search,
+  Trophy,
 } from "lucide-react";
 import {
   getUserProfile,
@@ -28,12 +29,15 @@ import LoadingSpinner from "@/components/ui-kit/LoadingSpinner";
 import SocialFeed from "@/components/social/SocialFeed";
 import UserSearch from "@/components/social/UserSearch";
 import UserProfileComponent from "@/components/social/UserProfile";
+import GlobalLeaderboard from "@/components/leaderboard/GlobalLeaderboard";
+
+import { useSearchParams } from "next/navigation";
 
 const DashboardPage = () => {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<"stats" | "social" | "my-posts">(
-    "stats"
-  );
+  const [activeTab, setActiveTab] = useState<
+    "stats" | "social" | "my-posts" | "leaderboard"
+  >("stats");
   const [viewMode, setViewMode] = useState<"dashboard" | "search" | "profile">(
     "dashboard"
   );
@@ -61,6 +65,12 @@ const DashboardPage = () => {
   );
   const [postsCount, setPostsCount] = useState(0);
   const [loading, setLoading] = useState(true);
+  const searchParams = useSearchParams();
+  useEffect(() => {
+    const tab = searchParams.get("tab");
+    if (tab === "social") setActiveTab("social");
+    if (tab === "leaderboard") setActiveTab("leaderboard");
+  }, [searchParams]);
 
   // Function to refetch post count
   const refreshPostCount = async () => {
@@ -186,12 +196,14 @@ const DashboardPage = () => {
   );
 
   return (
-    <div className="space-y-4 sm:space-y-6 px-1 sm:px-0">
+    <div className="space-y-4 sm:space-y-6 px-2 sm:px-4 max-w-full overflow-hidden">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="min-w-0 flex-1">
-          <h1 className="text-2xl sm:text-3xl font-bold mb-2">Dashboard</h1>
-          <p className="text-muted-foreground text-sm sm:text-base">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2">
+            Dashboard
+          </h1>
+          <p className="text-muted-foreground text-xs sm:text-sm lg:text-base">
             Welcome back, {user.name}! Track your progress and connect with the
             community.
           </p>
@@ -207,17 +219,17 @@ const DashboardPage = () => {
       </div>
 
       {/* Navigation Tabs */}
-      <div className="border-b border-border overflow-x-auto">
-        <nav className="flex space-x-6 sm:space-x-8 min-w-max px-1">
+      <div className="border-b border-border">
+        <nav className="flex space-x-2 sm:space-x-6 lg:space-x-8 overflow-x-auto scrollbar-hide px-1">
           <button
             onClick={() => setActiveTab("stats")}
-            className={`py-2 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${
+            className={`py-2 px-2 sm:px-3 border-b-2 font-medium text-xs sm:text-sm whitespace-nowrap flex-shrink-0 ${
               activeTab === "stats"
                 ? "border-primary text-primary"
                 : "border-transparent text-muted-foreground hover:text-foreground hover:border-gray-300"
             }`}
           >
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 sm:gap-2">
               <BarChart3 className="w-4 h-4" />
               <span className="hidden sm:inline">My Stats</span>
               <span className="sm:hidden">Stats</span>
@@ -225,33 +237,47 @@ const DashboardPage = () => {
           </button>
           <button
             onClick={() => setActiveTab("social")}
-            className={`py-2 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${
+            className={`py-2 px-2 sm:px-3 border-b-2 font-medium text-xs sm:text-sm whitespace-nowrap flex-shrink-0 ${
               activeTab === "social"
                 ? "border-primary text-primary"
                 : "border-transparent text-muted-foreground hover:text-foreground hover:border-gray-300"
             }`}
           >
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 sm:gap-2">
               <Users className="w-4 h-4" />
               <span className="hidden sm:inline">Community Feed</span>
               <span className="sm:hidden">Feed</span>
-              <span className="text-xs bg-primary/10 text-primary px-1.5 py-0.5 rounded-full hidden sm:inline">
+              <span className="text-xs bg-primary/10 text-primary px-1.5 py-0.5 rounded-full hidden lg:inline">
                 Create Posts
               </span>
             </div>
           </button>
           <button
             onClick={() => setActiveTab("my-posts")}
-            className={`py-2 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${
+            className={`py-2 px-2 sm:px-3 border-b-2 font-medium text-xs sm:text-sm whitespace-nowrap flex-shrink-0 ${
               activeTab === "my-posts"
                 ? "border-primary text-primary"
                 : "border-transparent text-muted-foreground hover:text-foreground hover:border-gray-300"
             }`}
           >
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 sm:gap-2">
               <MessageSquare className="w-4 h-4" />
               <span className="hidden sm:inline">My Posts ({postsCount})</span>
-              <span className="sm:hidden">Posts ({postsCount})</span>
+              <span className="sm:hidden">Posts</span>
+            </div>
+          </button>
+          <button
+            onClick={() => setActiveTab("leaderboard")}
+            className={`py-2 px-2 sm:px-3 border-b-2 font-medium text-xs sm:text-sm whitespace-nowrap flex-shrink-0 ${
+              activeTab === "leaderboard"
+                ? "border-primary text-primary"
+                : "border-transparent text-muted-foreground hover:text-foreground hover:border-gray-300"
+            }`}
+          >
+            <div className="flex items-center gap-1 sm:gap-2">
+              <Trophy className="w-4 h-4" />
+              <span className="hidden sm:inline">Leaderboard</span>
+              <span className="sm:hidden">Ranks</span>
             </div>
           </button>
         </nav>
@@ -261,11 +287,11 @@ const DashboardPage = () => {
       {activeTab === "stats" && (
         <div className="space-y-4 sm:space-y-6">
           {/* Quick Create Post Section */}
-          <div className="bg-card border border-border rounded-lg p-4">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="bg-card border border-border rounded-lg p-3 sm:p-4">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
               <div className="flex items-center gap-3 min-w-0 flex-1">
-                <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                  <User className="w-5 h-5 text-primary" />
+                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                  <User className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                 </div>
                 <div className="min-w-0 flex-1">
                   <h3 className="font-medium text-sm sm:text-base">
@@ -276,79 +302,82 @@ const DashboardPage = () => {
                   </p>
                 </div>
               </div>
-              <div className="flex gap-2 flex-shrink-0">
+              <div className="flex gap-2 flex-shrink-0 w-full sm:w-auto">
                 <button
                   onClick={() => setActiveTab("my-posts")}
-                  className="px-3 py-2 text-xs sm:text-sm border border-border rounded-lg hover:bg-muted transition-colors whitespace-nowrap"
+                  className="flex-1 sm:flex-none px-3 py-2 text-xs sm:text-sm border border-border rounded-lg hover:bg-muted transition-colors whitespace-nowrap text-center"
                 >
                   My Posts ({postsCount})
                 </button>
                 <button
                   onClick={() => setActiveTab("social")}
-                  className="px-3 py-2 bg-primary text-primary-foreground text-xs sm:text-sm rounded-lg hover:bg-primary/90 transition-colors flex items-center gap-2 whitespace-nowrap"
+                  className="flex-1 sm:flex-none px-3 py-2 bg-primary text-primary-foreground text-xs sm:text-sm rounded-lg hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 whitespace-nowrap"
                 >
                   <MessageSquare className="w-4 h-4" />
-                  Create Post
+                  <span className="hidden sm:inline">Create Post</span>
+                  <span className="sm:hidden">Post</span>
                 </button>
               </div>
             </div>
           </div>
 
           {/* Quick Stats Overview */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 lg:gap-4">
             <div className="p-3 sm:p-4 bg-card border border-border rounded-lg">
               <div className="flex items-center gap-2 mb-2">
-                <Dumbbell className="w-4 h-4 text-primary" />
+                <Dumbbell className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
                 <span className="text-xs sm:text-sm font-medium">Workouts</span>
               </div>
-              <p className="text-xl sm:text-2xl font-bold text-primary">
+              <p className="text-lg sm:text-xl lg:text-2xl font-bold text-primary">
                 {dashboardStats.workoutsCompleted}
               </p>
             </div>
             <div className="p-3 sm:p-4 bg-card border border-border rounded-lg">
               <div className="flex items-center gap-2 mb-2">
-                <Clock className="w-4 h-4 text-blue-600" />
+                <Clock className="w-3 h-3 sm:w-4 sm:h-4 text-blue-600" />
                 <span className="text-xs sm:text-sm font-medium">
                   Hours/Week
                 </span>
               </div>
-              <p className="text-xl sm:text-2xl font-bold text-blue-600">
+              <p className="text-lg sm:text-xl lg:text-2xl font-bold text-blue-600">
                 {dashboardStats.averageHoursTrained}
               </p>
             </div>
             <div className="p-3 sm:p-4 bg-card border border-border rounded-lg">
               <div className="flex items-center gap-2 mb-2">
-                <Weight className="w-4 h-4 text-green-600" />
-                <span className="text-xs sm:text-sm font-medium">Weight</span>
+                <Weight className="w-3 h-3 sm:w-4 sm:h-4 text-green-600" />
+                <span className="text-xs sm:text-sm font-medium">
+                  Current Weight
+                </span>
               </div>
-              <p className="text-xl sm:text-2xl font-bold text-green-600">
+              <p className="text-lg sm:text-xl lg:text-2xl font-bold text-green-600">
                 {profile?.weight ? `${profile.weight} lbs` : "Not set"}
               </p>
             </div>
             <div className="p-3 sm:p-4 bg-card border border-border rounded-lg">
               <div className="flex items-center gap-2 mb-2">
-                <MessageSquare className="w-4 h-4 text-purple-600" />
+                <MessageSquare className="w-3 h-3 sm:w-4 sm:h-4 text-purple-600" />
                 <span className="text-xs sm:text-sm font-medium">Posts</span>
               </div>
-              <p className="text-xl sm:text-2xl font-bold text-purple-600">
+              <p className="text-lg sm:text-xl lg:text-2xl font-bold text-purple-600">
                 {postsCount}
               </p>
             </div>
           </div>
 
           {/* Detailed Stats Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
             {/* Workouts Completed */}
-            <div className="p-4 sm:p-6 bg-card border border-border rounded-lg">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="p-2 bg-primary/10 rounded-lg">
-                  <Dumbbell className="w-5 h-5 text-primary" />
+            <div className="p-3 sm:p-4 lg:p-6 bg-card border border-border rounded-lg">
+              <div className="flex items-center gap-2 sm:gap-3 mb-2">
+                <div className="p-1.5 sm:p-2 bg-primary/10 rounded-lg">
+                  <Dumbbell className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                 </div>
                 <h3 className="text-xs sm:text-sm font-medium text-muted-foreground">
                   Workouts Completed
                 </h3>
               </div>
-              <p className="text-2xl sm:text-3xl font-bold text-primary">
+              <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-primary">
                 {dashboardStats.workoutsCompleted}
               </p>
               <p className="text-xs text-muted-foreground mt-1">
@@ -357,48 +386,50 @@ const DashboardPage = () => {
             </div>
 
             {/* Average Hours Trained */}
-            <div className="p-4 sm:p-6 bg-card border border-border rounded-lg">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="p-2 bg-blue-100 rounded-lg">
-                  <Clock className="w-5 h-5 text-blue-600" />
+            <div className="p-3 sm:p-4 lg:p-6 bg-card border border-border rounded-lg">
+              <div className="flex items-center gap-2 sm:gap-3 mb-2">
+                <div className="p-1.5 sm:p-2 bg-blue-100 rounded-lg">
+                  <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
                 </div>
                 <h3 className="text-xs sm:text-sm font-medium text-muted-foreground">
                   Avg. Hours/Week
                 </h3>
               </div>
-              <p className="text-2xl sm:text-3xl font-bold text-blue-600">
+              <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-blue-600">
                 {dashboardStats.averageHoursTrained}
               </p>
               <p className="text-xs text-muted-foreground mt-1">Last 4 weeks</p>
             </div>
 
             {/* Current Weight */}
-            <div className="p-4 sm:p-6 bg-card border border-border rounded-lg">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="p-2 bg-green-100 rounded-lg">
-                  <Weight className="w-5 h-5 text-green-600" />
+            <div className="p-3 sm:p-4 lg:p-6 bg-card border border-border rounded-lg">
+              <div className="flex items-center gap-2 sm:gap-3 mb-2">
+                <div className="p-1.5 sm:p-2 bg-green-100 rounded-lg">
+                  <Weight className="w-4 h-4 sm:w-5 sm:h-5 text-green-600" />
                 </div>
                 <h3 className="text-xs sm:text-sm font-medium text-muted-foreground">
-                  Current Weight
+                  Weight Goal
                 </h3>
               </div>
-              <p className="text-2xl sm:text-3xl font-bold text-green-600">
-                {profile?.weight ? `${profile.weight} lbs` : "Not set"}
+              <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-green-600">
+                {profile?.weight_goal
+                  ? `${profile.weight_goal} lbs`
+                  : "Not set"}
               </p>
               <p className="text-xs text-muted-foreground mt-1">Last updated</p>
             </div>
 
             {/* Total Weight Lifted */}
-            <div className="p-4 sm:p-6 bg-card border border-border rounded-lg">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="p-2 bg-purple-100 rounded-lg">
-                  <TrendingUp className="w-5 h-5 text-purple-600" />
+            <div className="p-3 sm:p-4 lg:p-6 bg-card border border-border rounded-lg">
+              <div className="flex items-center gap-2 sm:gap-3 mb-2">
+                <div className="p-1.5 sm:p-2 bg-purple-100 rounded-lg">
+                  <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600" />
                 </div>
                 <h3 className="text-xs sm:text-sm font-medium text-muted-foreground">
                   Total Weight Lifted
                 </h3>
               </div>
-              <p className="text-2xl sm:text-3xl font-bold text-purple-600">
+              <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-purple-600">
                 {dashboardStats.totalWeight} lbs
               </p>
               <p className="text-xs text-muted-foreground mt-1">Last 30 days</p>
@@ -406,10 +437,10 @@ const DashboardPage = () => {
           </div>
 
           {/* Recent Workout & Body Measurements */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 lg:gap-6">
             {/* Most Recent Workout */}
-            <div className="p-4 sm:p-6 bg-card border border-border rounded-lg">
-              <h3 className="text-lg font-semibold mb-4">
+            <div className="p-3 sm:p-4 lg:p-6 bg-card border border-border rounded-lg">
+              <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">
                 Most Recent Workout
               </h3>
               {recentWorkout ? (
@@ -430,12 +461,12 @@ const DashboardPage = () => {
                       )}
                     </p>
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-3 sm:gap-4">
                     <div>
                       <p className="text-xs sm:text-sm text-muted-foreground">
                         Total Sets
                       </p>
-                      <p className="text-xl sm:text-2xl font-bold">
+                      <p className="text-lg sm:text-xl lg:text-2xl font-bold">
                         {recentWorkout.total_sets}
                       </p>
                     </div>
@@ -443,15 +474,15 @@ const DashboardPage = () => {
                       <p className="text-xs sm:text-sm text-muted-foreground">
                         Total Weight
                       </p>
-                      <p className="text-xl sm:text-2xl font-bold">
+                      <p className="text-lg sm:text-xl lg:text-2xl font-bold">
                         {recentWorkout.total_weight} lbs
                       </p>
                     </div>
                   </div>
                 </div>
               ) : (
-                <div className="text-center py-8">
-                  <Dumbbell className="w-12 h-12 text-gray-400 mx-auto mb-2" />
+                <div className="text-center py-6 sm:py-8">
+                  <Dumbbell className="w-10 h-10 sm:w-12 sm:h-12 text-gray-400 mx-auto mb-2" />
                   <p className="text-muted-foreground text-sm sm:text-base">
                     No workouts completed yet
                   </p>
@@ -463,19 +494,21 @@ const DashboardPage = () => {
             </div>
 
             {/* Body Measurements */}
-            <div className="p-4 sm:p-6 bg-card border border-border rounded-lg">
-              <div className="flex items-center gap-2 mb-4">
-                <Ruler className="w-5 h-5" />
-                <h3 className="text-lg font-semibold">Body Measurements</h3>
+            <div className="p-3 sm:p-4 lg:p-6 bg-card border border-border rounded-lg">
+              <div className="flex items-center gap-2 mb-3 sm:mb-4">
+                <Ruler className="w-4 h-4 sm:w-5 sm:h-5" />
+                <h3 className="text-base sm:text-lg font-semibold">
+                  Body Measurements
+                </h3>
               </div>
               {bodyMeasurements ? (
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-3 sm:gap-4">
                   {bodyMeasurements.chest && (
                     <div>
                       <p className="text-xs sm:text-sm text-muted-foreground">
                         Chest
                       </p>
-                      <p className="text-sm sm:text-lg font-semibold">
+                      <p className="text-sm sm:text-base lg:text-lg font-semibold">
                         {bodyMeasurements.chest}&quot;
                       </p>
                     </div>
@@ -485,7 +518,7 @@ const DashboardPage = () => {
                       <p className="text-xs sm:text-sm text-muted-foreground">
                         Waist
                       </p>
-                      <p className="text-sm sm:text-lg font-semibold">
+                      <p className="text-sm sm:text-base lg:text-lg font-semibold">
                         {bodyMeasurements.waist}&quot;
                       </p>
                     </div>
@@ -495,7 +528,7 @@ const DashboardPage = () => {
                       <p className="text-xs sm:text-sm text-muted-foreground">
                         Bicep
                       </p>
-                      <p className="text-sm sm:text-lg font-semibold">
+                      <p className="text-sm sm:text-base lg:text-lg font-semibold">
                         {bodyMeasurements.biceps}&quot;
                       </p>
                     </div>
@@ -505,7 +538,7 @@ const DashboardPage = () => {
                       <p className="text-xs sm:text-sm text-muted-foreground">
                         Thigh
                       </p>
-                      <p className="text-sm sm:text-lg font-semibold">
+                      <p className="text-sm sm:text-base lg:text-lg font-semibold">
                         {bodyMeasurements.thigh}&quot;
                       </p>
                     </div>
@@ -515,15 +548,15 @@ const DashboardPage = () => {
                       <p className="text-xs sm:text-sm text-muted-foreground">
                         Hips
                       </p>
-                      <p className="text-sm sm:text-lg font-semibold">
+                      <p className="text-sm sm:text-base lg:text-lg font-semibold">
                         {bodyMeasurements.hips}&quot;
                       </p>
                     </div>
                   )}
                 </div>
               ) : (
-                <div className="text-center py-8">
-                  <User className="w-12 h-12 text-gray-400 mx-auto mb-2" />
+                <div className="text-center py-6 sm:py-8">
+                  <User className="w-10 h-10 sm:w-12 sm:h-12 text-gray-400 mx-auto mb-2" />
                   <p className="text-muted-foreground text-sm sm:text-base">
                     No measurements recorded
                   </p>
@@ -536,25 +569,25 @@ const DashboardPage = () => {
           </div>
 
           {/* Additional Stats */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
-            <div className="p-4 bg-card border border-border rounded-lg text-center">
-              <p className="text-xl sm:text-2xl font-bold text-primary">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
+            <div className="p-3 sm:p-4 bg-card border border-border rounded-lg text-center">
+              <p className="text-lg sm:text-xl lg:text-2xl font-bold text-primary">
                 {dashboardStats.totalSets}
               </p>
               <p className="text-xs sm:text-sm text-muted-foreground">
                 Total Sets (30 days)
               </p>
             </div>
-            <div className="p-4 bg-card border border-border rounded-lg text-center">
-              <p className="text-xl sm:text-2xl font-bold text-blue-600">
+            <div className="p-3 sm:p-4 bg-card border border-border rounded-lg text-center">
+              <p className="text-lg sm:text-xl lg:text-2xl font-bold text-blue-600">
                 {dashboardStats.averageWeight}
               </p>
               <p className="text-xs sm:text-sm text-muted-foreground">
                 Avg Weight per Session
               </p>
             </div>
-            <div className="p-4 bg-card border border-border rounded-lg text-center">
-              <p className="text-xl sm:text-2xl font-bold text-green-600">
+            <div className="p-3 sm:p-4 bg-card border border-border rounded-lg text-center">
+              <p className="text-lg sm:text-xl lg:text-2xl font-bold text-green-600">
                 {profile?.height || "Not set"}
               </p>
               <p className="text-xs sm:text-sm text-muted-foreground">
@@ -601,6 +634,20 @@ const DashboardPage = () => {
             <div className="text-center py-12">
               <User className="w-12 h-12 text-gray-400 mx-auto mb-4" />
               <p className="text-muted-foreground">Loading profile...</p>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Leaderboard Tab */}
+      {activeTab === "leaderboard" && (
+        <div className="w-full max-w-full overflow-hidden">
+          {profile?.id ? (
+            <GlobalLeaderboard currentProfileId={profile.id} />
+          ) : (
+            <div className="text-center py-12">
+              <Trophy className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+              <p className="text-muted-foreground">Loading leaderboard...</p>
             </div>
           )}
         </div>

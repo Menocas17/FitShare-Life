@@ -1,6 +1,6 @@
 "use client";
-import { useRouter } from "next/navigation";
 import React, {useState} from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Dumbbell, Menu, X } from "lucide-react";
 import { navigationLinks, appInfo } from "@/constants";
@@ -35,7 +35,7 @@ const Header = () => {
           ))}
         </nav>
         {/**Buttons desktop */}
-        <div className="flex items-center gap-3">
+        <div className="hidden md:flex items-center gap-3">
           <Button
             variant="ghost"
             size="sm"
@@ -56,7 +56,7 @@ const Header = () => {
         {/**Mobile Menu Button */}
         <button
           onClick={() => setOpen(!open)}
-          className="md:hidde p-2"
+          className="md:hidden flex p-2"
           aria-label="Toggle Menu"
         >
           {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}

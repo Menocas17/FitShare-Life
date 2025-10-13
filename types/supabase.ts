@@ -7,6 +7,23 @@ export type Json =
   | Json[];
 
 export type SetType = { reps: number; weight: number };
+type Exercises = {
+  name: string;
+  sets: [
+    {
+      reps: number;
+      weight: number;
+    }
+  ];
+  rest_time: number;
+  exercise_id: string;
+};
+type body_measurements = {
+  chest: number | null;
+  waist: number | null;
+  hips: number | null;
+  thighs: number | null;
+};
 
 export type Database = {
   // Allows to automatically instantiate createClient with right options
@@ -41,6 +58,42 @@ export type Database = {
   };
   public: {
     Tables: {
+      default_workouts: {
+        Row: {
+          created_at: string;
+          exercises: Exercises[];
+          id: string;
+          name: string | null;
+          description: string | null;
+          image: string | null;
+          difficulty: string | null;
+          duration: string | null;
+          targetMuscles: string[] | null;
+        };
+        Insert: {
+          created_at?: string;
+          exercises?: Exercises[] | null;
+          id?: string;
+          name?: string | null;
+          description?: string | null;
+          image?: string | null;
+          difficulty?: string | null;
+          duration?: string | null;
+          targetMuscles?: string[] | null;
+        };
+        Update: {
+          created_at?: string;
+          exercises?: Exercises[] | null;
+          id?: string;
+          name?: string | null;
+          description?: string | null;
+          image?: string | null;
+          difficulty?: string | null;
+          duration?: string | null;
+          targetMuscles?: string[] | null;
+        };
+        Relationships: [];
+      };
       excercises: {
         Row: {
           description: string;
@@ -105,34 +158,37 @@ export type Database = {
       };
       profiles: {
         Row: {
-          body_measurements: Json | null;
+          body_measurements: body_measurements | null;
           created_at: string;
-          fitness_goal: string | null;
+          bio: string | null;
           height: number | null;
           id: string;
-          user_id: string | null;
+          user_id: string;
           user_name: string | null;
           weight: number | null;
+          weight_goal: number | null;
         };
         Insert: {
-          body_measurements?: Json | null;
+          body_measurements?: body_measurements | null;
           created_at?: string;
-          fitness_goal?: string | null;
+          bio?: string | null;
           height?: number | null;
           id?: string;
-          user_id?: string | null;
+          user_id?: string;
           user_name?: string | null;
           weight?: number | null;
+          weight_goal?: number | null;
         };
         Update: {
-          body_measurements?: Json | null;
+          body_measurements?: body_measurements | null;
           created_at?: string;
-          fitness_goal?: string | null;
+          bio?: string | null;
           height?: number | null;
           id?: string;
-          user_id?: string | null;
+          user_id?: string;
           user_name?: string | null;
           weight?: number | null;
+          weight_goal?: number | null;
         };
         Relationships: [
           {
@@ -246,6 +302,14 @@ export type Database = {
       };
       users: {
         Row: {
+<<<<<<< HEAD
+=======
+          avatar: string | null;
+          avatar_url: string | null;
+          created_at: string | null;
+          email: string;
+          google_id: string | null;
+>>>>>>> a237486153cdf4c235eedbe5c2d18b4508dd1558
           id: string;
           name: string | null;
           email: string;
@@ -259,6 +323,14 @@ export type Database = {
           updated_at: string | null;
         };
         Insert: {
+<<<<<<< HEAD
+=======
+          avatar?: string | null;
+          avatar_url?: string | null;
+          created_at?: string | null;
+          email: string;
+          google_id?: string | null;
+>>>>>>> a237486153cdf4c235eedbe5c2d18b4508dd1558
           id?: string;
           name?: string | null;
           email: string;
@@ -272,6 +344,15 @@ export type Database = {
           updated_at?: string | null;
         };
         Update: {
+<<<<<<< HEAD
+=======
+          avatar?: string | null;
+          avatar_url?: string | null;
+          created_at?: string | null;
+          email?: string;
+          google_id?: string | null;
+          id?: string;
+>>>>>>> a237486153cdf4c235eedbe5c2d18b4508dd1558
           name?: string | null;
           email?: string;
           password_hash?: string | null;
@@ -290,21 +371,21 @@ export type Database = {
           exercise_id: string;
           id: string;
           rest_time: number | null;
-          sets: SetType[] | null; // <-- actualizado
+          sets: SetType[] | null;
           workout_id: string;
         };
         Insert: {
           exercise_id: string;
           id?: string;
           rest_time?: number | null;
-          sets?: SetType[] | null; // <-- actualizado
+          sets?: SetType[] | null;
           workout_id: string;
         };
         Update: {
           exercise_id?: string;
           id?: string;
           rest_time?: number | null;
-          sets?: SetType[] | null; // <-- actualizado
+          sets?: SetType[] | null;
           workout_id?: string;
         };
         Relationships: [

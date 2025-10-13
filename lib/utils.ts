@@ -37,6 +37,7 @@ interface StoredExercise {
  * @returns Summary stats and formatted exercise data.
  */
 export function getAllData() {
+<<<<<<< HEAD
   const allData: StoredExercise[] = [];
 
   // Collect and parse all valid exercise data
@@ -46,6 +47,17 @@ export function getAllData() {
 
     const rawValue = localStorage.getItem(key);
     if (!rawValue) continue;
+=======
+  const uuidRegex =
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+  const allData = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (!key || !uuidRegex.test(key)) continue; // Only process keys that are UUIDs
+
+    const value = localStorage.getItem(key!);
+>>>>>>> a237486153cdf4c235eedbe5c2d18b4508dd1558
 
     try {
       const parsedValue: unknown = JSON.parse(rawValue);

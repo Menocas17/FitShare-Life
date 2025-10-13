@@ -1,55 +1,61 @@
-import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
-import bcrypt from "bcryptjs";
-import crypto from "crypto";
+import { NextRequest, NextResponse } from 'next/server';
+import { supabase } from '@/lib/supabase';
+import bcrypt from 'bcryptjs';
+import crypto from 'crypto';
 
-const COOKIE_NAME = "sessionToken";
+const COOKIE_NAME = 'sessionToken';
 
 export async function POST(req: NextRequest) {
   const { email, password } = await req.json();
 
   if (!email || !password) {
     return NextResponse.json(
-      { error: "Email and password are required." },
+      { error: 'Email and password are required.' },
       { status: 400 }
     );
   }
 
   const { data: user, error } = await supabase
+<<<<<<< HEAD
     .from("users")
     .select("id, name, email, password_hash, created_at") // Removed 'avatar' if not present in schema
     .eq("email", email)
+=======
+    .from('users')
+    .select('id, name, email, password_hash, avatar, created_at')
+    .eq('email', email)
+>>>>>>> a237486153cdf4c235eedbe5c2d18b4508dd1558
     .single();
 
   if (error || !user || !user.password_hash) {
     return NextResponse.json(
-      { error: "Invalid email or password." },
+      { error: 'Invalid email or password.' },
       { status: 401 }
     );
   }
 
-  const isMatch = await bcrypt.compare(password, user.password_hash);
+  const isMatch = await bcrypt.compare(password, user.password_hash as string);
   if (!isMatch) {
     return NextResponse.json(
-      { error: "Invalid email or password." },
+      { error: 'Invalid email or password.' },
       { status: 401 }
     );
   }
 
-  const token = crypto.randomBytes(32).toString("hex");
-  const expiry = new Date(Date.now() + 24 * 60 * 60 * 1000); 
+  const token = crypto.randomBytes(32).toString('hex');
+  const expiry = new Date(Date.now() + 24 * 60 * 60 * 1000);
 
   await supabase
-    .from("users")
+    .from('users')
     .update({ session_token: token, session_expiry: expiry.toISOString() })
-    .eq("id", user.id);
+    .eq('id', user.id);
 
-  const res = NextResponse.json({ user, message: "Login successful!" });
+  const res = NextResponse.json({ user, message: 'Login successful!' });
   res.cookies.set({
     name: COOKIE_NAME,
     value: token,
     httpOnly: true,
-    path: "/",
+    path: '/',
     maxAge: 24 * 60 * 60,
   });
 

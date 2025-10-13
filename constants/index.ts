@@ -1,14 +1,5 @@
-import {
-  Dumbbell,
-  User,
-  Share2,
-  Home,
-  BarChart3,
-  Settings,
-  Shield,
-} from 'lucide-react';
+import { Dumbbell, User, Share2, Home, Settings, Shield } from 'lucide-react';
 import { getCurrentYear } from '@/lib/utils';
-import { WorkoutData } from '@/types/types';
 
 // Navigation Links
 export const navigationLinks = [

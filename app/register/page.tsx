@@ -1,13 +1,22 @@
 "use client";
 
 import React, { useState } from "react";
-import { redirect, useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import Header from "@/components/page-components/Header";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
+interface RegisterResponse {
+  user?: {
+    id: string;
+    name: string;
+    email: string;
+  };
+  message?: string;
+  error?: string;
+}
+
 const RegisterPage = () => {
-  const router = useRouter();
   const [loadingRegister, setLoadingRegister] = useState(false);
   const [loadingGoogle, setLoadingGoogle] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
@@ -32,20 +41,11 @@ const RegisterPage = () => {
         body: JSON.stringify({ name, email, password }),
       });
 
-      let data: any = {};
-      try {
-        data = await res.json();
-      } catch {
-        setMessage("Invalid server response.");
-        setMessageColor("red");
-        setLoadingRegister(false);
-        return;
-      }
+      const data: RegisterResponse = await res.json();
 
       if (!res.ok) {
         setMessage(data.error || "Registration failed.");
         setMessageColor("red");
-        setLoadingRegister(false);
         return;
       }
 

@@ -1,6 +1,9 @@
-import { clsx, type ClassValue } from 'clsx';
-import { twMerge } from 'tailwind-merge';
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
+/**
+ * Merge Tailwind classes intelligently
+ */
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -12,43 +15,54 @@ export function cn(...inputs: ClassValue[]) {
 export function getCurrentYear(): string {
   return new Date().getFullYear().toString();
 }
-//function to get all the exercises logs from the local storage
+
+/**
+ * Retrieve and process all exercise logs from localStorage
+ * @returns Summary stats and formatted data
+ */
 export function getAllData() {
-  const allData = [];
+  const allData: { key: string | null; value: any }[] = [];
+
+  // Collect and parse all data from localStorage
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
-    const value = localStorage.getItem(key!);
+    if (!key) continue;
+
+    const rawValue = localStorage.getItem(key);
+    if (!rawValue) continue;
 
     try {
-      const parsedValue = JSON.parse(value!);
+      const parsedValue = JSON.parse(rawValue);
       allData.push({ key, value: parsedValue });
     } catch (err) {
-      console.log(err);
-      allData.push({ key, value });
+      console.warn(`Failed to parse localStorage item: ${key}`, err);
+      allData.push({ key, value: rawValue });
     }
   }
 
+  // Format data: extract only reps and weight from sets
   const formatedData = allData.map((item) => ({
     id: item.key as string,
-    sets: item.value.map(
-      ({
-        completed,
-        ...rest
-      }: {
-        completed?: boolean;
-        reps: number;
-        weight: number;
-      }) => rest
-    ),
+    sets: Array.isArray(item.value)
+      ? item.value.map(
+          ({ reps, weight }: { reps: number; weight: number }) => ({
+            reps,
+            weight,
+          })
+        )
+      : [],
   }));
 
+  // Calculate total sets and weight for completed sets
   let totalWeight = 0;
   let totalSets = 0;
 
   allData.forEach((exercise) => {
+    if (!Array.isArray(exercise.value)) return;
+
     exercise.value.forEach(
-      (set: { reps: number; weight: number; completed: boolean }) => {
-        if (set.completed === true) {
+      (set: { reps: number; weight: number; completed?: boolean }) => {
+        if (set.completed) {
           totalWeight += set.reps * set.weight;
           totalSets += 1;
         }

@@ -26,11 +26,7 @@ export async function POST(req: NextRequest) {
       session_token: null,
       session_expiry: null,
     })
-<<<<<<< HEAD
     .select("id, name, email, created_at")
-=======
-    .select('id, name, email, avatar, created_at')
->>>>>>> a237486153cdf4c235eedbe5c2d18b4508dd1558
     .single();
 
   if (error || !user) {

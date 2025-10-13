@@ -1,19 +1,11 @@
 'use client';
 
-<<<<<<< HEAD
-import React, { useState } from "react";
-import { redirect } from "next/navigation";
-import Header from "@/components/page-components/Header";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-=======
 import React, { useState } from 'react';
 import { redirect, useRouter } from 'next/navigation';
 import Header from '@/components/page-components/Header';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
->>>>>>> a237486153cdf4c235eedbe5c2d18b4508dd1558
 
 interface RegisterResponse {
   user?: {
@@ -49,13 +41,6 @@ const RegisterPage = () => {
         body: JSON.stringify({ name, email, password }),
       });
 
-<<<<<<< HEAD
-      const data: RegisterResponse = await res.json();
-
-      if (!res.ok) {
-        setMessage(data.error || "Registration failed.");
-        setMessageColor("red");
-=======
       let data: { error?: string } = {};
       try {
         data = await res.json();
@@ -70,7 +55,6 @@ const RegisterPage = () => {
         setMessage(data.error || 'Registration failed.');
         setMessageColor('red');
         setLoadingRegister(false);
->>>>>>> a237486153cdf4c235eedbe5c2d18b4508dd1558
         return;
       }
 

@@ -5,16 +5,12 @@ export type User = {
   id: string;
   name: string | null;
   email: string;
-<<<<<<< HEAD
   avatar_url: string | null;
   password_hash?: string | null;
   session_token?: string | null;
   session_expiry?: string | null;
   reset_token?: string | null;
   reset_expiry?: string | null;
-=======
-  avatar: string | null;
->>>>>>> a237486153cdf4c235eedbe5c2d18b4508dd1558
   created_at: string;
   updated_at?: string | null;
 };
@@ -44,7 +40,6 @@ export type WorkoutDetailModalProps = {
   workoutId: string;
 };
 
-<<<<<<< HEAD
 export interface Exercise {
   id: string;
   name: string;
@@ -65,13 +60,6 @@ export interface WorkoutData {
 
 // ✅ Workout Exercises
 type WorkoutExercise = Tables<"workout_excercises">;
-=======
-//These Exercise and WorkoutData interfaces Might change when the API is set up
-
-/// special types for the training log page
-
-type WorkoutExercise = Tables<'workout_excercises'>;
->>>>>>> a237486153cdf4c235eedbe5c2d18b4508dd1558
 
 export type WorkoutExerciseWithDetails = WorkoutExercise & {
   excercises: {

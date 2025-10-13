@@ -302,14 +302,6 @@ export type Database = {
       };
       users: {
         Row: {
-<<<<<<< HEAD
-=======
-          avatar: string | null;
-          avatar_url: string | null;
-          created_at: string | null;
-          email: string;
-          google_id: string | null;
->>>>>>> a237486153cdf4c235eedbe5c2d18b4508dd1558
           id: string;
           name: string | null;
           email: string;
@@ -323,14 +315,6 @@ export type Database = {
           updated_at: string | null;
         };
         Insert: {
-<<<<<<< HEAD
-=======
-          avatar?: string | null;
-          avatar_url?: string | null;
-          created_at?: string | null;
-          email: string;
-          google_id?: string | null;
->>>>>>> a237486153cdf4c235eedbe5c2d18b4508dd1558
           id?: string;
           name?: string | null;
           email: string;
@@ -344,15 +328,6 @@ export type Database = {
           updated_at?: string | null;
         };
         Update: {
-<<<<<<< HEAD
-=======
-          avatar?: string | null;
-          avatar_url?: string | null;
-          created_at?: string | null;
-          email?: string;
-          google_id?: string | null;
-          id?: string;
->>>>>>> a237486153cdf4c235eedbe5c2d18b4508dd1558
           name?: string | null;
           email?: string;
           password_hash?: string | null;

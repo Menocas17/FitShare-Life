@@ -1,7 +1,12 @@
-import NextAuth from 'next-auth';
+import NextAuth, { Profile } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import { supabase } from '@/lib/supabase';
 import crypto from 'crypto';
+
+interface GoogleProfile extends Profile {
+  picture?: string;
+  sub?: string;
+}
 
 const handler = NextAuth({
   providers: [
@@ -12,7 +17,7 @@ const handler = NextAuth({
   ],
   session: { strategy: 'database' },
   callbacks: {
-    async signIn({ profile }) {
+    async signIn({ profile }: { profile?: GoogleProfile }) {
       let { data: user } = await supabase
         .from('users')
         .select('id, email, name, avatar, google_id')

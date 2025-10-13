@@ -16,30 +16,30 @@
     "@radix-ui/react-separator": "^1.1.7",
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-tabs": "^1.1.13",
-<<<<<<< HEAD
+
     "@supabase/supabase-js": "^2.75.0",
     "@tailwindcss/postcss": "^4.1.13",
     "autoprefixer": "^10.4.21",
-=======
+
     "@supabase/auth-helpers-nextjs": "^0.10.0",
     "@supabase/supabase-js": "^2.58.0",
->>>>>>> a237486153cdf4c235eedbe5c2d18b4508dd1558
+
     "bcryptjs": "^3.0.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lightningcss": "^1.30.2",
     "lucide-react": "^0.544.0",
     "next": "15.5.3",
-<<<<<<< HEAD
+
     "nodemailer": "^7.0.9",
     "postcss": "^8.5.6",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-=======
+
     "next-auth": "^4.24.11",
     "react": "18.2.0",
     "react-dom": "18.2.0",
->>>>>>> a237486153cdf4c235eedbe5c2d18b4508dd1558
+
     "tailwind-merge": "^3.3.1",
     "tailwindcss": "^3.4.0",
     "uuid": "^13.0.0"

@@ -19,12 +19,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "FitShare Life - Your Fitness Journey",
   description:
-    "Track workouts, connect with fitness enthusiasts, and achieve your fitness goals with FitShare Life.",
-  icons: {
-    icon: "/img/favicon.png",
-    apple: "/img/favicon.png",
-    shortcut: "/img/favicon.png",
-  },
+    "Track workouts, connect with fitness enthusiasts, and achieve your fitness goals with FitShare Life",
 };
 
 export default function RootLayout({

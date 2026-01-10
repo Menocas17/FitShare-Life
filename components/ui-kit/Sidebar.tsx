@@ -13,8 +13,8 @@ const Sidebar = () => {
     <>
       {/* Sidebar - Desktop */}
       <aside className='hidden md:flex flex-col w-64 border-r border-border'>
-        <div className='h-16 flex items-center justify-center border-b border-border font-bold text-lg'>
-          <Link href='/dashboard'>
+        <div className='h-12 flex items-center justify-center border-b border-border font-bold text-lg'>
+          <Link href='/home'>
             <div className='flex items-center gap-2'>
               <div className='w-8 h-8 bg-primary rounded-lg flex items-center justify-center'>
                 <Dumbbell className='w-5 h-5 text-primary-foreground' />

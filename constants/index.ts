@@ -1,4 +1,15 @@
-import { Dumbbell, User, Share2, Home, Settings, Shield } from 'lucide-react';
+import {
+  Dumbbell,
+  User,
+  Share2,
+  Home,
+  Settings,
+  Shield,
+  BarChart3,
+  Users,
+  MessageSquare,
+  Trophy,
+} from 'lucide-react';
 import { getCurrentYear } from '@/lib/utils';
 
 // Navigation Links
@@ -174,11 +185,18 @@ export const appInfo = {
 // Sidebar Links - These routes are automatically protected by middleware
 // Any new links added here will be automatically protected for authenticated users only
 export const sidebarLinks = [
-  { href: '/dashboard', label: 'Home', icon: Home },
+  { href: '/home', label: 'Home', icon: Home },
   { href: '/myprofile', label: 'My Profile', icon: User },
   { href: '/workout-management', label: 'Workouts', icon: Shield },
   { href: '/exercises', label: 'Exercises', icon: Dumbbell },
   { href: '/setting', label: 'Settings', icon: Settings },
+];
+
+export const homeLinks = [
+  { href: '/home', icon: BarChart3, label: 'My Stats' },
+  { href: 'home/explore', icon: Users, label: 'Explore' },
+  { href: 'home/myPosts', icon: MessageSquare, label: 'My Posts' },
+  { href: 'home/leaderboards', icon: Trophy, label: 'Leaderboards' },
 ];
 
 //All these below are placeholders for workout, exercise and details

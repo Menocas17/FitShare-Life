@@ -9,10 +9,7 @@ import {
   User,
   Weight,
   Ruler,
-  BarChart3,
-  Users,
   MessageSquare,
-  Search,
   Trophy,
 } from 'lucide-react';
 import {
@@ -31,6 +28,7 @@ import UserSearch from '@/components/social/UserSearch';
 import UserProfileComponent from '@/components/social/UserProfile';
 import GlobalLeaderboard from '@/components/leaderboard/GlobalLeaderboard';
 
+//TODO - todo esto deberia ser un componente a parte en si
 const DashboardPage = () => {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<
@@ -91,6 +89,7 @@ const DashboardPage = () => {
     setSelectedProfileId(null);
   };
 
+  //TODO - This could be separeted in a custom hook
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
@@ -151,6 +150,7 @@ const DashboardPage = () => {
   if (!user) return null;
 
   // Show User Search component
+  // TODO This could be separated in a enterie new page for exploring users.
   if (viewMode === 'search') {
     return (
       <UserSearch
@@ -161,6 +161,7 @@ const DashboardPage = () => {
   }
 
   // Show User Profile component
+  //TODO - This again could be a different page from the dashboard
   if (viewMode === 'profile' && selectedProfileId && profile) {
     return (
       <UserProfileComponent
@@ -172,6 +173,7 @@ const DashboardPage = () => {
   }
 
   // Helper function to parse body measurements
+  // TODO - this helper should not be here in the page
   const parseBodyMeasurements = (measurements: Json | null) => {
     if (!measurements || typeof measurements !== 'object') return null;
     return measurements as {
@@ -192,25 +194,25 @@ const DashboardPage = () => {
       {/* Header */}
       <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4'>
         <div className='min-w-0 flex-1'>
-          <h1 className='text-xl sm:text-2xl lg:text-3xl font-bold mb-2'>
+          {/* <h1 className='text-xl sm:text-2xl lg:text-3xl font-bold mb-2'>
             Dashboard
-          </h1>
-          <p className='text-muted-foreground text-xs sm:text-sm lg:text-base'>
+          </h1> */}
+          <h1 className=' text-xs sm:text-sm lg:text-base font-semibold'>
             Welcome back, {user.name}! Track your progress and connect with the
             community.
-          </p>
+          </h1>
         </div>
-        <button
+        {/* <button
           onClick={handleOpenSearch}
           className='flex items-center justify-center gap-2 px-3 py-2 sm:px-4 bg-muted hover:bg-muted/80 border border-border rounded-lg transition-colors text-sm whitespace-nowrap'
         >
           <Search className='w-4 h-4 flex-shrink-0' />
           <span className='hidden sm:inline'>Search Users</span>
           <span className='sm:hidden'>Search</span>
-        </button>
+        </button> */}
       </div>
 
-      {/* Navigation Tabs */}
+      {/* Navigation Tabs
       <div className='border-b border-border'>
         <nav className='flex space-x-2 sm:space-x-6 lg:space-x-8 overflow-x-auto scrollbar-hide px-1'>
           <button
@@ -273,7 +275,7 @@ const DashboardPage = () => {
             </div>
           </button>
         </nav>
-      </div>
+      </div> */}
 
       {/* Tab Content */}
       {activeTab === 'stats' && (

@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 const Navbar = ({ setOpen, user, handleLogout }: NavbarProps) => {
   return (
-    <header className='h-16 flex items-center justify-between border-b border-border px-6'>
+    <header className='h-12 flex items-center justify-between border-b border-border px-6'>
       <button
         onClick={() => setOpen(true)}
         className='md:hidden p-2'

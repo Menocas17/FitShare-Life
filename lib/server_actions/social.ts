@@ -1,34 +1,38 @@
 'use server';
 import { supabase } from '../supabase';
+import { revalidatePath } from 'next/cache';
 
-// Get all social posts with user profiles (for social feed)
-export async function getSocialPosts(limit: number = 10, offset: number = 0) {
-  try {
-    const { data, error } = await supabase
-      .from('social_posts')
-      .select(
-        `
+const POSTS_PER_PAGE = 5;
+
+// Get all social posts for the explore page
+export async function getSocialPosts(lastPostTime: string | null) {
+  let query = supabase
+    .from('social_posts')
+    .select(
+      `
         *,
-        profiles:profile_id (
+        profiles: profile_id (
           id,
           user_id,
           user_name
         )
       `
-      )
-      .order('created_at', { ascending: false })
-      .range(offset, offset + limit - 1);
+    )
+    .order('created_at', { ascending: false })
+    .limit(POSTS_PER_PAGE);
 
-    if (error) {
-      console.error('Error fetching social posts:', error);
-      return [];
-    }
+  if (lastPostTime) {
+    query = query.lt('created_at', lastPostTime);
+  }
 
-    return data || [];
-  } catch (err) {
-    console.error('Unexpected error:', err);
+  const { data, error } = await query;
+
+  if (error) {
+    console.error('Error fetching feed:', error);
     return [];
   }
+
+  return data;
 }
 
 // Get posts by specific user
@@ -68,6 +72,7 @@ export async function createSocialPost(
   mediaUrl?: string
 ) {
   try {
+    if (content.length < 5) return { error: 'The post is too short' };
     const { data, error } = await supabase
       .from('social_posts')
       .insert({
@@ -92,7 +97,9 @@ export async function createSocialPost(
       return null;
     }
 
-    return data;
+    revalidatePath('home/explore');
+
+    return { success: true, data: data };
   } catch (err) {
     console.error('Unexpected error:', err);
     return null;

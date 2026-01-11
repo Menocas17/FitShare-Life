@@ -1,23 +1,23 @@
-"use server";
-import { supabase } from "../supabase";
+'use server';
+import { supabase } from '../supabase';
 
 // Get user profile data including weight and body measurements
 export async function getUserProfile(userId: string) {
   try {
     const { data, error } = await supabase
-      .from("profiles")
-      .select("*")
-      .eq("user_id", userId)
+      .from('profiles')
+      .select('*')
+      .eq('user_id', userId)
       .single();
 
     if (error) {
-      console.error("Error fetching user profile:", error);
+      console.error('Error fetching user profile:', error);
       return null;
     }
 
     return data;
   } catch (err) {
-    console.error("Unexpected error:", err);
+    console.error('Unexpected error:', err);
     return null;
   }
 }
@@ -26,18 +26,18 @@ export async function getUserProfile(userId: string) {
 export async function getWorkoutCompletedCount(profileId: string) {
   try {
     const { data, error } = await supabase
-      .from("workout_history")
-      .select("id")
-      .eq("profile_id", profileId);
+      .from('workout_history')
+      .select('id')
+      .eq('profile_id', profileId);
 
     if (error) {
-      console.error("Error fetching workout count:", error);
+      console.error('Error fetching workout count:', error);
       return 0;
     }
 
     return data?.length || 0;
   } catch (err) {
-    console.error("Unexpected error:", err);
+    console.error('Unexpected error:', err);
     return 0;
   }
 }
@@ -50,13 +50,13 @@ export async function getAverageHoursTrained(profileId: string) {
     fourWeeksAgo.setDate(fourWeeksAgo.getDate() - 28);
 
     const { data, error } = await supabase
-      .from("workout_history")
-      .select("created_at")
-      .eq("profile_id", profileId)
-      .gte("created_at", fourWeeksAgo.toISOString());
+      .from('workout_history')
+      .select('created_at')
+      .eq('profile_id', profileId)
+      .gte('created_at', fourWeeksAgo.toISOString());
 
     if (error) {
-      console.error("Error fetching workout history:", error);
+      console.error('Error fetching workout history:', error);
       return 0;
     }
 
@@ -66,7 +66,7 @@ export async function getAverageHoursTrained(profileId: string) {
 
     return averagePerWeek;
   } catch (err) {
-    console.error("Unexpected error:", err);
+    console.error('Unexpected error:', err);
     return 0;
   }
 }
@@ -75,7 +75,7 @@ export async function getAverageHoursTrained(profileId: string) {
 export async function getMostRecentWorkout(profileId: string) {
   try {
     const { data, error } = await supabase
-      .from("workout_history")
+      .from('workout_history')
       .select(
         `
         id,
@@ -87,19 +87,19 @@ export async function getMostRecentWorkout(profileId: string) {
         )
       `
       )
-      .eq("profile_id", profileId)
-      .order("created_at", { ascending: false })
+      .eq('profile_id', profileId)
+      .order('created_at', { ascending: false })
       .limit(1)
       .single();
 
     if (error) {
-      console.error("Error fetching recent workout:", error);
+      console.error('Error fetching recent workout:', error);
       return null;
     }
 
     return data;
   } catch (err) {
-    console.error("Unexpected error:", err);
+    console.error('Unexpected error:', err);
     return null;
   }
 }
@@ -108,19 +108,19 @@ export async function getMostRecentWorkout(profileId: string) {
 export async function getUserWorkouts(profileId: string) {
   try {
     const { data, error } = await supabase
-      .from("workouts")
-      .select("*")
-      .eq("profile_id", profileId)
-      .order("created_at", { ascending: false });
+      .from('workouts')
+      .select('*')
+      .eq('profile_id', profileId)
+      .order('created_at', { ascending: false });
 
     if (error) {
-      console.error("Error fetching user workouts:", error);
+      console.error('Error fetching user workouts:', error);
       return [];
     }
 
     return data || [];
   } catch (err) {
-    console.error("Unexpected error:", err);
+    console.error('Unexpected error:', err);
     return [];
   }
 }
@@ -132,13 +132,13 @@ export async function getWorkoutStats(profileId: string) {
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
     const { data, error } = await supabase
-      .from("workout_history")
-      .select("total_sets, total_weight, created_at")
-      .eq("profile_id", profileId)
-      .gte("created_at", thirtyDaysAgo.toISOString());
+      .from('workout_history')
+      .select('total_sets, total_weight, created_at')
+      .eq('profile_id', profileId)
+      .gte('created_at', thirtyDaysAgo.toISOString());
 
     if (error) {
-      console.error("Error fetching workout stats:", error);
+      console.error('Error fetching workout stats:', error);
       return {
         totalWorkouts: 0,
         totalWeight: 0,
@@ -162,7 +162,7 @@ export async function getWorkoutStats(profileId: string) {
       averageWeight,
     };
   } catch (err) {
-    console.error("Unexpected error:", err);
+    console.error('Unexpected error:', err);
     return {
       totalWorkouts: 0,
       totalWeight: 0,

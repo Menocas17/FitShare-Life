@@ -57,7 +57,7 @@ const UserLayout = ({ children }: UserLayoutProps) => {
       <MobileSidebar open={open} setOpen={setOpen} />
       <div className='flex-1 flex flex-col'>
         <Navbar setOpen={setOpen} user={user} handleLogout={handleLogout} />
-        <main className='flex-1 p-6 overflow-y-auto'>{children}</main>
+        <main className='flex-1 p-6 py-0 overflow-y-auto'>{children}</main>
       </div>
     </div>
   );

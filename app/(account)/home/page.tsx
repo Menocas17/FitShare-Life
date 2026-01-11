@@ -592,7 +592,7 @@ const DashboardPage = () => {
         </div>
       )}
 
-      {/* Social Feed Tab */}
+      {/* Social Feed Tab
       {activeTab === 'social' && (
         <div>
           {profile?.id ? (
@@ -611,7 +611,7 @@ const DashboardPage = () => {
             </div>
           )}
         </div>
-      )}
+      )} */}
 
       {/* My Posts Tab */}
       {activeTab === 'my-posts' && (

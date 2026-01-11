@@ -6,8 +6,8 @@ import { usePathname } from 'next/navigation';
 export default function HomeNavBar() {
   const pathname = usePathname();
   return (
-    <div className='border-b border-border'>
-      <nav className='flex space-x-2 sm:space-x-6 lg:space-x-8 overflow-x-auto scrollbar-hide px-1'>
+    <div className='border-b border-border sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
+      <nav className='flex space-x-2 sm:space-x-6 lg:space-x-8 overflow-x-auto scrollbar-hide px-1 justify-center py-1'>
         {homeLinks.map((link) => {
           const isActive = pathname.includes(link.href);
           return (
@@ -17,7 +17,7 @@ export default function HomeNavBar() {
               className={`py-2 px-2 sm:px-3 border-b-2 font-medium text-xs sm:text-sm whitespace-nowrap flex-shrink-0 ${
                 isActive
                   ? 'border-primary text-primary'
-                  : 'border-transparent text-muted-foreground hover:text-foreground hover:border-gray-300'
+                  : 'border-transparent  hover:text-foreground hover:border-primary'
               }`}
             >
               <div className='flex items-center gap-1 sm:gap-2'>

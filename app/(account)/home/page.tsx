@@ -23,7 +23,6 @@ import { getUserPostsCount } from '@/lib/server_actions/social';
 import { UserProfile, RecentWorkout, DashboardStats } from '@/types/types';
 import { Json } from '@/types/supabase';
 import LoadingSpinner from '@/components/ui-kit/LoadingSpinner';
-import SocialFeed from '@/components/social/SocialFeed';
 import UserSearch from '@/components/social/UserSearch';
 import UserProfileComponent from '@/components/social/UserProfile';
 import GlobalLeaderboard from '@/components/leaderboard/GlobalLeaderboard';
@@ -61,18 +60,6 @@ const DashboardPage = () => {
   );
   const [postsCount, setPostsCount] = useState(0);
   const [loading, setLoading] = useState(true);
-
-  // Function to refetch post count
-  const refreshPostCount = async () => {
-    if (profile?.id) {
-      try {
-        const userPostsCount = await getUserPostsCount(profile.id);
-        setPostsCount(userPostsCount);
-      } catch (error) {
-        console.error('Failed to refresh post count:', error);
-      }
-    }
-  };
 
   // Handle user search
   const handleOpenSearch = () => {
@@ -589,47 +576,6 @@ const DashboardPage = () => {
               </p>
             </div>
           </div>
-        </div>
-      )}
-
-      {/* Social Feed Tab
-      {activeTab === 'social' && (
-        <div>
-          {profile?.id ? (
-            <SocialFeed
-              currentUserId={user.id}
-              currentProfileId={profile.id}
-              showUserPostsOnly={false}
-              onPostCreated={refreshPostCount}
-            />
-          ) : (
-            <div className='text-center py-12'>
-              <User className='w-12 h-12 text-gray-400 mx-auto mb-4' />
-              <p className='text-muted-foreground'>
-                Please update your profile information before posting.
-              </p>
-            </div>
-          )}
-        </div>
-      )} */}
-
-      {/* My Posts Tab */}
-      {activeTab === 'my-posts' && (
-        <div>
-          {profile?.id ? (
-            <SocialFeed
-              currentUserId={user.id}
-              currentProfileId={profile.id}
-              showUserPostsOnly={true}
-              hideCreateForm={true}
-              onPostCreated={refreshPostCount}
-            />
-          ) : (
-            <div className='text-center py-12'>
-              <User className='w-12 h-12 text-gray-400 mx-auto mb-4' />
-              <p className='text-muted-foreground'>Loading profile...</p>
-            </div>
-          )}
         </div>
       )}
 

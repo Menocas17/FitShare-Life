@@ -60,16 +60,16 @@ export default function ExploreDisplay({
           name='user-search'
           onChange={(e) => handleSearch(e.target.value)}
         />
-
         <div className='absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none'>
           <MagnifyingGlassIcon className='w-5 h-5' />
         </div>
-
         {isPending && (
           <div className='bg-white shadow-2xl ring-1 ring-black/5 rounded-b-xl  overflow-hidden z-50 absolute w-full flex justify-center items-center py-5'>
             <LoadingSpinnerSm text='searching users' />
           </div>
         )}
+        {/* TODO - Separate the list of results to a separete component, and add
+        the links(create the dedicated profile for the results) */}
         {showResults && (
           <div className='bg-white shadow-2xl ring-1 ring-black/5 rounded-b-xl py-2 overflow-hidden z-10 absolute w-full '>
             <div>
@@ -77,7 +77,7 @@ export default function ExploreDisplay({
                 return (
                   <Link
                     key={result.id}
-                    href='#'
+                    href={`explore/user/${result.id}`}
                     className='flex items-start gap-4  hover:bg-gray-100 p-3 rounded-lg hover:scale-[1.01] transition-all duration-200'
                   >
                     {result.users.avatar ? (

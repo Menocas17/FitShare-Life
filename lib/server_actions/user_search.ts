@@ -16,7 +16,8 @@ export async function searchUsersByUsername(username: string) {
         user_id,
         user_name,
         users (
-          avatar
+          avatar,
+          name
         )
       `
       )

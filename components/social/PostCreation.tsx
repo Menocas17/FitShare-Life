@@ -32,7 +32,7 @@ export default function PostCreation({ profile_id }: { profile_id: string }) {
   };
 
   return (
-    <div className='bg-card border-2 border-primary/20 rounded-lg p-6 shadow-sm mb-4 w-full sm:w-4/5 xl:w-3/5 m-auto'>
+    <div className='bg-card border-2 border-primary/20 rounded-lg p-6 shadow-sm mb-4 w-full sm:w-4/5 xl:w-3/5 m-auto mt-4'>
       <div className='mb-3'>
         <h3 className='text-lg font-semibold text-foreground'>
           Create New Post

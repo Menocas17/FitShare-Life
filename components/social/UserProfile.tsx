@@ -129,7 +129,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
   };
 
   if (loading) {
-    return <LoadingSpinner />;
+    return <LoadingSpinner text='Getting all ready' />;
   }
 
   if (!profile) {

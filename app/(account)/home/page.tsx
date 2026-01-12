@@ -131,7 +131,7 @@ const DashboardPage = () => {
   }, [router]);
 
   if (loading) {
-    return <LoadingSpinner />;
+    return <LoadingSpinner text='Getting your space ready' />;
   }
 
   if (!user) return null;

@@ -15,11 +15,6 @@ export async function searchUsersByUsername(username: string) {
         id,
         user_id,
         user_name,
-        weight,
-        weight_goal,
-        height,
-        bio,
-        created_at,
         users (
           avatar
         )

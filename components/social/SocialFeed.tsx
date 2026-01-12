@@ -48,7 +48,7 @@ export default function SocialFeed({
     } catch (error) {
       console.error(error);
     }
-  }, [posts, hasMore]); // 3. Dependencias de la función
+  }, [posts, hasMore]);
 
   useEffect(() => {
     if (inView) {

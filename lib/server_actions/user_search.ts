@@ -46,14 +46,11 @@ export async function getUserProfileById(profileId: string) {
         id,
         user_id,
         user_name,
-        weight,
-        weight_goal,
-        height,
         bio,
-        body_measurements,
         created_at,
         users (
-          avatar
+          avatar,
+          name
         )
       `
       )
@@ -157,4 +154,11 @@ export async function getUserFollowCounts(profileId: string) {
     console.error('Unexpected error:', err);
     return { followers: 0, following: 0 };
   }
+}
+
+export async function getUserInfoByProfileId(id: string) {
+  const userInfo = await getUserProfileById(id);
+  const userFollowers = await getUserFollowCounts(id);
+
+  return { userInfo, userFollowers };
 }

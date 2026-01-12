@@ -23,6 +23,7 @@ import { getUserPosts } from '@/lib/server_actions/social';
 import { UserProfile as UserProfileType, SocialPost } from '@/types/types';
 import { Json } from '@/types/supabase';
 import LoadingSpinner from '@/components/ui-kit/LoadingSpinner';
+import { Button } from '../ui/button';
 
 interface UserInfo {
   userInfo: {
@@ -135,61 +136,44 @@ export default function UserProfile({
       {/* Profile Information Card */}
       <div className=' p-4 sm:p-6'>
         <div className='flex  flex-col mb-6 gap-4'>
-          <div className='flex items-center gap-4 min-w-0 flex-1'>
-            {user.userInfo?.users.avatar ? (
-              <Image
-                src={user.userInfo.users!.avatar}
-                alt={user.userInfo.user_name!}
-                width={100}
-                height={100}
-                className='w-20 h-20 rounded-full'
-              />
-            ) : (
-              <div className='w-20 h-20 rounded-full bg-gray-400 flex items-center justify-center text-white text-4xl'>
-                {user.userInfo?.user_name![0]}
-              </div>
-            )}
+          <div className='flex flex-col md:flex-row justify-between'>
+            <div>
+              <div className='flex items-center gap-4 min-w-0 flex-1'>
+                {user.userInfo?.users.avatar ? (
+                  <Image
+                    src={user.userInfo.users!.avatar}
+                    alt={user.userInfo.user_name!}
+                    width={100}
+                    height={100}
+                    className='w-20 h-20 rounded-full'
+                  />
+                ) : (
+                  <div className='w-20 h-20 rounded-full bg-gray-400 flex items-center justify-center text-white text-4xl'>
+                    {user.userInfo?.user_name![0]}
+                  </div>
+                )}
 
-            <div className='min-w-0 flex-1'>
-              <h2 className='text-xl sm:text-2xl font-bold truncate'>
-                {user.userInfo?.user_name || 'Anonymous User'}
-              </h2>
-              <p className='text-muted-foreground'>
-                {user.userInfo?.users.name}
-              </p>
-              <div className='flex items-center gap-2 text-muted-foreground'>
-                <Calendar className='w-4 h-4 flex-shrink-0' />
-                <span className='text-xs sm:text-sm truncate'>
-                  Joined {formatDate(user.userInfo?.created_at as string)}
-                </span>
+                <div className='min-w-0 flex-1'>
+                  <h2 className='text-xl sm:text-2xl font-bold truncate'>
+                    {user.userInfo?.user_name || 'Anonymous User'}
+                  </h2>
+                  <p className='text-muted-foreground'>
+                    {user.userInfo?.users.name}
+                  </p>
+                  <div className='flex items-center gap-2 text-muted-foreground'>
+                    <Calendar className='w-4 h-4 flex-shrink-0' />
+                    <span className='text-xs sm:text-sm truncate'>
+                      Joined {formatDate(user.userInfo?.created_at as string)}
+                    </span>
+                  </div>
+                </div>
               </div>
+
+              <p className='font-light m-4'>{user.userInfo?.bio}</p>
             </div>
+
+            <Button className='md:w-40'>Follow</Button>
           </div>
-
-          {/* Follow Button */}
-          {/* {!isOwnProfile && (
-            <button
-              onClick={handleFollowToggle}
-              disabled={followLoading}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 text-sm whitespace-nowrap ${
-                isFollowingUser
-                  ? 'bg-muted text-muted-foreground hover:bg-destructive hover:text-destructive-foreground'
-                  : 'bg-primary text-primary-foreground hover:bg-primary/90'
-              } ${followLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
-            >
-              {followLoading ? (
-                <div className='w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin' />
-              ) : isFollowingUser ? (
-                <UserMinus className='w-4 h-4' />
-              ) : (
-                <UserPlus className='w-4 h-4' />
-              )}
-              {isFollowingUser ? 'Unfollow' : 'Follow'}
-            </button>
-          )}
-        </div> */}
-
-          <p className='font-light'>{user.userInfo?.bio}</p>
 
           {/* Statistics */}
           <div className='grid grid-cols-3 gap-3 sm:gap-4 text-center'>
@@ -219,49 +203,6 @@ export default function UserProfile({
             </div>
           </div>
         </div>
-
-        {/* Physical Stats */}
-        {/* <div className='bg-card border border-border rounded-lg p-4 sm:p-6'>
-        <h3 className='text-lg font-semibold mb-4'>Physical Stats</h3>
-        <div className='grid grid-cols-2 md:grid-cols-4 gap-4'>
-          <div className='flex items-center gap-3 p-3 border border-border rounded-lg'>
-            <Weight className='w-5 h-5 text-green-600' />
-            <div>
-              <p className='text-sm text-muted-foreground'>Weight</p>
-              <p className='font-semibold'>
-                {profile.weight ? `${profile.weight} lbs` : 'Not set'}
-              </p>
-            </div>
-          </div>
-          <div className='flex items-center gap-3 p-3 border border-border rounded-lg'>
-            <Ruler className='w-5 h-5 text-blue-600' />
-            <div>
-              <p className='text-sm text-muted-foreground'>Height</p>
-              <p className='font-semibold'>
-                {profile.height ? `${profile.height}"` : 'Not set'}
-              </p>
-            </div>
-          </div>
-          {bodyMeasurements?.chest && (
-            <div className='flex items-center gap-3 p-3 border border-border rounded-lg'>
-              <Ruler className='w-5 h-5 text-purple-600' />
-              <div>
-                <p className='text-sm text-muted-foreground'>Chest</p>
-                <p className='font-semibold'>{bodyMeasurements.chest}&quot;</p>
-              </div>
-            </div>
-          )}
-          {bodyMeasurements?.waist && (
-            <div className='flex items-center gap-3 p-3 border border-border rounded-lg'>
-              <Ruler className='w-5 h-5 text-orange-600' />
-              <div>
-                <p className='text-sm text-muted-foreground'>Waist</p>
-                <p className='font-semibold'>{bodyMeasurements.waist}&quot;</p>
-              </div>
-            </div>
-          )}
-        </div>
-      </div> */}
 
         {/* User Posts Card */}
         <div className='bg-card border-t-2'>

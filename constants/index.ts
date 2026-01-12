@@ -195,7 +195,7 @@ export const sidebarLinks = [
 export const homeLinks = [
   { href: '/home', icon: BarChart3, label: 'My Stats' },
   { href: '/home/explore', icon: Users, label: 'Explore' },
-  { href: '/home/myPosts', icon: MessageSquare, label: 'My Posts' },
+
   { href: '/home/leaderboards', icon: Trophy, label: 'Leaderboards' },
 ];
 

@@ -9,7 +9,10 @@ export default function HomeNavBar() {
     <div className='border-b border-border sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
       <nav className='flex space-x-2 sm:space-x-6 lg:space-x-8 overflow-x-auto scrollbar-hide px-1 justify-center py-1'>
         {homeLinks.map((link) => {
-          const isActive = pathname.includes(link.href);
+          const path = link.href.split('/').pop();
+          console.log(path);
+          const isActive = pathname === link.href;
+
           return (
             <Link
               key={link.href}
@@ -22,7 +25,7 @@ export default function HomeNavBar() {
             >
               <div className='flex items-center gap-1 sm:gap-2'>
                 <link.icon className='w-5 h-5' />
-                <span className='hidden sm:inline'>{link.label}</span>
+                <span className=' sm:inline'>{link.label}</span>
                 {link.href === 'home/explore' ? (
                   <span className='text-xs bg-primary/10 text-primary px-1.5 py-0.5 rounded-full hidden lg:inline'>
                     Find Users

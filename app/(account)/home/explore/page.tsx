@@ -15,7 +15,6 @@ export default async function ExplorePage() {
 
   return (
     <ExploreDisplay>
-      {/* //TODO - I need to make this page reload when the user created a new post */}
       <PostCreation profile_id={user.profileId} />
       <SocialFeed initialPosts={initialPosts} />
     </ExploreDisplay>

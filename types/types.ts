@@ -128,3 +128,35 @@ export interface CreatePostData {
   content: string;
   media_url?: string;
 }
+
+//Interface for the userSearch page
+export interface UserInfo {
+  userInfo: {
+    id: string;
+    user_id: string;
+    user_name: string | null;
+    bio: string | null;
+    created_at: string;
+    users: {
+      avatar: string | null;
+      name: string | null;
+    };
+  } | null;
+  userFollowers: {
+    followers: number;
+    following: number;
+  };
+}
+
+export interface userPosts {
+  content: string;
+  created_at: string;
+  id: string;
+  media_url: string | null;
+  profile_id: string;
+  profiles: {
+    id: string;
+    user_id: string;
+    user_name: string | null;
+  };
+}

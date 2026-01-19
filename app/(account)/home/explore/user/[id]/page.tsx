@@ -4,11 +4,11 @@ import UserProfile from '@/components/social/UserProfile';
 import { getUserAndProfileIds } from '@/lib/auth';
 
 interface PageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export default async function userProfilePage({ params }: PageProps) {
-  const { id } = params;
+  const { id } = await params;
 
   const userInfo = await getUserInfoByProfileId(id);
   const userPosts = await getUserPosts(id);

@@ -7,7 +7,7 @@ import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import Image from 'next/image';
 
-interface UserSearchResults {
+type UserSearchResults = {
   id: string;
   user_id: string;
   user_name: string | null;
@@ -15,7 +15,7 @@ interface UserSearchResults {
     avatar: string | null;
     name: string | null;
   };
-}
+};
 
 export default function ExploreDisplay({
   children,
@@ -40,8 +40,6 @@ export default function ExploreDisplay({
     // the debounce time
     300
   );
-
-  console.log(userResults);
 
   const showNoResults =
     !isPending && term.length > 0 && userResults.length === 0;

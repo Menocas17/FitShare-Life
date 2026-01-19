@@ -1,4 +1,3 @@
-import React from 'react';
 import { Menu } from 'lucide-react';
 import Image from 'next/image';
 import { NavbarProps } from '@/types/types';

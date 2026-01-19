@@ -16,7 +16,7 @@ export async function getSocialPosts(lastPostTime: string | null) {
           user_id,
           user_name
         )
-      `
+      `,
     )
     .order('created_at', { ascending: false })
     .limit(POSTS_PER_PAGE);
@@ -48,7 +48,7 @@ export async function getUserPosts(profileId: string) {
           user_id,
           user_name
         )
-      `
+      `,
       )
       .eq('profile_id', profileId)
       .order('created_at', { ascending: false });
@@ -69,7 +69,7 @@ export async function getUserPosts(profileId: string) {
 export async function createSocialPost(
   profileId: string,
   content: string,
-  mediaUrl?: string
+  mediaUrl?: string,
 ) {
   try {
     if (content.length < 5) return { error: 'The post is too short' };
@@ -88,7 +88,7 @@ export async function createSocialPost(
           user_id,
           user_name
         )
-      `
+      `,
       )
       .single();
 
@@ -97,7 +97,7 @@ export async function createSocialPost(
       return null;
     }
 
-    revalidatePath('home/explore');
+    revalidatePath('/home/explore');
 
     return { success: true, data: data };
   } catch (err) {
@@ -179,7 +179,7 @@ export async function getProfileInfo(user_id: string) {
         id,
         user_id,
         user_name
-      `
+      `,
       )
       .eq('user_id', user_id)
       .single();
@@ -219,7 +219,7 @@ export async function getOwnProfile(id: string) {
           media_url,
           created_at
         )
-      `
+      `,
       )
       .eq('user_id', id)
       .single();
@@ -238,7 +238,7 @@ export async function getOwnProfile(id: string) {
           user_name,
           users ( avatar )
         )
-      `
+      `,
       )
       .eq('followed_id', profile.id);
 
@@ -255,7 +255,7 @@ export async function getOwnProfile(id: string) {
           user_name,
           users ( avatar )
         )
-      `
+      `,
       )
       .eq('follower_id', profile.id);
 

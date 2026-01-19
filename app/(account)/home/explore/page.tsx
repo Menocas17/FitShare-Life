@@ -13,6 +13,7 @@ export default async function ExplorePage() {
     redirect('/login');
   }
 
+  //TODO - Implement a loading.tsx with an skeleton to improve the UX
   return (
     <ExploreDisplay loggedProfile={user.profileId}>
       <PostCreation profile_id={user.profileId} />

@@ -12,11 +12,7 @@ import {
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import {
-  getFriendsLeaderboard,
-  FriendsLeaderboardEntry,
-} from '@/lib/server_actions/leaderboard';
-import LoadingSpinner from '@/components/ui-kit/LoadingSpinner';
+import { FriendsLeaderboardEntry } from '@/lib/server_actions/leaderboard';
 
 const FriendsLeaderboard = ({
   friendsData,

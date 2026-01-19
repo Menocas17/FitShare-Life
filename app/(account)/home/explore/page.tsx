@@ -14,7 +14,7 @@ export default async function ExplorePage() {
   }
 
   return (
-    <ExploreDisplay>
+    <ExploreDisplay loggedProfile={user.profileId}>
       <PostCreation profile_id={user.profileId} />
       <SocialFeed initialPosts={initialPosts} />
     </ExploreDisplay>

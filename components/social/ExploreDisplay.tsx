@@ -18,8 +18,10 @@ export type UserSearchResults = {
 
 export default function ExploreDisplay({
   children,
+  loggedProfile,
 }: {
   children: React.ReactNode;
+  loggedProfile: string;
 }) {
   const [userResults, setUsersResult] = useState<UserSearchResults[]>([]);
   const [isPending, startTransition] = useTransition();
@@ -66,7 +68,9 @@ export default function ExploreDisplay({
           </div>
         )}
 
-        {showResults && <ResultList userResults={userResults} />}
+        {showResults && (
+          <ResultList userResults={userResults} loggedProfile={loggedProfile} />
+        )}
         {showNoResults && (
           <div className='bg-white shadow-2xl ring-1 ring-black/5 rounded-b-xl py-2 overflow-hidden z-50 absolute w-full flex items-center justify-center min-h-20'>
             <p>No users were found with that user name</p>

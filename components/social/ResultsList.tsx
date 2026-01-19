@@ -2,19 +2,22 @@ import { UserSearchResults } from './ExploreDisplay';
 import Link from 'next/link';
 import Image from 'next/image';
 
-export default function ResultList({
+export default async function ResultList({
   userResults,
+  loggedProfile,
 }: {
   userResults: UserSearchResults[];
+  loggedProfile: string;
 }) {
   return (
     <div className='bg-white shadow-2xl ring-1 ring-black/5 rounded-b-xl py-2 overflow-hidden z-10 absolute w-full '>
       <div>
         {userResults.map((result) => {
+          const ownProfile = result.id === loggedProfile;
           return (
             <Link
               key={result.id}
-              href={`explore/user/${result.id}`}
+              href={ownProfile ? '/myprofile' : `explore/user/${result.id}`}
               className='flex items-start gap-4  hover:bg-gray-100 p-3 rounded-lg hover:scale-[1.01] transition-all duration-200'
             >
               {result.users.avatar ? (

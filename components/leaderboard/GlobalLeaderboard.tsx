@@ -5,6 +5,8 @@ import { Trophy, Medal, Dumbbell, Weight, Target, Crown } from 'lucide-react';
 import Image from 'next/image';
 import { LeaderboardEntry } from '@/lib/server_actions/leaderboard';
 
+//TODO - There are a lot of optimization and good practices to implement here please review
+
 const GlobalLeaderboard = ({
   globalData,
 }: {
@@ -14,6 +16,7 @@ const GlobalLeaderboard = ({
     globalData || [],
   );
 
+  //this will refresh the leader board if by any chance the data in the server changes
   useEffect(() => {
     setLeaderboard(globalData);
   }, [globalData]);

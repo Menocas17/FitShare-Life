@@ -17,6 +17,8 @@ export default async function Leaderboard() {
   const gloabalData = await getGlobalLeaderboard(user.profileId, 50);
   const friendsData = await getFriendsLeaderboard(user.profileId, 20);
 
+  //TODO - Implement a loading.tsx with an skeleton to improve the UX
+
   return (
     <>
       <GlobalLeaderboard globalData={gloabalData} />

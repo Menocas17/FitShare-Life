@@ -2,7 +2,7 @@ import { UserSearchResults } from './ExploreDisplay';
 import Link from 'next/link';
 import Image from 'next/image';
 
-export default async function ResultList({
+export default function ResultList({
   userResults,
   loggedProfile,
 }: {

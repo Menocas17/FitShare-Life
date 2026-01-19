@@ -56,7 +56,7 @@ export default function WorkoutManagement({
       setWorkouts(userWorkouts);
 
       const weeklyWorkoutHistory = await getWeeklyWorkoutHistory(
-        UserProfile.id
+        UserProfile.id,
       );
       setWeeklyWorkoutHistory(weeklyWorkoutHistory);
 
@@ -83,10 +83,10 @@ export default function WorkoutManagement({
 
   function getFormattedLastPerformedDate(
     weeklyWorkoutHistory: weeklyWorkoutHistory[],
-    workout_id: string
+    workout_id: string,
   ): string {
     const history = weeklyWorkoutHistory.find(
-      (h) => h.workout_id === workout_id && h.created_at
+      (h) => h.workout_id === workout_id && h.created_at,
     );
     if (history && !isNaN(Date.parse(history.created_at))) {
       const date = new Date(history.created_at);
@@ -100,7 +100,7 @@ export default function WorkoutManagement({
   }
 
   if (loading) {
-    return <LoadingSpinner />;
+    return <LoadingSpinner text='Loading your Workouts' />;
   }
 
   return (
@@ -163,7 +163,7 @@ export default function WorkoutManagement({
             workoutId={workout.id}
             lastPerformedWorkout={getFormattedLastPerformedDate(
               weeklyWorkoutHistory,
-              workout.id
+              workout.id,
             )}
             name={workout.name}
           />

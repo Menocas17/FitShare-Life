@@ -1,72 +1,19 @@
-'use client';
-
-import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import {
-  User,
-  Calendar,
-  Weight,
-  Ruler,
-  MessageSquare,
-  ArrowLeft,
-  UserPlus,
-  UserMinus,
-} from 'lucide-react';
-import {
-  getUserProfileById,
-  isFollowing,
-  followUser,
-  unfollowUser,
-  getUserFollowCounts,
-} from '@/lib/server_actions/user_search';
-import { getUserPosts } from '@/lib/server_actions/social';
-import { UserProfile as UserProfileType, SocialPost } from '@/types/types';
-import { Json } from '@/types/supabase';
-import LoadingSpinner from '@/components/ui-kit/LoadingSpinner';
-import { Button } from '../ui/button';
+import { User, Calendar, MessageSquare } from 'lucide-react';
+import { isFollowing } from '@/lib/server_actions/user_search';
 
-interface UserInfo {
-  userInfo: {
-    id: string;
-    user_id: string;
-    user_name: string | null;
-    bio: string | null;
-    created_at: string;
-    users: {
-      avatar: string | null;
-      name: string | null;
-    };
-  } | null;
-  userFollowers: {
-    followers: number;
-    following: number;
-  };
-}
+import { UserInfo, userPosts } from '@/types/types';
+import FollowButton from './FollowUserButton';
 
-interface userPosts {
-  content: string;
-  created_at: string;
-  id: string;
-  media_url: string | null;
-  profile_id: string;
-  profiles: {
-    id: string;
-    user_id: string;
-    user_name: string | null;
-  };
-}
-
-export default function UserProfile({
+export default async function UserProfile({
   user,
   userPosts,
+  loggedProfileId,
 }: {
   user: UserInfo;
   userPosts: userPosts[];
+  loggedProfileId: string | undefined;
 }) {
-  // const [isFollowingUser, setIsFollowingUser] = useState(false);
-  // const [loading, setLoading] = useState(true);
-  // const [followLoading, setFollowLoading] = useState(false);
-
   // Format date for display
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -77,62 +24,19 @@ export default function UserProfile({
     });
   };
 
-  // Handle follow/unfollow
-  // const handleFollowToggle = async () => {
-  //   if (followLoading) return;
+  //check if the logged user is following the user results
 
-  //   setFollowLoading(true);
-  //   try {
-  //     let success = false;
+  const targetUserId = user.userInfo?.id;
 
-  //     if (isFollowingUser) {
-  //       success = await unfollowUser(currentProfileId, profileId);
-  //       if (success) {
-  //         setIsFollowingUser(false);
-  //         setFollowCounts((prev) => ({
-  //           ...prev,
-  //           followers: prev.followers - 1,
-  //         }));
-  //       }
-  //     } else {
-  //       success = await followUser(currentProfileId, profileId);
-  //       if (success) {
-  //         setIsFollowingUser(true);
-  //         setFollowCounts((prev) => ({
-  //           ...prev,
-  //           followers: prev.followers + 1,
-  //         }));
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.error('Error toggling follow:', error);
-  //   } finally {
-  //     setFollowLoading(false);
-  //   }
-  // };
+  const isFollowed =
+    loggedProfileId && targetUserId
+      ? await isFollowing(loggedProfileId, targetUserId)
+      : false;
 
-  // if (loading) {
-  //   return <LoadingSpinner text='Loading Profile' />;
-  // }
+  //handle the follow and unfollow action
 
   return (
     <div className='space-y-4 sm:space-y-6 px-1 sm:px-0'>
-      {/* Header with Back Button */}
-      {/* <div className='flex items-center gap-4'>
-        <button
-          onClick={onBack}
-          className='p-2 hover:bg-muted rounded-lg transition-colors flex-shrink-0'
-        >
-          <ArrowLeft className='w-5 h-5' />
-        </button>
-        <div className='min-w-0 flex-1'>
-          <h1 className='text-2xl sm:text-3xl font-bold'>User Profile</h1>
-          <p className='text-muted-foreground text-sm sm:text-base'>
-            View user details and posts
-          </p>
-        </div>
-      </div> */}
-
       {/* Profile Information Card */}
       <div className=' p-4 sm:p-6'>
         <div className='flex  flex-col mb-6 gap-4'>
@@ -172,7 +76,11 @@ export default function UserProfile({
               <p className='font-light m-4'>{user.userInfo?.bio}</p>
             </div>
 
-            <Button className='md:w-40'>Follow</Button>
+            <FollowButton
+              loggedProfileId={loggedProfileId}
+              targetUserId={targetUserId}
+              isFollowing={isFollowed}
+            />
           </div>
 
           {/* Statistics */}

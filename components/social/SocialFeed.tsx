@@ -56,6 +56,10 @@ export default function SocialFeed({
     }
   }, [inView, loadMorePosts]);
 
+  useEffect(() => {
+    setPosts(initialPosts);
+  }, [initialPosts]);
+
   // Format date for display
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);

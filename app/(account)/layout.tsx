@@ -46,7 +46,7 @@ const UserLayout = ({ children }: UserLayoutProps) => {
   };
 
   if (loading) {
-    return <LoadingSpinner />;
+    return <LoadingSpinner text='Loading your Space' />;
   }
 
   if (!user) return null;

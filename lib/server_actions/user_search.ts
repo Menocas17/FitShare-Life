@@ -1,5 +1,6 @@
 'use server';
 import { supabase } from '../supabase';
+import { revalidatePath } from 'next/cache';
 
 // Search users by username
 export async function searchUsersByUsername(username: string) {
@@ -15,15 +16,11 @@ export async function searchUsersByUsername(username: string) {
         id,
         user_id,
         user_name,
-        weight,
-        weight_goal,
-        height,
-        bio,
-        created_at,
         users (
-          avatar
+          avatar,
+          name
         )
-      `
+      `,
       )
       .ilike('user_name', `%${username}%`)
       .limit(10);
@@ -50,16 +47,13 @@ export async function getUserProfileById(profileId: string) {
         id,
         user_id,
         user_name,
-        weight,
-        weight_goal,
-        height,
         bio,
-        body_measurements,
         created_at,
         users (
-          avatar
+          avatar,
+          name
         )
-      `
+      `,
       )
       .eq('id', profileId)
       .single();
@@ -77,21 +71,23 @@ export async function getUserProfileById(profileId: string) {
 }
 
 // Check if user is following another user
-export async function isFollowing(followerId: string, followingId: string) {
+export async function isFollowing(
+  followerId: string | undefined,
+  followingId: string | undefined,
+) {
   try {
-    const { data, error } = await supabase
+    const { count, error } = await supabase
       .from('social_connections')
-      .select('id')
-      .eq('follower_id', followerId)
-      .eq('followed_id', followingId)
-      .single();
+      .select('*', { count: 'exact', head: true })
+      .eq('follower_id', followerId as string)
+      .eq('followed_id', followingId as string);
 
-    if (error && error.code !== 'PGRST116') {
+    if (error) {
       console.error('Error checking follow status:', error);
       return false;
     }
 
-    return !!data;
+    return !!count && count > 0;
   } catch (err) {
     console.error('Unexpected error:', err);
     return false;
@@ -99,7 +95,18 @@ export async function isFollowing(followerId: string, followingId: string) {
 }
 
 // Follow a user
-export async function followUser(followerId: string, followingId: string) {
+export async function followUser(
+  followerId: string | undefined,
+  followingId: string | undefined,
+) {
+  if (!followerId || !followingId) {
+    console.error('Invalid Ids', {
+      followerId,
+      followingId,
+    });
+    return false;
+  }
+
   try {
     const { error } = await supabase.from('social_connections').insert({
       follower_id: followerId,
@@ -111,6 +118,9 @@ export async function followUser(followerId: string, followingId: string) {
       return false;
     }
 
+    revalidatePath(`/users/${followingId}`);
+    return true;
+
     return true;
   } catch (err) {
     console.error('Unexpected error:', err);
@@ -119,7 +129,17 @@ export async function followUser(followerId: string, followingId: string) {
 }
 
 // Unfollow a user
-export async function unfollowUser(followerId: string, followingId: string) {
+export async function unfollowUser(
+  followerId: string | undefined,
+  followingId: string | undefined,
+) {
+  if (!followerId || !followingId) {
+    console.error('Invalid Ids', {
+      followerId,
+      followingId,
+    });
+    return false;
+  }
   try {
     const { error } = await supabase
       .from('social_connections')
@@ -132,6 +152,7 @@ export async function unfollowUser(followerId: string, followingId: string) {
       return false;
     }
 
+    revalidatePath(`/users/${followingId}`);
     return true;
   } catch (err) {
     console.error('Unexpected error:', err);
@@ -161,4 +182,11 @@ export async function getUserFollowCounts(profileId: string) {
     console.error('Unexpected error:', err);
     return { followers: 0, following: 0 };
   }
+}
+
+export async function getUserInfoByProfileId(id: string) {
+  const userInfo = await getUserProfileById(id);
+  const userFollowers = await getUserFollowCounts(id);
+
+  return { userInfo, userFollowers };
 }

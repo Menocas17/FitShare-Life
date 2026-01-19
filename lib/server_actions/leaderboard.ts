@@ -1,5 +1,5 @@
-"use server";
-import { supabase } from "../supabase";
+'use server';
+import { supabase } from '../supabase';
 
 export interface LeaderboardEntry {
   id: string;
@@ -28,11 +28,11 @@ interface ProfileData {
 // Get global leaderboard based on total workouts and weight lifted
 export async function getGlobalLeaderboard(
   currentProfileId: string,
-  limit: number = 50
+  limit: number = 50,
 ): Promise<LeaderboardEntry[]> {
   try {
     // Get workout statistics for all users
-    const { data: workoutStats, error } = await supabase.from("workout_history")
+    const { data: workoutStats, error } = await supabase.from('workout_history')
       .select(`
         profile_id,
         total_sets,
@@ -47,7 +47,7 @@ export async function getGlobalLeaderboard(
       `);
 
     if (error) {
-      console.error("Error fetching global leaderboard:", error);
+      console.error('Error fetching global leaderboard:', error);
       return [];
     }
 
@@ -82,11 +82,11 @@ export async function getGlobalLeaderboard(
 
     // Convert to leaderboard entries and sort
     const leaderboardEntries: LeaderboardEntry[] = Array.from(
-      profileStats.entries()
+      profileStats.entries(),
     )
       .map(([profileId, stats]) => ({
         id: profileId,
-        user_name: stats.profile.user_name || "Anonymous",
+        user_name: stats.profile.user_name || 'Anonymous',
         avatar_url: stats.profile.users?.avatar || undefined,
         totalWorkouts: stats.totalWorkouts,
         totalWeight: stats.totalWeight,
@@ -115,20 +115,21 @@ export async function getGlobalLeaderboard(
 
     return leaderboardEntries;
   } catch (err) {
-    console.error("Unexpected error fetching global leaderboard:", err);
+    console.error('Unexpected error fetching global leaderboard:', err);
     return [];
   }
 }
 
 // Get friends leaderboard (people you follow)
 export async function getFriendsLeaderboard(
-  currentProfileId: string,
-  limit: number = 20
+  currentProfileId: string | undefined,
+  limit: number = 20,
 ): Promise<FriendsLeaderboardEntry[]> {
+  if (!currentProfileId) return [];
   try {
     // Get list of people the current user follows with their profile data
     const { data: following, error: followingError } = await supabase
-      .from("social_connections")
+      .from('social_connections')
       .select(
         `
         followed_id,
@@ -139,18 +140,18 @@ export async function getFriendsLeaderboard(
             avatar
           )
         )
-      `
+      `,
       )
-      .eq("follower_id", currentProfileId);
+      .eq('follower_id', currentProfileId);
 
     if (followingError) {
-      console.error("Error fetching following list:", followingError);
+      console.error('Error fetching following list:', followingError);
       return [];
     }
 
     // Get current user's profile data
     const { data: currentUserProfile, error: currentUserError } = await supabase
-      .from("profiles")
+      .from('profiles')
       .select(
         `
         id,
@@ -158,13 +159,13 @@ export async function getFriendsLeaderboard(
         users!inner(
           avatar
         )
-      `
+      `,
       )
-      .eq("id", currentProfileId)
+      .eq('id', currentProfileId)
       .single();
 
     if (currentUserError) {
-      console.error("Error fetching current user profile:", currentUserError);
+      console.error('Error fetching current user profile:', currentUserError);
       return [];
     }
 
@@ -186,12 +187,12 @@ export async function getFriendsLeaderboard(
 
     // Get workout statistics for all users
     const { data: workoutStats, error } = await supabase
-      .from("workout_history")
-      .select("profile_id, total_sets, total_weight")
-      .in("profile_id", allProfileIds);
+      .from('workout_history')
+      .select('profile_id, total_sets, total_weight')
+      .in('profile_id', allProfileIds);
 
     if (error) {
-      console.error("Error fetching workout stats:", error);
+      console.error('Error fetching workout stats:', error);
       return [];
     }
 
@@ -229,7 +230,7 @@ export async function getFriendsLeaderboard(
 
         return {
           id: profile.id,
-          user_name: profile.user_name || "Anonymous",
+          user_name: profile.user_name || 'Anonymous',
           avatar_url: profile.users?.avatar || undefined,
           totalWorkouts: stats.totalWorkouts,
           totalWeight: stats.totalWeight,
@@ -242,7 +243,7 @@ export async function getFriendsLeaderboard(
           isCurrentUser: profile.id === currentProfileId,
           isFollowing: followedIds.includes(profile.id),
         };
-      }
+      },
     );
 
     // Sort by workouts first, then by total weight
@@ -260,7 +261,7 @@ export async function getFriendsLeaderboard(
 
     return leaderboardEntries.slice(0, limit);
   } catch (err) {
-    console.error("Unexpected error fetching friends leaderboard:", err);
+    console.error('Unexpected error fetching friends leaderboard:', err);
     return [];
   }
 }
@@ -272,7 +273,7 @@ export async function getUserGlobalRank(profileId: string): Promise<number> {
     const userEntry = globalLeaderboard.find((entry) => entry.id === profileId);
     return userEntry?.rank || 0;
   } catch (err) {
-    console.error("Error getting user global rank:", err);
+    console.error('Error getting user global rank:', err);
     return 0;
   }
 }

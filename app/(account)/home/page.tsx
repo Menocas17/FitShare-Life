@@ -10,7 +10,6 @@ import {
   Weight,
   Ruler,
   MessageSquare,
-  Trophy,
 } from 'lucide-react';
 import {
   getUserProfile,
@@ -23,9 +22,6 @@ import { getUserPostsCount } from '@/lib/server_actions/social';
 import { UserProfile, RecentWorkout, DashboardStats } from '@/types/types';
 import { Json } from '@/types/supabase';
 import LoadingSpinner from '@/components/ui-kit/LoadingSpinner';
-import UserSearch from '@/components/social/UserSearch';
-import UserProfileComponent from '@/components/social/UserProfile';
-import GlobalLeaderboard from '@/components/leaderboard/GlobalLeaderboard';
 
 //TODO - todo esto deberia ser un componente a parte en si
 const DashboardPage = () => {
@@ -36,9 +32,7 @@ const DashboardPage = () => {
   const [viewMode, setViewMode] = useState<'dashboard' | 'search' | 'profile'>(
     'dashboard',
   );
-  const [selectedProfileId, setSelectedProfileId] = useState<string | null>(
-    null,
-  );
+
   const [user, setUser] = useState<{
     id: string;
     name: string;
@@ -60,21 +54,6 @@ const DashboardPage = () => {
   );
   const [postsCount, setPostsCount] = useState(0);
   const [loading, setLoading] = useState(true);
-
-  // Handle user search
-  const handleOpenSearch = () => {
-    setViewMode('search');
-  };
-
-  const handleUserSelect = (profileId: string) => {
-    setSelectedProfileId(profileId);
-    setViewMode('profile');
-  };
-
-  const handleBackToDashboard = () => {
-    setViewMode('dashboard');
-    setSelectedProfileId(null);
-  };
 
   //TODO - This could be separeted in a custom hook
   useEffect(() => {
@@ -136,17 +115,6 @@ const DashboardPage = () => {
 
   if (!user) return null;
 
-  // Show User Search component
-  // TODO This could be separated in a enterie new page for exploring users.
-  if (viewMode === 'search') {
-    return (
-      <UserSearch
-        onUserSelect={handleUserSelect}
-        onClose={handleBackToDashboard}
-      />
-    );
-  }
-
   // Show User Profile component
 
   // Helper function to parse body measurements
@@ -171,88 +139,12 @@ const DashboardPage = () => {
       {/* Header */}
       <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4'>
         <div className='min-w-0 flex-1'>
-          {/* <h1 className='text-xl sm:text-2xl lg:text-3xl font-bold mb-2'>
-            Dashboard
-          </h1> */}
           <h1 className=' text-xs sm:text-sm lg:text-base font-semibold'>
             Welcome back, {user.name}! Track your progress and connect with the
             community.
           </h1>
         </div>
-        {/* <button
-          onClick={handleOpenSearch}
-          className='flex items-center justify-center gap-2 px-3 py-2 sm:px-4 bg-muted hover:bg-muted/80 border border-border rounded-lg transition-colors text-sm whitespace-nowrap'
-        >
-          <Search className='w-4 h-4 flex-shrink-0' />
-          <span className='hidden sm:inline'>Search Users</span>
-          <span className='sm:hidden'>Search</span>
-        </button> */}
       </div>
-
-      {/* Navigation Tabs
-      <div className='border-b border-border'>
-        <nav className='flex space-x-2 sm:space-x-6 lg:space-x-8 overflow-x-auto scrollbar-hide px-1'>
-          <button
-            onClick={() => setActiveTab('stats')}
-            className={`py-2 px-2 sm:px-3 border-b-2 font-medium text-xs sm:text-sm whitespace-nowrap flex-shrink-0 ${
-              activeTab === 'stats'
-                ? 'border-primary text-primary'
-                : 'border-transparent text-muted-foreground hover:text-foreground hover:border-gray-300'
-            }`}
-          >
-            <div className='flex items-center gap-1 sm:gap-2'>
-              <BarChart3 className='w-4 h-4' />
-              <span className='hidden sm:inline'>My Stats</span>
-              <span className='sm:hidden'>Stats</span>
-            </div>
-          </button>
-          <button
-            onClick={() => setActiveTab('social')}
-            className={`py-2 px-2 sm:px-3 border-b-2 font-medium text-xs sm:text-sm whitespace-nowrap flex-shrink-0 ${
-              activeTab === 'social'
-                ? 'border-primary text-primary'
-                : 'border-transparent text-muted-foreground hover:text-foreground hover:border-gray-300'
-            }`}
-          >
-            <div className='flex items-center gap-1 sm:gap-2'>
-              <Users className='w-4 h-4' />
-              <span className='hidden sm:inline'>Community Feed</span>
-              <span className='sm:hidden'>Feed</span>
-              <span className='text-xs bg-primary/10 text-primary px-1.5 py-0.5 rounded-full hidden lg:inline'>
-                Create Posts
-              </span>
-            </div>
-          </button>
-          <button
-            onClick={() => setActiveTab('my-posts')}
-            className={`py-2 px-2 sm:px-3 border-b-2 font-medium text-xs sm:text-sm whitespace-nowrap flex-shrink-0 ${
-              activeTab === 'my-posts'
-                ? 'border-primary text-primary'
-                : 'border-transparent text-muted-foreground hover:text-foreground hover:border-gray-300'
-            }`}
-          >
-            <div className='flex items-center gap-1 sm:gap-2'>
-              <MessageSquare className='w-4 h-4' />
-              <span className='hidden sm:inline'>My Posts ({postsCount})</span>
-              <span className='sm:hidden'>Posts</span>
-            </div>
-          </button>
-          <button
-            onClick={() => setActiveTab('leaderboard')}
-            className={`py-2 px-2 sm:px-3 border-b-2 font-medium text-xs sm:text-sm whitespace-nowrap flex-shrink-0 ${
-              activeTab === 'leaderboard'
-                ? 'border-primary text-primary'
-                : 'border-transparent text-muted-foreground hover:text-foreground hover:border-gray-300'
-            }`}
-          >
-            <div className='flex items-center gap-1 sm:gap-2'>
-              <Trophy className='w-4 h-4' />
-              <span className='hidden sm:inline'>Leaderboard</span>
-              <span className='sm:hidden'>Ranks</span>
-            </div>
-          </button>
-        </nav>
-      </div> */}
 
       {/* Tab Content */}
       {activeTab === 'stats' && (
@@ -566,20 +458,6 @@ const DashboardPage = () => {
               </p>
             </div>
           </div>
-        </div>
-      )}
-
-      {/* Leaderboard Tab */}
-      {activeTab === 'leaderboard' && (
-        <div className='w-full max-w-full overflow-hidden'>
-          {profile?.id ? (
-            <GlobalLeaderboard currentProfileId={profile.id} />
-          ) : (
-            <div className='text-center py-12'>
-              <Trophy className='w-12 h-12 text-gray-400 mx-auto mb-4' />
-              <p className='text-muted-foreground'>Loading leaderboard...</p>
-            </div>
-          )}
         </div>
       )}
     </div>

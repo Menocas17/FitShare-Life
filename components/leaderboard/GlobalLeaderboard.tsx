@@ -3,40 +3,24 @@
 import React, { useState, useEffect } from 'react';
 import { Trophy, Medal, Dumbbell, Weight, Target, Crown } from 'lucide-react';
 import Image from 'next/image';
-import {
-  getGlobalLeaderboard,
-  LeaderboardEntry,
-} from '@/lib/server_actions/leaderboard';
-import LoadingSpinner from '@/components/ui-kit/LoadingSpinner';
+import { LeaderboardEntry } from '@/lib/server_actions/leaderboard';
 
-interface GlobalLeaderboardProps {
-  currentProfileId: string;
-}
-
-const GlobalLeaderboard: React.FC<GlobalLeaderboardProps> = ({
-  currentProfileId,
+const GlobalLeaderboard = ({
+  globalData,
+}: {
+  globalData: LeaderboardEntry[];
 }) => {
-  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>(
+    globalData || [],
+  );
+
+  useEffect(() => {
+    setLeaderboard(globalData);
+  }, [globalData]);
+
   const [selectedMetric, setSelectedMetric] = useState<
     'workouts' | 'weight' | 'sets'
   >('workouts');
-
-  useEffect(() => {
-    const fetchLeaderboard = async () => {
-      try {
-        setLoading(true);
-        const data = await getGlobalLeaderboard(currentProfileId, 50);
-        setLeaderboard(data);
-      } catch (error) {
-        console.error('Error fetching global leaderboard:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchLeaderboard();
-  }, [currentProfileId]);
 
   const sortedLeaderboard = [...leaderboard].sort((a, b) => {
     switch (selectedMetric) {
@@ -89,12 +73,12 @@ const GlobalLeaderboard: React.FC<GlobalLeaderboardProps> = ({
     }
   };
 
-  if (loading) {
-    return <LoadingSpinner />;
-  }
+  // if (loading) {
+  //   return <LoadingSpinner text='Loading Global leaderboard' />;
+  // }
 
   return (
-    <div className='space-y-4 sm:space-y-6 w-full max-w-full overflow-hidden'>
+    <div className='space-y-4 sm:space-y-6 w-full max-w-full overflow-hidden mb-4'>
       {/* Header */}
       <div className='flex flex-col gap-4'>
         <div>

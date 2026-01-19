@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Button } from '../ui/button';
 import FriendsLeaderboard from '../leaderboard/FriendsLeaderboard';
 import ProgressPhotos from './progressPhotos';
+import { getFriendsLeaderboard } from '@/lib/server_actions/leaderboard';
 
 interface BodyMeasurements {
   waist?: number | null;
@@ -24,6 +25,8 @@ export default async function Profile({ session }: { session: string }) {
     followers: followers.length,
     following: following.length,
   };
+
+  const friendsData = await getFriendsLeaderboard(profile?.id, 20);
 
   // console.log(profile);
   const isDefaultUser = /_[a-f0-9]{8}$/i.test(profile!.user_name as string);
@@ -234,7 +237,7 @@ export default async function Profile({ session }: { session: string }) {
       </div>
 
       {/* Friends Leaderboard */}
-      <FriendsLeaderboard currentProfileId={profile!.id} />
+      <FriendsLeaderboard friendsData={friendsData} />
     </div>
   );
 }

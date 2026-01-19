@@ -18,31 +18,34 @@ import {
 } from '@/lib/server_actions/leaderboard';
 import LoadingSpinner from '@/components/ui-kit/LoadingSpinner';
 
-interface FriendsLeaderboardProps {
-  currentProfileId: string;
-}
-
-const FriendsLeaderboard: React.FC<FriendsLeaderboardProps> = ({
-  currentProfileId,
+const FriendsLeaderboard = ({
+  friendsData,
+}: {
+  friendsData: FriendsLeaderboardEntry[];
 }) => {
-  const [leaderboard, setLeaderboard] = useState<FriendsLeaderboardEntry[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [leaderboard, setLeaderboard] = useState<FriendsLeaderboardEntry[]>(
+    friendsData || [],
+  );
+
+  // useEffect(() => {
+  //   const fetchLeaderboard = async () => {
+  //     try {
+  //       setLoading(true);
+  //       const data = await getFriendsLeaderboard(currentProfileId, 20);
+  //       setLeaderboard(data);
+  //     } catch (error) {
+  //       console.error('Error fetching friends leaderboard:', error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchLeaderboard();
+  // }, [currentProfileId]);
 
   useEffect(() => {
-    const fetchLeaderboard = async () => {
-      try {
-        setLoading(true);
-        const data = await getFriendsLeaderboard(currentProfileId, 20);
-        setLeaderboard(data);
-      } catch (error) {
-        console.error('Error fetching friends leaderboard:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchLeaderboard();
-  }, [currentProfileId]);
+    setLeaderboard(friendsData);
+  }, [friendsData]);
 
   const getRankIcon = (rank: number) => {
     switch (rank) {
@@ -73,14 +76,6 @@ const FriendsLeaderboard: React.FC<FriendsLeaderboardProps> = ({
         return 'bg-muted text-muted-foreground border-border';
     }
   };
-
-  if (loading) {
-    return (
-      <div className='bg-card border border-border rounded-lg p-6'>
-        <LoadingSpinner />
-      </div>
-    );
-  }
 
   return (
     <div className='bg-card border border-border rounded-lg'>
@@ -121,7 +116,7 @@ const FriendsLeaderboard: React.FC<FriendsLeaderboardProps> = ({
                 {/* Rank Badge */}
                 <div
                   className={`px-2 py-1 rounded-full border flex items-center justify-center min-w-[2rem] ${getRankBadgeColor(
-                    entry.rank
+                    entry.rank,
                   )}`}
                 >
                   {entry.rank <= 3 ? (

@@ -34,10 +34,10 @@ const DashboardPage = () => {
     'stats' | 'social' | 'my-posts' | 'leaderboard'
   >('stats');
   const [viewMode, setViewMode] = useState<'dashboard' | 'search' | 'profile'>(
-    'dashboard'
+    'dashboard',
   );
   const [selectedProfileId, setSelectedProfileId] = useState<string | null>(
-    null
+    null,
   );
   const [user, setUser] = useState<{
     id: string;
@@ -56,7 +56,7 @@ const DashboardPage = () => {
     averageWeight: 0,
   });
   const [recentWorkout, setRecentWorkout] = useState<RecentWorkout | null>(
-    null
+    null,
   );
   const [postsCount, setPostsCount] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -148,16 +148,6 @@ const DashboardPage = () => {
   }
 
   // Show User Profile component
-  //TODO - This again could be a different page from the dashboard
-  if (viewMode === 'profile' && selectedProfileId && profile) {
-    return (
-      <UserProfileComponent
-        profileId={selectedProfileId}
-        currentProfileId={profile.id}
-        onBack={handleBackToDashboard}
-      />
-    );
-  }
 
   // Helper function to parse body measurements
   // TODO - this helper should not be here in the page
@@ -173,7 +163,7 @@ const DashboardPage = () => {
   };
 
   const bodyMeasurements = parseBodyMeasurements(
-    profile?.body_measurements || null
+    profile?.body_measurements || null,
   );
 
   return (
@@ -438,7 +428,7 @@ const DashboardPage = () => {
                           year: 'numeric',
                           month: 'long',
                           day: 'numeric',
-                        }
+                        },
                       )}
                     </p>
                   </div>

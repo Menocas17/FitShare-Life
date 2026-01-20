@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { Json } from '@/types/supabase';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -43,7 +44,7 @@ export function getAllData() {
         completed?: boolean;
         reps: number;
         weight: number;
-      }) => rest
+      }) => rest,
     ),
   }));
 
@@ -57,7 +58,7 @@ export function getAllData() {
           totalWeight += set.reps * set.weight;
           totalSets += 1;
         }
-      }
+      },
     );
   });
 
@@ -69,3 +70,14 @@ export function getAllData() {
     formatedData,
   };
 }
+
+export const parseBodyMeasurements = (measurements: Json | null) => {
+  if (!measurements || typeof measurements !== 'object') return null;
+  return measurements as {
+    chest?: number;
+    waist?: number;
+    hips?: number;
+    biceps?: number;
+    thigh?: number;
+  };
+};

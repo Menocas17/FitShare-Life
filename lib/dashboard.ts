@@ -1,4 +1,5 @@
-import { supabase } from '../supabase';
+import { supabase } from './supabase';
+import { getUserPostsCount } from './server_actions/social';
 
 // Get user profile data including weight and body measurements
 export async function getUserProfile(userId: string) {
@@ -168,5 +169,38 @@ export async function getWorkoutStats(profileId: string) {
       totalSets: 0,
       averageWeight: 0,
     };
+  }
+}
+
+//This is the mother function that calls the other and simplify it use in the server component
+export async function getDashboardData(profileId: string | undefined) {
+  if (!profileId) return console.error('The id provided is not working');
+  try {
+    const [
+      workoutsCompleted,
+      averageHours,
+      recentWorkoutData,
+      workoutStats,
+      userPostsCount,
+    ] = await Promise.all([
+      getWorkoutCompletedCount(profileId),
+      getAverageHoursTrained(profileId),
+      getMostRecentWorkout(profileId),
+      getWorkoutStats(profileId),
+      getUserPostsCount(profileId),
+    ]);
+
+    return {
+      recentWorkout: recentWorkoutData,
+      dashboardStats: {
+        workoutsCompleted: workoutsCompleted,
+        averageHoursTrained: averageHours,
+        ...workoutStats,
+      },
+      postsCount: userPostsCount,
+    };
+  } catch (err) {
+    console.error(err);
+    return null;
   }
 }

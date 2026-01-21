@@ -88,7 +88,7 @@ const FriendsLeaderboard = ({
             </p>
           </div>
           <Link
-            href='/dashboard?tab=social'
+            href='/home/explore'
             className='text-sm text-primary hover:text-primary/80 transition-colors'
           >
             Find more friends →
@@ -195,7 +195,7 @@ const FriendsLeaderboard = ({
               workouts and achievements.
             </p>
             <Link
-              href='/dashboard?tab=social'
+              href='/home/explore'
               className='inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors text-sm'
             >
               <UserPlus className='w-4 h-4' />

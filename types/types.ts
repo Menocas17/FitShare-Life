@@ -1,5 +1,6 @@
 import type { Tables } from '@/types/supabase';
 import { SetType, Json } from '@/types/supabase';
+import { body_measurements } from '@/types/supabase';
 
 export type User = {
   id: string;
@@ -86,23 +87,29 @@ export interface UserProfile {
   };
 }
 
-export interface BodyMeasurements {
-  chest?: number;
-  waist?: number;
-  hips?: number;
-  bicep?: number;
-  thigh?: number;
-}
+export type bodyMeasurements = {
+  chest?: number | undefined;
+  waist?: number | undefined;
+  hips?: number | undefined;
+  biceps?: number | undefined;
+  thighs?: number | undefined;
+} | null;
 
-export interface RecentWorkout {
+export type bodyMeasurementsArray = {
+  label: string;
+  key: string;
+  value: number;
+}[];
+
+export type RecentWorkout = {
   id: string;
   created_at: string;
   total_sets: number;
   total_weight: number;
   workouts: {
     name: string;
-  } | null;
-}
+  };
+} | null;
 
 export interface DashboardData {
   profile: UserProfile | null;
@@ -160,3 +167,32 @@ export interface userPosts {
     user_name: string | null;
   };
 }
+
+export type userProfile = {
+  body_measurements: body_measurements | null;
+  created_at: string;
+  bio: string | null;
+  height: number | null;
+  id: string;
+  user_id: string;
+  user_name: string | null;
+  weight: number | null;
+  weight_goal: number | null;
+} | null;
+
+export type UserSession = {
+  name: string | null;
+  email: string | null;
+  avatar: string | null;
+  userId: string;
+  profileId: string;
+};
+
+export type DashboardStast = {
+  totalWorkouts: number;
+  totalWeight: number;
+  totalSets: number;
+  averageWeight: number;
+  workoutsCompleted: number;
+  averageHoursTrained: number;
+};

@@ -1,15 +1,8 @@
 import { cookies } from 'next/headers';
 import { supabase } from '@/lib/supabase';
+import { UserSession } from '@/types/types';
 
 const COOKIE_NAME = 'sessionToken';
-
-type UserSession = {
-  name: string | null;
-  email: string | null;
-  avatar: string | null;
-  userId: string;
-  profileId: string;
-};
 
 export async function getUserAndProfileIds(): Promise<UserSession | null> {
   const cookieStore = await cookies();

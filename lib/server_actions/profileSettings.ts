@@ -39,6 +39,7 @@ export async function updateProfile(formData: FormData) {
   const waist = data.waist ? Number(data.waist) : null;
   const hips = data.hips ? Number(data.hips) : null;
   const thighs = data.thighs ? Number(data.thighs) : null;
+  const biceps = data.biceps ? Number(data.biceps) : null;
 
   try {
     // update the profile
@@ -55,6 +56,7 @@ export async function updateProfile(formData: FormData) {
           waist,
           hips,
           thighs,
+          biceps,
         },
       })
       .eq('user_id', user_id);

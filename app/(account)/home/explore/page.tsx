@@ -8,6 +8,7 @@ import { redirect } from 'next/navigation';
 export default async function ExplorePage() {
   const initialPosts = await getSocialPosts(null);
   const user = await getUserAndProfileIds();
+  console.log(user);
 
   if (!user) {
     redirect('/login');

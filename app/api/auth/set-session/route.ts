@@ -8,7 +8,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.redirect(new URL('/login', req.url));
   }
 
-  const res = NextResponse.redirect(new URL('/dashboard', req.url));
+  const res = NextResponse.redirect(new URL('/home', req.url));
   res.cookies.set({
     name: COOKIE_NAME,
     value: token,

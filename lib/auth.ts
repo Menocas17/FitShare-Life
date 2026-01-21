@@ -1,12 +1,8 @@
 import { cookies } from 'next/headers';
 import { supabase } from '@/lib/supabase';
+import { UserSession } from '@/types/types';
 
 const COOKIE_NAME = 'sessionToken';
-
-type UserSession = {
-  userId: string;
-  profileId: string;
-};
 
 export async function getUserAndProfileIds(): Promise<UserSession | null> {
   const cookieStore = await cookies();
@@ -16,7 +12,7 @@ export async function getUserAndProfileIds(): Promise<UserSession | null> {
 
   const { data: user, error } = await supabase
     .from('users')
-    .select('id, profiles(id)')
+    .select('id, name, email, avatar, profiles(id)')
     .eq('session_token', token)
     .single();
 
@@ -30,6 +26,9 @@ export async function getUserAndProfileIds(): Promise<UserSession | null> {
     : user.profiles;
 
   return {
+    name: user.name,
+    email: user.email,
+    avatar: user.avatar,
     userId: user.id,
     profileId: profileData?.id,
   };

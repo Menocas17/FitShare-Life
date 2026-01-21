@@ -51,6 +51,7 @@ const handler = NextAuth({
             waist: null,
             hips: null,
             thighs: null,
+            biceps: null,
           },
         });
       } else {

@@ -181,7 +181,7 @@ export default async function Profile({ session }: { session: string }) {
         <ProgressPhotos profileId={profile!.id} />
       </div>
 
-      <div className='bg-card border border-border rounded-lg'>
+      <div className='bg-card border border-border rounded-lg' id='myPosts'>
         <div className='p-4 border-b border-border flex items-center justify-between'>
           <h3 className='text-lg font-semibold flex items-center gap-2'>
             <MessageSquare className='w-5 h-5' />
@@ -190,7 +190,7 @@ export default async function Profile({ session }: { session: string }) {
               ({posts.length})
             </span>
           </h3>
-          <Link href={'/dashboard'}>
+          <Link href={'/home/explore'}>
             <Button>Create Post</Button>
           </Link>
         </div>

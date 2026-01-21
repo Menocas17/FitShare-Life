@@ -52,6 +52,9 @@ const config = {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
+      screens: {
+        lg1: '1079px',
+      },
     },
   },
   plugins: [],

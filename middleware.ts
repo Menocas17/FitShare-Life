@@ -64,7 +64,7 @@ export async function middleware(req: NextRequest) {
 
   // Redirect to dashboard if already logged in and trying to access login/register
   if (isValidSession && (pathname === '/login' || pathname === '/register')) {
-    return NextResponse.redirect(new URL('/dashboard', req.url));
+    return NextResponse.redirect(new URL('/home', req.url));
   }
 
   return NextResponse.next();
@@ -76,6 +76,6 @@ export const matcher = [
   '/login',
   '/register',
   ...[...sidebarRoutes, ...additionalProtectedRoutes].map(
-    (route) => `${route}/:path*`
+    (route) => `${route}/:path*`,
   ),
 ];

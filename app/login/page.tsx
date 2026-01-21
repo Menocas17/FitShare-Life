@@ -1,5 +1,5 @@
 'use client';
-
+//TODO -  (login page) Need to review this and understand why this page is a cliet component and turn it into a server component
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Header from '@/components/page-components/Header';
@@ -51,7 +51,8 @@ const LoginPage = () => {
       setMessage('Login successful!');
       setMessageColor('green');
 
-      setTimeout(() => router.push('/dashboard'), 800);
+      //REVIEW - Why this have a setTimeout ?
+      setTimeout(() => router.push('/home'), 800);
     } catch (err) {
       console.error('Login error:', err);
       setMessage('Internal server error.');
@@ -140,8 +141,8 @@ const LoginPage = () => {
                 messageColor === 'green'
                   ? 'text-green-600'
                   : messageColor === 'red'
-                  ? 'text-red-600'
-                  : 'text-text-light'
+                    ? 'text-red-600'
+                    : 'text-text-light'
               }`}
             >
               {message}

@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
   if (!name || !email || !password) {
     return NextResponse.json(
       { error: 'Name, email, and password are required.' },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
   if (error || !user) {
     return NextResponse.json(
       { error: error?.message || 'Registration failed.' },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -52,6 +52,7 @@ export async function POST(req: NextRequest) {
       waist: null,
       hips: null,
       thighs: null,
+      biceps: null,
     },
   });
 

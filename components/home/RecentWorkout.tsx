@@ -1,11 +1,12 @@
 import { Dumbbell, Award } from 'lucide-react';
-import { RecentWorkout } from '@/types/types';
+import { getMostRecentWorkout } from '@/lib/dashboard';
 
-export default function RecentWorkoutCard({
-  recentWorkout,
+export default async function RecentWorkoutCard({
+  profileId,
 }: {
-  recentWorkout: RecentWorkout;
+  profileId: string;
 }) {
+  const recentWorkout = await getMostRecentWorkout(profileId);
   return (
     <div className='p-3 sm:p-4 lg:p-6 bg-card border border-border rounded-lg'>
       <div className='flex items-center gap-2  mb-4 sm:mb-4'>

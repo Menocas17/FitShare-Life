@@ -187,12 +187,3 @@ export type UserSession = {
   userId: string;
   profileId: string;
 };
-
-export type DashboardStast = {
-  totalWorkouts: number;
-  totalWeight: number;
-  totalSets: number;
-  averageWeight: number;
-  workoutsCompleted: number;
-  averageHoursTrained: number;
-};

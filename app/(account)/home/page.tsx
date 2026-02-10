@@ -5,6 +5,10 @@ import StatsOverview from '@/components/home/StatsOverview';
 import RecentWorkoutCard from '@/components/home/RecentWorkout';
 import BodyMeasurements from '@/components/home/BodyMeasurements';
 import { redirect } from 'next/navigation';
+import { Suspense } from 'react';
+import StatsOverviewSkeleton from '@/components/home/Skeletons/StatsOverviewSkeleton';
+import RecentWorkoutSkeleton from '@/components/home/Skeletons/RecentWorkoutSkeleton';
+import BodyMeasurementsSkeleton from '@/components/home/Skeletons/BodyMeasurementsSkeleton';
 
 export default async function Dashboard() {
   const user = await getUserAndProfileIds();
@@ -13,10 +17,19 @@ export default async function Dashboard() {
   return (
     <HomeDashboard
       user={user}
-      stats={<StatsOverview userId={user.userId} profileId={user.profileId} />}
+      stats={
+        <Suspense fallback={<StatsOverviewSkeleton />}>
+          <StatsOverview userId={user.userId} profileId={user.profileId} />
+        </Suspense>
+      }
     >
-      <RecentWorkoutCard profileId={user.profileId} />
-      <BodyMeasurements userId={user.userId} />
+      <Suspense fallback={<RecentWorkoutSkeleton />}>
+        <RecentWorkoutCard profileId={user.profileId} />
+      </Suspense>
+
+      <Suspense fallback={<BodyMeasurementsSkeleton />}>
+        <BodyMeasurements userId={user.userId} />
+      </Suspense>
     </HomeDashboard>
   );
 }

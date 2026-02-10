@@ -1,12 +1,16 @@
+'use client';
 import { appInfo, sidebarLinks } from '@/constants';
-import { SidebarProps } from '@/types/types';
+
 import { Dumbbell, X } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
+import { useSidebar, SidebarProvider } from '@/Context/SideBarContext';
 
-const MobileSidebar = ({ open, setOpen }: SidebarProps) => {
+export default function MobileSidebar() {
+  const { toggleSidebar, open } = useSidebar();
+
   return (
-    <>
+    <SidebarProvider>
       {/* Mobile Sidebar */}
       {open && (
         <div className='fixed inset-0 z-40 bg-black/50 md:hidden'>
@@ -22,7 +26,7 @@ const MobileSidebar = ({ open, setOpen }: SidebarProps) => {
               </Link>
               <button
                 className='p-2 cursor-pointer bg-lightgreen rounded-md'
-                onClick={() => setOpen(false)}
+                onClick={toggleSidebar}
               >
                 <X className='w-5 h-5' />
               </button>
@@ -33,7 +37,7 @@ const MobileSidebar = ({ open, setOpen }: SidebarProps) => {
                   key={link.href}
                   href={link.href}
                   className='flex items-center gap-3 p-2 rounded-md hover:bg-accent'
-                  onClick={() => setOpen(false)}
+                  onClick={toggleSidebar}
                 >
                   <link.icon className='w-5 h-5' />
                   {link.label}
@@ -43,8 +47,6 @@ const MobileSidebar = ({ open, setOpen }: SidebarProps) => {
           </aside>
         </div>
       )}
-    </>
+    </SidebarProvider>
   );
-};
-
-export default MobileSidebar;
+}

@@ -1,11 +1,14 @@
 import { Ruler, User, GanttChart } from 'lucide-react';
-import { bodyMeasurementsArray } from '@/types/types';
+import { parseBodyMeasurements } from '@/lib/utils';
+import { getUserProfile } from '@/lib/dashboard';
 
-export default function BodyMeasurements({
-  bodyMeasurements,
-}: {
-  bodyMeasurements: bodyMeasurementsArray | void;
-}) {
+export default async function BodyMeasurements({ userId }: { userId: string }) {
+  const profile = await getUserProfile(userId);
+
+  const bodyMeasurements = parseBodyMeasurements(
+    profile?.body_measurements || null,
+  );
+
   return (
     <div className='p-3 sm:p-4 lg:p-6 bg-card border border-border rounded-lg'>
       <div className='flex items-center gap-2 mb-4 sm:mb-4'>

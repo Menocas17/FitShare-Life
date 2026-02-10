@@ -65,11 +65,11 @@ export interface WorkoutHystory {
 
 export interface DashboardStats {
   workoutsCompleted: number;
-  averageHoursTrained: number;
+  sessionPerWeek: number;
   totalWorkouts: number;
   totalWeight: number;
   totalSets: number;
-  averageWeight: number;
+  avgIntensity: number;
 }
 
 export interface UserProfile {
@@ -186,13 +186,4 @@ export type UserSession = {
   avatar: string | null;
   userId: string;
   profileId: string;
-};
-
-export type DashboardStast = {
-  totalWorkouts: number;
-  totalWeight: number;
-  totalSets: number;
-  averageWeight: number;
-  workoutsCompleted: number;
-  averageHoursTrained: number;
 };

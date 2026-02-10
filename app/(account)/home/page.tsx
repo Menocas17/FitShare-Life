@@ -23,10 +23,12 @@ export default async function Dashboard() {
         </Suspense>
       }
     >
+      {/* TODO Add button to go to the workouts in the recent workout section */}
       <Suspense fallback={<RecentWorkoutSkeleton />}>
         <RecentWorkoutCard profileId={user.profileId} />
       </Suspense>
 
+      {/* TODO Add button to go to edit the body measurements in the profile settings */}
       <Suspense fallback={<BodyMeasurementsSkeleton />}>
         <BodyMeasurements userId={user.userId} />
       </Suspense>

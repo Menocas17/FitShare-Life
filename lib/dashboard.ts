@@ -42,29 +42,27 @@ export async function getWorkoutCompletedCount(profileId: string) {
   }
 }
 
-// Get average hours trained per week
-export async function getAverageHoursTrained(profileId: string) {
+// Get sessions trained per week
+export async function getWorkoutSessionWeek(profileId: string) {
   try {
-    // Get workouts from the last 4 weeks
-    const fourWeeksAgo = new Date();
-    fourWeeksAgo.setDate(fourWeeksAgo.getDate() - 28);
+    // Get workouts from the last week
+    const weekAgo = new Date();
+    weekAgo.setDate(weekAgo.getDate() - 7);
 
     const { data, error } = await supabase
       .from('workout_history')
       .select('created_at')
       .eq('profile_id', profileId)
-      .gte('created_at', fourWeeksAgo.toISOString());
+      .gte('created_at', weekAgo.toISOString());
 
     if (error) {
       console.error('Error fetching workout history:', error);
       return 0;
     }
 
-    // Estimate 1 hour per workout session
-    const totalHours = data?.length || 0;
-    const averagePerWeek = Math.round(totalHours / 4);
+    const totalSessions = data?.length || 0;
 
-    return averagePerWeek;
+    return totalSessions;
   } catch (err) {
     console.error('Unexpected error:', err);
     return 0;
@@ -143,23 +141,27 @@ export async function getWorkoutStats(profileId: string) {
         totalWorkouts: 0,
         totalWeight: 0,
         totalSets: 0,
-        averageWeight: 0,
+        avgIntensity: 0,
       };
     }
 
     const totalWorkouts = data?.length || 0;
-    const totalWeight =
-      data?.reduce((sum, workout) => sum + (workout.total_weight || 0), 0) || 0;
-    const totalSets =
-      data?.reduce((sum, workout) => sum + (workout.total_sets || 0), 0) || 0;
-    const averageWeight =
-      totalWorkouts > 0 ? Math.round(totalWeight / totalWorkouts) : 0;
+    const totalWeight = data.reduce(
+      (acc, session) => acc + session.total_weight,
+      0,
+    );
+    const totalSets = data.reduce(
+      (acc, session) => acc + session.total_sets,
+      0,
+    );
+
+    const avgIntensity = totalSets > 0 ? totalWeight / totalSets : 0;
 
     return {
       totalWorkouts,
       totalWeight,
       totalSets,
-      averageWeight,
+      avgIntensity,
     };
   } catch (err) {
     console.error('Unexpected error:', err);
@@ -167,7 +169,7 @@ export async function getWorkoutStats(profileId: string) {
       totalWorkouts: 0,
       totalWeight: 0,
       totalSets: 0,
-      averageWeight: 0,
+      avgIntensity: 0,
     };
   }
 }
@@ -178,13 +180,13 @@ export async function getDashboardData(profileId: string | undefined) {
   try {
     const [
       workoutsCompleted,
-      averageHours,
+      workoutSessionsPerWeek,
       recentWorkoutData,
       workoutStats,
       userPostsCount,
     ] = await Promise.all([
       getWorkoutCompletedCount(profileId),
-      getAverageHoursTrained(profileId),
+      getWorkoutSessionWeek(profileId),
       getMostRecentWorkout(profileId),
       getWorkoutStats(profileId),
       getUserPostsCount(profileId),
@@ -194,7 +196,7 @@ export async function getDashboardData(profileId: string | undefined) {
       recentWorkout: recentWorkoutData,
       dashboardStats: {
         workoutsCompleted: workoutsCompleted,
-        averageHoursTrained: averageHours,
+        sessionPerWeek: workoutSessionsPerWeek,
         ...workoutStats,
       },
       postsCount: userPostsCount,

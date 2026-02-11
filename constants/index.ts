@@ -17,31 +17,6 @@ export const navigationLinks = [
   { href: '#features', label: 'Features' },
   { href: '#workouts', label: 'Workouts' },
   { href: '#community', label: 'Community' },
-  { href: '#pricing', label: 'Pricing' },
-];
-
-// Stats Data
-export const statsData = [
-  {
-    value: '50k+',
-    label: 'Active Users',
-    desc: 'Growing community',
-  },
-  {
-    value: '200+',
-    label: 'Workout Types',
-    desc: 'Diverse programs',
-  },
-  {
-    value: '1M+',
-    label: 'Posts Shared',
-    desc: 'Community engagement',
-  },
-  {
-    value: '4.9★',
-    label: 'App Rating',
-    desc: 'User satisfaction',
-  },
 ];
 
 // Features List
@@ -58,7 +33,7 @@ export const featureCards = [
     icon: Dumbbell,
     title: 'Diverse Workouts',
     description:
-      'Access hundreds of workout programs from strength training to yoga, HIIT to pilates.',
+      'Access hundreds of workout programs from strength training heavy training to resistence training.',
     features: [
       'Strength Training',
       'Cardio Workouts',
@@ -83,12 +58,7 @@ export const featureCards = [
     title: 'Social Integration',
     description:
       'Seamlessly connect with your favorite social platforms and share your achievements.',
-    features: [
-      'Instagram Integration',
-      'Facebook Sharing',
-      'Twitter Updates',
-      'LinkedIn Posts',
-    ],
+    features: ['Instagram Integration', 'Facebook Sharing', 'Twitter Updates'],
   },
 ];
 
@@ -97,33 +67,33 @@ export const ExercisePlaceholder = '/img/ExercisePlaceholder.svg';
 // Workout Types Data
 export const workoutTypes = [
   {
-    name: 'Strength Training',
-    image: 'strength training gym equipment',
+    name: 'Upper / Lower',
+    image: '/img/upperLower.avif',
     users: '25k+',
   },
   {
-    name: 'Cardio Blast',
-    image: 'cardio workout running',
+    name: 'Shoulder / Back',
+    image: '/img/back.avif',
     users: '18k+',
   },
   {
-    name: 'Yoga Flow',
-    image: 'yoga meditation peaceful',
+    name: 'Full Body',
+    image: '/img/fullBody.webp',
     users: '22k+',
   },
   {
-    name: 'HIIT Workouts',
-    image: 'high intensity interval training',
+    name: 'Full Legs',
+    image: '/img/legs.jpg',
     users: '15k+',
   },
   {
-    name: 'Pilates Core',
-    image: 'pilates core strengthening',
+    name: 'Push day',
+    image: '/img/push.jpeg',
     users: '12k+',
   },
   {
-    name: 'Dance Fitness',
-    image: 'dance fitness fun workout',
+    name: 'Pull day',
+    image: '/img/pull.jpg',
     users: '20k+',
   },
 ];
@@ -163,7 +133,6 @@ export const footerLinks = {
     { href: '#', label: 'Features' },
     { href: '#', label: 'Workouts' },
     { href: '#', label: 'Community' },
-    { href: '#', label: 'Pricing' },
   ],
   support: [
     { href: '#', label: 'Help Center' },

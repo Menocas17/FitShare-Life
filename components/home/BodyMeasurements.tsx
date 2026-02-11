@@ -1,6 +1,8 @@
 import { Ruler, User, GanttChart } from 'lucide-react';
 import { parseBodyMeasurements } from '@/lib/utils';
 import { getUserProfile } from '@/lib/dashboard';
+import Link from 'next/link';
+import { Button } from '../ui/button';
 
 export default async function BodyMeasurements({ userId }: { userId: string }) {
   const profile = await getUserProfile(userId);
@@ -11,12 +13,18 @@ export default async function BodyMeasurements({ userId }: { userId: string }) {
 
   return (
     <div className='p-3 sm:p-4 lg:p-6 bg-card border border-border rounded-lg'>
-      <div className='flex items-center gap-2 mb-4 sm:mb-4'>
-        <GanttChart className='w-4 h-4 sm:w-5 sm:h-5 text-primary' />
-        <h3 className='text-base sm:text-lg font-semibold'>
-          Body Measurements
-        </h3>
+      <div className='flex justify-between'>
+        <div className='flex items-center gap-2 mb-4 sm:mb-4'>
+          <GanttChart className='w-4 h-4 sm:w-5 sm:h-5 text-primary' />
+          <h3 className='text-base sm:text-lg font-semibold'>
+            Body Measurements
+          </h3>
+        </div>
+        <Link href={'/setting#bodyMeasurements'} scroll={true}>
+          <Button>Update</Button>
+        </Link>
       </div>
+
       {bodyMeasurements ? (
         <div className='grid grid-cols-3 gap-3 sm:gap-4'>
           {bodyMeasurements.map((measurement) => {

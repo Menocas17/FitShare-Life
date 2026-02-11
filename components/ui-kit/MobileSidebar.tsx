@@ -13,7 +13,7 @@ export default function MobileSidebar() {
     <SidebarProvider>
       {/* Mobile Sidebar */}
       {open && (
-        <div className='fixed inset-0 z-40 bg-black/50 md:hidden'>
+        <div className='fixed inset-0 z-[100] bg-black/50 md:hidden'>
           <aside className='absolute left-0 top-0 bottom-0 w-64 bg-background border-r border-border'>
             <div className='flex items-center justify-between p-4'>
               <Link href='/home'>

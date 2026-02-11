@@ -7,7 +7,6 @@ import CommunitySection from './page-components/CommunitySection';
 import CTASection from './page-components/CTASection';
 import Footer from './page-components/Footer';
 
-// TODO change this entire page to actually refelect what the app looks like and to be more honest in stadistics and reviews
 const HomePage = () => {
   return (
     <div className='min-h-screen bg-gray-100'>

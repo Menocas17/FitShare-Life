@@ -1,5 +1,3 @@
-//TODO -  change this layout to a server component
-
 import Sidebar from '@/components/ui-kit/Sidebar';
 import MobileSidebar from '@/components/ui-kit/MobileSidebar';
 import Navbar from '@/components/ui-kit/Navbar';

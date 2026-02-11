@@ -1,5 +1,7 @@
 import { Dumbbell, Award } from 'lucide-react';
 import { getMostRecentWorkout } from '@/lib/dashboard';
+import { Button } from '../ui/button';
+import Link from 'next/link';
 
 export default async function RecentWorkoutCard({
   profileId,
@@ -7,13 +9,20 @@ export default async function RecentWorkoutCard({
   profileId: string;
 }) {
   const recentWorkout = await getMostRecentWorkout(profileId);
+
   return (
     <div className='p-3 sm:p-4 lg:p-6 bg-card border border-border rounded-lg'>
-      <div className='flex items-center gap-2  mb-4 sm:mb-4'>
-        <Award className='w-4 h-4 sm:w-5 sm:h-5 text-primary' />
-        <h3 className='text-base sm:text-lg font-semibold'>
-          Most Recent Workout
-        </h3>
+      <div className='flex justify-between'>
+        <div className='flex items-center gap-2  mb-4 sm:mb-4'>
+          <Award className='w-4 h-4 sm:w-5 sm:h-5 text-primary' />
+          <h3 className='text-base sm:text-lg font-semibold'>
+            Most Recent Workout
+          </h3>
+        </div>
+
+        <Link href={'/workout-management'}>
+          <Button>Go to Workouts</Button>
+        </Link>
       </div>
 
       {recentWorkout ? (

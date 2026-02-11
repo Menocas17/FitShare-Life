@@ -1,5 +1,5 @@
 'use client';
-
+//TODO - Change the setting page to be a ssr page
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { User } from 'lucide-react';
@@ -144,7 +144,9 @@ export default function ProfileSettings() {
               />
 
               <div>
-                <h4 className='mt-6 font-bold'>Body Measurements: </h4>
+                <h4 className='mt-6 font-bold' id='bodyMeasurements'>
+                  Body Measurements:
+                </h4>
                 <div className='grid grid-cols-2 gap-4 mt-4'>
                   <div>
                     <label className='block text-sm font-medium mb-2'>

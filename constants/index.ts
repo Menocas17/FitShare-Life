@@ -17,31 +17,6 @@ export const navigationLinks = [
   { href: '#features', label: 'Features' },
   { href: '#workouts', label: 'Workouts' },
   { href: '#community', label: 'Community' },
-  { href: '#pricing', label: 'Pricing' },
-];
-
-// Stats Data
-export const statsData = [
-  {
-    value: '50k+',
-    label: 'Active Users',
-    desc: 'Growing community',
-  },
-  {
-    value: '200+',
-    label: 'Workout Types',
-    desc: 'Diverse programs',
-  },
-  {
-    value: '1M+',
-    label: 'Posts Shared',
-    desc: 'Community engagement',
-  },
-  {
-    value: '4.9★',
-    label: 'App Rating',
-    desc: 'User satisfaction',
-  },
 ];
 
 // Features List

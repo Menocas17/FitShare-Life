@@ -1,11 +1,5 @@
 {
   "workbench.colorTheme": "One Dark Pro Darker",
-  "commentAnchors.excludeFiles": [
-    "**/.git/**",
-    "**/node_modules/**",
-    "**/dist/**",
-    "**/build/**",
-    "**/*.log",
-    "**/*.min.js"
-  ]
+
+  "commentAnchors.workspace.excludeFiles": "**/{node_modules,.git,.idea,target,out,build,bin,obj,dist,vendor,.next}/**/*"
 }

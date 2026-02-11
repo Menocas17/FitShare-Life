@@ -12,7 +12,7 @@
 ## Tech Stack
 
 - **Frontend & Backend:** Next.js (with TypeScript)
-- **Database & Auth:** Supabase (PostgreSQL + Prisma ORM)
+- **Database & Auth:** Supabase (PostgreSQL)
 - **Styling:** Tailwind CSS
 - **Hosting:** Vercel
 
@@ -25,8 +25,3 @@ To deliver a **Minimum Viable Product (MVP)** in 4 weeks with the essential feat
 - Integration with wearables and health devices
 - Mobile version
 
-## Favorites Quotes from developers:
-
-“In coming days, it will not be possible to survive spiritually without the guiding, directing, comforting, and constant influence of the Holy Ghost.” —Russell M. Nelson
-
-"In all of living, have much fun and laughter. Life is to be enjoyed, not just endured." -President Gordon B. Hinckley

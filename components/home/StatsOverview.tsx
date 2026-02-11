@@ -29,6 +29,8 @@ export default async function StatsOverview({
       getWorkoutSessionWeek(profileId),
     ]);
 
+  console.log(dashboardStats.avgIntensity);
+
   return (
     <>
       <div className='grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 lg:gap-4'>
@@ -55,7 +57,7 @@ export default async function StatsOverview({
             </h3>
           </div>
           <p className='text-xl sm:text-2xl lg:text-3xl font-bold text-purple-600'>
-            {dashboardStats.avgIntensity}
+            {dashboardStats.avgIntensity.toFixed(1)} Kg
           </p>
           <p className='text-xs text-muted-foreground mt-1'>Avg. per set</p>
         </div>

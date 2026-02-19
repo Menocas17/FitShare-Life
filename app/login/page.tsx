@@ -1,5 +1,6 @@
 'use client';
 //TODO -  (login page) Need to review this and understand why this page is a cliet component and turn it into a server component
+//FIXME -  - Fix the mobile version as is shows a shadow in the bottom that is not aligned with the desing
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Header from '@/components/page-components/Header';

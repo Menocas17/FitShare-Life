@@ -11,7 +11,6 @@ jobs:
     steps:
       - name: Wake up Supabase
         run: |
-          curl -X GET "${{ secrets.SUPABASE_URL }}/rest/v1/default_workouts?select=*" \
-          -H "apikey: ${{ secrets.SUPABASE_KEY }}" \
-          -H "Authorization: Bearer ${{ secrets.SUPABASE_KEY }}" \
-          -I
+         curl -i -X GET "${{ secrets.SUPABASE_URL }}/rest/v1/default_workouts?limit=1" \
+         -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
+         -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}"

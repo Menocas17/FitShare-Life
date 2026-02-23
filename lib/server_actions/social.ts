@@ -14,7 +14,10 @@ export async function getSocialPosts(lastPostTime: string | null) {
         profiles: profile_id (
           id,
           user_id,
-          user_name
+          user_name,
+          users: user_id (
+          avatar
+          )
         )
       `,
     )

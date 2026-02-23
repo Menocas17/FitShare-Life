@@ -13,7 +13,6 @@ export default async function userProfilePage({ params }: PageProps) {
   const userInfo = await getUserInfoByProfileId(id);
   const userPosts = await getUserPosts(id);
   const loggedUser = await getUserAndProfileIds();
-  console.log(userInfo, userPosts, loggedUser);
 
   return (
     <UserProfile

@@ -4,7 +4,6 @@ import SocialFeed from '@/components/social/SocialFeed';
 import ExploreDisplay from '@/components/social/ExploreDisplay';
 import { getUserAndProfileIds } from '@/lib/auth';
 import { redirect } from 'next/navigation';
-import ExploreLoading from './loading';
 
 export default async function ExplorePage() {
   const initialPosts = await getSocialPosts(null);
@@ -14,7 +13,6 @@ export default async function ExplorePage() {
     redirect('/login');
   }
 
-  //TODO - Implement a loading.tsx with an skeleton to improve the UX
   return (
     <ExploreDisplay loggedProfile={user.profileId}>
       <PostCreation profile_id={user.profileId} />

@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { getSocialPosts } from '@/lib/server_actions/social';
 import Image from 'next/image';
-import { Heart, Share2, User, Calendar } from 'lucide-react';
+import { Heart, MessageCircle, User, Calendar } from 'lucide-react';
 
 interface Posts {
   content: string;
@@ -15,6 +15,9 @@ interface Posts {
     id: string;
     user_id: string;
     user_name: string | null;
+    users: {
+      avatar: string | null;
+    };
   };
 }
 
@@ -88,7 +91,17 @@ export default function SocialFeed({
           <div className='flex items-center justify-between mb-4'>
             <div className='flex items-center space-x-3'>
               <div className='w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center'>
-                <User className='w-5 h-5 text-primary' />
+                {post.profiles.users.avatar ? (
+                  <Image
+                    src={post.profiles.users.avatar}
+                    alt={`${post.profiles.user_name}'s photo`}
+                    width={200}
+                    height={200}
+                    className='rounded-full'
+                  />
+                ) : (
+                  <User className='w-5 h-5 text-primary' />
+                )}
               </div>
               <div>
                 <h4 className='font-medium'>
@@ -127,8 +140,8 @@ export default function SocialFeed({
               <span className='text-sm'>Like</span>
             </button>
             <button className='flex items-center gap-2 text-muted-foreground hover:text-green-500 transition-colors'>
-              <Share2 className='w-4 h-4' />
-              <span className='text-sm'>Share</span>
+              <MessageCircle className='w-4 h-4' />
+              <span className='text-sm'>Comments</span>
             </button>
           </div>
         </div>

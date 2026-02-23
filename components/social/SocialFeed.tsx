@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { getSocialPosts } from '@/lib/server_actions/social';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Heart, MessageCircle, User, Calendar } from 'lucide-react';
 
 interface Posts {
@@ -23,8 +24,10 @@ interface Posts {
 
 export default function SocialFeed({
   initialPosts,
+  ownProfile,
 }: {
   initialPosts: Posts[];
+  ownProfile: string;
 }) {
   const [posts, setPosts] = useState(initialPosts);
   const [hasMore, setHasMore] = useState(true);
@@ -82,70 +85,90 @@ export default function SocialFeed({
 
   return (
     <div className='space-y-4 flex flex-col items-center'>
-      {posts.map((post) => (
-        <div
-          key={post.id}
-          className='bg-card border border-border rounded-lg p-6 hover:shadow-md transition-shadow w-full sm:w-4/5 xl:w-3/5 '
-        >
-          {/* Post Header */}
-          <div className='flex items-center justify-between mb-4'>
-            <div className='flex items-center space-x-3'>
-              <div className='w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center'>
-                {post.profiles.users.avatar ? (
-                  <Image
-                    src={post.profiles.users.avatar}
-                    alt={`${post.profiles.user_name}'s photo`}
-                    width={200}
-                    height={200}
-                    className='rounded-full'
-                  />
-                ) : (
-                  <User className='w-5 h-5 text-primary' />
-                )}
-              </div>
-              <div>
-                <h4 className='font-medium'>
-                  {post.profiles.user_name || 'Anonymous'}
-                </h4>
-                <div className='flex items-center gap-1 text-sm text-muted-foreground'>
-                  <Calendar className='w-3 h-3' />
-                  {formatDate(post.created_at)}
+      {posts.map((post) => {
+        const myProfile = post.profiles.id === ownProfile;
+        return (
+          <div
+            key={post.id}
+            className='bg-card border border-border rounded-lg p-6 hover:shadow-md transition-shadow w-full sm:w-4/5 xl:w-3/5 '
+          >
+            {/* Post Header */}
+            <div className='flex items-center justify-between mb-4'>
+              <div className='flex items-center space-x-3'>
+                <div className='w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center'>
+                  <Link
+                    href={
+                      myProfile
+                        ? '/myprofile'
+                        : `explore/user/${post.profiles.id}`
+                    }
+                  >
+                    {post.profiles.users.avatar ? (
+                      <Image
+                        src={post.profiles.users.avatar}
+                        alt={`${post.profiles.user_name}'s photo`}
+                        width={200}
+                        height={200}
+                        className='rounded-full'
+                      />
+                    ) : (
+                      <User className='w-5 h-5 text-primary' />
+                    )}
+                  </Link>
+                </div>
+                <div>
+                  <Link
+                    href={
+                      myProfile
+                        ? '/myprofile'
+                        : `explore/user/${post.profiles.id}`
+                    }
+                  >
+                    <h4 className='font-medium'>
+                      {post.profiles.user_name || 'Anonymous'}
+                    </h4>
+                  </Link>
+
+                  <div className='flex items-center gap-1 text-sm text-muted-foreground'>
+                    <Calendar className='w-3 h-3' />
+                    {formatDate(post.created_at)}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Post Content */}
-          <div className='mb-4'>
-            <p className='whitespace-pre-wrap leading-relaxed'>
-              {post.content}
-            </p>
-            {post.media_url && (
-              <div className='mt-4'>
-                <Image
-                  src={post.media_url}
-                  alt='Post media'
-                  width={600}
-                  height={400}
-                  className='w-full max-h-96 object-cover rounded-lg'
-                />
-              </div>
-            )}
-          </div>
+            {/* Post Content */}
+            <div className='mb-4'>
+              <p className='whitespace-pre-wrap leading-relaxed'>
+                {post.content}
+              </p>
+              {post.media_url && (
+                <div className='mt-4'>
+                  <Image
+                    src={post.media_url}
+                    alt='Post media'
+                    width={600}
+                    height={400}
+                    className='w-full max-h-96 object-cover rounded-lg'
+                  />
+                </div>
+              )}
+            </div>
 
-          {/* Post Actions */}
-          <div className='flex items-center gap-6 pt-4 border-t border-border'>
-            <button className='flex items-center gap-2 text-muted-foreground hover:text-red-500 transition-colors'>
-              <Heart className='w-4 h-4' />
-              <span className='text-sm'>Like</span>
-            </button>
-            <button className='flex items-center gap-2 text-muted-foreground hover:text-green-500 transition-colors'>
-              <MessageCircle className='w-4 h-4' />
-              <span className='text-sm'>Comments</span>
-            </button>
+            {/* Post Actions */}
+            <div className='flex items-center gap-6 pt-4 border-t border-border'>
+              <button className='flex items-center gap-2 text-muted-foreground hover:text-red-500 transition-colors'>
+                <Heart className='w-4 h-4' />
+                <span className='text-sm'>Like</span>
+              </button>
+              <button className='flex items-center gap-2 text-muted-foreground hover:text-green-500 transition-colors'>
+                <MessageCircle className='w-4 h-4' />
+                <span className='text-sm'>Comments</span>
+              </button>
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
 
       {hasMore && (
         <div ref={ref} className='h-10 flex justify-center items-center'>

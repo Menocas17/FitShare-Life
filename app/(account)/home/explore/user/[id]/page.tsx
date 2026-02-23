@@ -20,6 +20,6 @@ export default async function userProfilePage({ params }: PageProps) {
       user={userInfo}
       userPosts={userPosts}
       loggedProfileId={loggedUser?.profileId}
-    ></UserProfile>
+    />
   );
 }

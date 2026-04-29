@@ -28,7 +28,7 @@ const Header = () => {
             <Link
               key={link.href}
               href={link.href}
-              className='text-foreground font-normal hover:font-bold'
+              className='text-foreground font-normal hover:scale-105 transition-transform duration-200'
             >
               {link.label}
             </Link>
@@ -37,7 +37,7 @@ const Header = () => {
         {/**Buttons desktop */}
         <div className='hidden md:flex items-center gap-3'>
           <Button
-            variant='ghost'
+            variant='outline'
             size='sm'
             onClick={() => router.push('/login')}
             className='cursor-pointer'

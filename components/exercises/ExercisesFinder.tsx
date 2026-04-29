@@ -61,7 +61,7 @@ export default function ExerciseFinder() {
   }, []);
 
   const filtered = exercises.filter((ex) =>
-    ex.name.toLowerCase().includes(search.toLowerCase())
+    ex.name.toLowerCase().includes(search.toLowerCase()),
   );
 
   return (
@@ -79,7 +79,7 @@ export default function ExerciseFinder() {
           <li key={ex.id}>
             <Link
               href={`/exercises/${ex.id}`}
-              className='block p-4 bg-gray-100 rounded-lg hover:bg-gray-200'
+              className='block p-4 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors duration-200'
             >
               <h2 className='font-semibold'>{ex.name}</h2>
               <p className='text-sm text-gray-600'>{ex.muscle_group}</p>

@@ -105,7 +105,7 @@ export default function WorkoutManagement({
 
   return (
     <div>
-      <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6'>
+      <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6 mt-6'>
         <h2 className='text-xl sm:text-2xl font-semibold'>
           Workout Management
         </h2>
